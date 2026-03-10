@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRP-NE Dashboard Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Barlow+Condensed:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #14161e;
+    --bg2:     #1c1f2e;
+    --bg3:     #22263a;
+    --border:  #2a2f48;
+    --green:   #00e5a0;
+    --yellow:  #f5c842;
+    --blue:    #38bdf8;
+    --red:     #f43f5e;
+    --purple:  #a78bfa;
+    --muted:   #6b7399;
+    --text:    #ffffff;
+    --subtext: #c8cfe8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* subtle grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(42,47,72,0.3) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(42,47,72,0.3) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 40px 80px; }
+
+  /* ── HEADER ── */
+  .header {
+    padding: 48px 0 36px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+  .eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 3.8rem;
+    line-height: 1;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+  }
+  h1 span { color: var(--green); }
+  .header-sub {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-style: italic;
+    max-width: 560px;
+  }
+
+  /* ── SECTION LABEL ── */
+  .sec {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.63rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .sec::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── DASHBOARD GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+    margin-bottom: 56px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-top: 3px solid;
+    border-radius: 4px;
+    padding: 24px 26px 22px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: background 0.18s, border-color 0.18s, transform 0.18s;
+    cursor: pointer;
+  }
+  .card:hover {
+    background: var(--bg3);
+    transform: translateY(-2px);
+  }
+
+  .card.green  { border-top-color: var(--green); }
+  .card.yellow { border-top-color: var(--yellow); }
+  .card.blue   { border-top-color: var(--blue); }
+  .card.purple { border-top-color: var(--purple); }
+  .card.red    { border-top-color: var(--red); }
+
+  .card:hover.green  { border-color: var(--green); }
+  .card:hover.yellow { border-color: var(--yellow); }
+  .card:hover.blue   { border-color: var(--blue); }
+  .card:hover.purple { border-color: var(--purple); }
+  .card:hover.red    { border-color: var(--red); }
+
+  .card-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+  .card-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1.35rem;
+    letter-spacing: -0.2px;
+    line-height: 1.2;
+    color: #fff;
+  }
+  .card-desc {
+    font-size: 0.78rem;
+    color: var(--subtext);
+    line-height: 1.55;
+    flex: 1;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 6px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .card-period {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .card-arrow {
+    font-size: 0.75rem;
+    color: var(--muted);
+    transition: color 0.15s, transform 0.15s;
+  }
+  .card:hover .card-arrow {
+    transform: translateX(4px);
+  }
+  .card.green:hover  .card-arrow { color: var(--green); }
+  .card.yellow:hover .card-arrow { color: var(--yellow); }
+  .card.blue:hover   .card-arrow { color: var(--blue); }
+  .card.purple:hover .card-arrow { color: var(--purple); }
+  .card.red:hover    .card-arrow { color: var(--red); }
+
+  /* ── INSTRUCTIONS ── */
+  .instructions {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: 4px;
+    padding: 22px 26px;
+  }
+  .instructions h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 12px;
+  }
+  .instructions ol {
+    padding-left: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .instructions li {
+    font-size: 0.8rem;
+    color: var(--subtext);
+    line-height: 1.5;
+  }
+  .instructions li strong { color: #fff; }
+  .instructions li code {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-size: 0.75rem;
+    color: var(--green);
+    font-family: 'Courier New', monospace;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="eyebrow">PRP-NE · Internal Reporting · February 2026</div>
+    <h1>Dashboard <span>Hub</span></h1>
+    <div class="header-sub">Central access point for all PRP-NE performance dashboards. Click any card to open the full interactive report.</div>
+  </div>
+
+  <!-- DASHBOARDS -->
+  <div class="sec">All Dashboards</div>
+  <div class="grid">
+
+    <a class="card blue" href="national_trading_dashboard.html">
+      <div class="card-icon">🌐</div>
+      <div class="card-tag">Trading · National</div>
+      <div class="card-title">National Trading Dashboard</div>
+      <div class="card-desc">NA Sold vs Purchased, PRP-NE vs National totals. Tracks volume trends from Aug 2023 to present with month-over-month comparisons.</div>
+      <div class="card-footer">
+        <span class="card-period">Aug 2023 – Feb 2026</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card purple" href="PRP_NE_Trading_Dashboard.html">
+      <div class="card-icon">📊</div>
+      <div class="card-tag">Trading · PRP-NE</div>
+      <div class="card-title">PRP-NE Trading Dashboard</div>
+      <div class="card-desc">Regional trading performance breakdown for PRP-NE. Volume, activity rates, and trading trends across the Northeast region.</div>
+      <div class="card-footer">
+        <span class="card-period">Feb 2026</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card yellow" href="coop_sales_dashboard.html">
+      <div class="card-icon">🤝</div>
+      <div class="card-tag">Sales · Co-op</div>
+      <div class="card-title">Co-op Sales Dashboard</div>
+      <div class="card-desc">Co-op sales performance metrics, member activity, and revenue tracking across all co-op channels.</div>
+      <div class="card-footer">
+        <span class="card-period">Feb 2026</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card green" href="2-2026_ez_runner_quality_chart.html">
+      <div class="card-icon">✅</div>
+      <div class="card-tag">Quality · EZ Runner</div>
+      <div class="card-title">EZ Runner Quality Chart</div>
+      <div class="card-desc">Quality metrics and performance tracking for EZ Runner operations. Defect rates, pass/fail trends, and grading summaries.</div>
+      <div class="card-footer">
+        <span class="card-period">February 2026</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card red" href="part_grading_dashboard_feb2026.html">
+      <div class="card-icon">🔍</div>
+      <div class="card-tag">Quality · Grading</div>
+      <div class="card-title">Part Grading Dashboard</div>
+      <div class="card-desc">Part grading results, grade distribution by category, and quality control outcomes for February 2026.</div>
+      <div class="card-footer">
+        <span class="card-period">February 2026</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <a class="card blue" href="production_dashboard.html">
+      <div class="card-icon">🏭</div>
+      <div class="card-tag">Operations · Production</div>
+      <div class="card-title">Production Dashboard</div>
+      <div class="card-desc">Production volume, throughput rates, and operational KPIs. Line-level performance and output tracking.</div>
+      <div class="card-footer">
+        <span class="card-period">February 2026</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- HOW TO SHARE -->
+  <div class="sec">How to Share This Hub</div>
+  <div class="instructions">
+    <h3>📤 Uploading to Netlify Drop (Free — 3 minutes)</h3>
+    <ol>
+      <li>Go to <strong>app.netlify.com/drop</strong> in your browser</li>
+      <li>Select all 7 files at once: <code>index.html</code> + all 6 dashboard <code>.html</code> files</li>
+      <li>Drag and drop them all into the Netlify page at the same time</li>
+      <li>Netlify gives you a free URL like <code>amazing-name-123.netlify.app</code></li>
+      <li>Share that single link with your group — they'll land on this hub page</li>
+      <li><strong>Optional:</strong> Create a free Netlify account to keep the link permanently</li>
+    </ol>
+  </div>
+
+  <div class="footer">
+    <span>PRP-NE · Internal Use Only</span>
+    <span>February 2026 Reporting Period</span>
+  </div>
+
+</div>
+</body>
+</html>

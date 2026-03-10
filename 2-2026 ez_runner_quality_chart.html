@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EZ Runner — Parts Quality Ranking</title>
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #161922;
+    --border: #252a38;
+    --text: #f4f5f9;
+    --muted: #7a8396;
+    --accent: #00d68f;
+    --gold: #ffc947;
+    --bar-best: #00d68f;
+    --bar-mid: #ffc947;
+    --bar-low: #ff5757;
+    --bar-return: #5b8dee;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 40px 30px;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 800;
+    letter-spacing: 1px;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  h1 span { color: var(--accent); }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .legend-row {
+    display: flex;
+    gap: 24px;
+    margin: 16px 0 28px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .kpi {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+
+  .kpi-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .kpi-value {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+
+  .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .kpi-value.green { color: var(--accent); }
+  .kpi-value.blue  { color: var(--bar-return); }
+  .kpi-value.gold  { color: var(--gold); }
+
+  .chart-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px 22px;
+    margin-bottom: 20px;
+  }
+
+  .chart-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .rank {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    width: 22px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .site-name {
+    width: 178px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--text);
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 22px;
+    background: #1c2030;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+  }
+
+  .bar-label {
+    width: 52px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .badge {
+    width: 50px;
+    flex-shrink: 0;
+  }
+
+  .badge span {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 2px 7px;
+    border-radius: 20px;
+  }
+
+  .badge-best span { background: rgba(0,214,143,0.15); color: var(--accent); }
+  .badge-mid  span { background: rgba(255,201,71,0.12); color: var(--gold); }
+  .badge-low  span { background: rgba(255,87,87,0.12);  color: #ff5757; }
+
+  .avg-line-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 6px 0 8px;
+  }
+
+  .insight-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-top: 20px;
+  }
+
+  .insight-icon { font-size: 20px; margin-bottom: 8px; }
+
+  .insight-headline {
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 4px;
+    color: var(--text);
+  }
+
+  .insight-body {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .insight-body strong { color: var(--text); }
+
+  /* ── PODIUM ── */
+  .podium-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px 22px 0;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .podium-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .podium-wrap {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 10px;
+  }
+  .podium-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    max-width: 200px;
+  }
+  .medal-circle {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin-bottom: 10px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+  }
+  .medal-gold   { background: radial-gradient(circle at 35% 35%, #ffe680, #c8960c); }
+  .medal-silver { background: radial-gradient(circle at 35% 35%, #f0f0f0, #8a8a8a); }
+  .medal-bronze { background: radial-gradient(circle at 35% 35%, #f0a96e, #8b4f1a); }
+  .podium-name {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 5px;
+    line-height: 1.3;
+  }
+  .podium-pct {
+    font-size: 20px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 0;
+  }
+  .gold-txt   { color: #ffc947; }
+  .silver-txt { color: #c8d0dc; }
+  .bronze-txt { color: #d4845a; }
+  .podium-block {
+    width: 100%;
+    border-radius: 8px 8px 0 0;
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.18);
+  }
+  .block-gold   { background: linear-gradient(180deg,#c8960c,#7a5a00); height: 96px; }
+  .block-silver { background: linear-gradient(180deg,#7a7a7a,#3e3e3e); height: 72px; }
+  .block-bronze { background: linear-gradient(180deg,#8b4f1a,#4a2a08); height: 54px; }
+
+  footer {
+    margin-top: 28px;
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="eyebrow">PRP-NE (#10) · February 2026 · Quality Performance Report</div>
+<h1>EZ Runner <span>Parts Quality</span> Ranking</h1>
+<div class="subtitle">Ranked by Graded % of Sold Parts — lower % = better quality</div>
+
+<div class="legend-row">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--bar-best)"></div> Top Tier (0–3.0%)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--bar-mid)"></div> Mid Tier (3.0–3.99%)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--bar-low)"></div> Needs Attention (4.0%+)</div>
+</div>
+
+<div class="kpi-row">
+  <div class="kpi">
+    <div class="kpi-label">Total Parts Sold</div>
+    <div class="kpi-value">18,730</div>
+    <div class="kpi-sub">Feb 2026</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Total Graded Parts</div>
+    <div class="kpi-value gold">555</div>
+    <div class="kpi-sub">2.96% overall grade rate</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Best Quality</div>
+    <div class="kpi-value green">0.75%</div>
+    <div class="kpi-sub">Wilbert's - Akron</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Return Rate (Overall)</div>
+    <div class="kpi-value blue">14.74%</div>
+    <div class="kpi-sub">2,761 returned of 18,730</div>
+  </div>
+</div>
+
+<div class="podium-section">
+  <div class="podium-title">Graded % of Sold Parts — Top 3 Quality Leaders</div>
+  <div class="podium-wrap">
+
+    <!-- SILVER — 2nd place (left) -->
+    <div class="podium-item">
+      <div class="medal-circle medal-silver">🥈</div>
+      <div class="podium-name">Bow Auto Parts</div>
+      <div class="podium-pct silver-txt">1.44%</div>
+      <div class="podium-block block-silver">2</div>
+    </div>
+
+    <!-- GOLD — 1st place (center, tallest) -->
+    <div class="podium-item">
+      <div class="medal-circle medal-gold">🥇</div>
+      <div class="podium-name">Wilbert's – Akron</div>
+      <div class="podium-pct gold-txt">0.75%</div>
+      <div class="podium-block block-gold">1</div>
+    </div>
+
+    <!-- BRONZE — 3rd place (right) -->
+    <div class="podium-item">
+      <div class="medal-circle medal-bronze">🥉</div>
+      <div class="podium-name">Wilbert's – Webster</div>
+      <div class="podium-pct bronze-txt">2.10%</div>
+      <div class="podium-block block-bronze">3</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="chart-section">
+  <div class="chart-title">Graded % of Sold Parts — All Sites Ranked (Best → Needs Attention)</div>
+  <div id="chart-quality"></div>
+</div>
+
+<div class="chart-section">
+  <div class="chart-title">Return % of Sales — All Sites Ranked (Lowest → Highest)</div>
+  <div id="chart-returns"></div>
+</div>
+
+<div class="chart-section">
+  <div class="chart-title">Return % of Purchases — All Sites Ranked (Lowest → Highest)</div>
+  <div id="chart-purchases"></div>
+</div>
+
+<div class="insight-card">
+  <div class="insight-icon">🏆</div>
+  <div class="insight-headline">Top Performers</div>
+  <div class="insight-body"><strong>Wilbert's - Akron and Bow Auto Parts</strong> lead the network with grade rates under 1.5%. Bow is notable for maintaining this on high volume (1,805 parts sold).</div>
+</div>
+
+<footer>EZ Runner Sales · PRP-NE · Feb 1–28, 2026 · Grading Tier: Failure to Meet Minimum Packaging Standards + subtiers</footer>
+
+<script>
+const data = [
+  { name: "Wilbert's - Akron",         pct: 0.007463, returns: 2.86  },
+  { name: "Bow Auto Parts",            pct: 0.014404, returns: 12.91 },
+  { name: "Wilbert's - Webster",       pct: 0.021014, returns: 16.44 },
+  { name: "C&H Salvage",               pct: 0.021053, returns: 17.19 },
+  { name: "EL&M Auto Parts",           pct: 0.021302, returns: 8.28  },
+  { name: "Chuck's - York",            pct: 0.021309, returns: 10.81 },
+  { name: "Ding's Auto Parts",         pct: 0.022113, returns: 14.99 },
+  { name: "Brown's Auto Salvage",      pct: 0.022609, returns: 8.46  },
+  { name: "Bishop's Auto Parts Inc.",  pct: 0.023362, returns: 16.24 },
+  { name: "Wilbert's - Hudson Valley", pct: 0.026316, returns: 8.33  },
+  { name: "Wilbert's - Ontario",       pct: 0.026406, returns: 12.63 },
+  { name: "Tolpa's Auto Parts",        pct: 0.026465, returns: 22.50 },
+  { name: "Miller's Auto Recycling",   pct: 0.030844, returns: 18.18 },
+  { name: "Cornell's Auto Parts",      pct: 0.035699, returns: 14.45 },
+  { name: "Lentini - Ringoes",         pct: 0.036309, returns: 11.95 },
+  { name: "Northside Salvage Yard",    pct: 0.037657, returns: 10.88 },
+  { name: "Lentini - Port Murray",     pct: 0.037787, returns: 13.77 },
+  { name: "Saw Mill Auto Wreckers",    pct: 0.046296, returns: 25.31 },
+  { name: "Chuck's - Douglassville",   pct: 0.047259, returns: 15.12 },
+  { name: "Goyette's",                 pct: 0.048586, returns: 21.32 },
+  { name: "Alliance Auto Parts",       pct: 0.050000, returns: 19.43 },
+];
+
+// ── QUALITY CHART ────────────────────────────────────────────
+const qualityAvg = 0.029466;
+const maxQ = 0.055;
+
+function qColor(p) {
+  return p < 0.030 ? 'var(--bar-best)' : p < 0.040 ? 'var(--bar-mid)' : 'var(--bar-low)';
+}
+function qBadge(p) {
+  if (p < 0.030) return '<div class="badge badge-best"><span>TOP</span></div>';
+  if (p < 0.040) return '<div class="badge badge-mid"><span>MID</span></div>';
+  return '<div class="badge badge-low"><span>ATTN</span></div>';
+}
+
+let qHtml = '', qAvgDone = false;
+const qAvgLeft = (qualityAvg / maxQ * 100).toFixed(1);
+
+data.forEach((d, i) => {
+  if (!qAvgDone && d.pct > qualityAvg) {
+    qAvgDone = true;
+    qHtml += `<div class="avg-line-row">
+      <div style="width:22px"></div>
+      <div style="width:178px;font-size:11px;color:var(--muted);text-align:right;">── Network Avg</div>
+      <div style="flex:1;position:relative;height:14px;">
+        <div style="position:absolute;top:6px;left:0;right:0;height:1px;background:repeating-linear-gradient(90deg,#ffc947 0,#ffc947 6px,transparent 6px,transparent 12px);"></div>
+        <div style="position:absolute;left:${qAvgLeft}%;top:0;width:2px;height:14px;background:var(--gold);border-radius:2px;"></div>
+      </div>
+      <div style="width:52px;font-size:11px;color:var(--gold);text-align:right;font-weight:700;">2.95%</div>
+      <div style="width:50px;"></div>
+    </div>`;
+  }
+  const w = (d.pct / maxQ * 100).toFixed(1);
+  qHtml += `<div class="bar-row">
+    <div class="rank">${i+1}</div>
+    <div class="site-name" title="${d.name}">${d.name}</div>
+    <div class="bar-track"><div class="bar-fill" style="width:${w}%;background:${qColor(d.pct)};"></div></div>
+    <div class="bar-label" style="color:${qColor(d.pct)}">${(d.pct*100).toFixed(2)}%</div>
+    ${qBadge(d.pct)}
+  </div>`;
+});
+document.getElementById('chart-quality').innerHTML = qHtml;
+
+// ── RETURN RATE CHART ─────────────────────────────────────────
+const sorted = [...data].sort((a,b) => a.returns - b.returns);
+const avgR = data.reduce((s,d) => s + d.returns, 0) / data.length;
+const maxR = 30;
+const rAvgLeft = (avgR / maxR * 100).toFixed(1);
+
+function rColor(r) {
+  if (r < avgR) return 'var(--bar-return)';
+  if (r < avgR * 1.4) return '#a78bfa';
+  return '#f97066';
+}
+
+let rHtml = '', rAvgDone = false;
+sorted.forEach((d, i) => {
+  if (!rAvgDone && d.returns >= avgR) {
+    rAvgDone = true;
+    rHtml += `<div class="avg-line-row">
+      <div style="width:22px"></div>
+      <div style="width:178px;font-size:11px;color:var(--muted);text-align:right;">── Network Avg</div>
+      <div style="flex:1;position:relative;height:14px;">
+        <div style="position:absolute;top:6px;left:0;right:0;height:1px;background:repeating-linear-gradient(90deg,#a78bfa 0,#a78bfa 6px,transparent 6px,transparent 12px);"></div>
+        <div style="position:absolute;left:${rAvgLeft}%;top:0;width:2px;height:14px;background:#a78bfa;border-radius:2px;"></div>
+      </div>
+      <div style="width:52px;font-size:11px;color:#a78bfa;text-align:right;font-weight:700;">${avgR.toFixed(1)}%</div>
+      <div style="width:50px;"></div>
+    </div>`;
+  }
+  const w = (d.returns / maxR * 100).toFixed(1);
+  const c = rColor(d.returns);
+  rHtml += `<div class="bar-row">
+    <div class="rank">${i+1}</div>
+    <div class="site-name" title="${d.name}">${d.name}</div>
+    <div class="bar-track"><div class="bar-fill" style="width:${w}%;background:${c};"></div></div>
+    <div class="bar-label" style="color:${c}">${d.returns.toFixed(2)}%</div>
+    <div style="width:50px;"></div>
+  </div>`;
+});
+document.getElementById('chart-returns').innerHTML = rHtml;
+
+// ── RETURN % OF PURCHASES CHART ───────────────────────────────
+const purchaseData = [
+  { name: "Alliance Auto Parts",       retPurch: 12.9779 },
+  { name: "Bishop's Auto Parts Inc.",  retPurch: 14.0309 },
+  { name: "Bow Auto Parts",            retPurch: 16.3793 },
+  { name: "Brown's Auto Salvage",      retPurch: 10.6308 },
+  { name: "C&H Salvage",               retPurch: 13.5135 },
+  { name: "Chuck's - Douglassville",   retPurch: 18.6954 },
+  { name: "Chuck's - York",            retPurch: 20.5346 },
+  { name: "Cornell's Auto Parts",      retPurch: 12.2977 },
+  { name: "Ding's Auto Parts",         retPurch: 13.8848 },
+  { name: "EL&M Auto Parts",           retPurch: 15.1486 },
+  { name: "Goyette's",                 retPurch: 13.0546 },
+  { name: "Lentini - Port Murray",     retPurch: 15.4737 },
+  { name: "Lentini - Ringoes",         retPurch: 14.9780 },
+  { name: "Miller's Auto Recycling",   retPurch: 13.3268 },
+  { name: "Northside Salvage Yard",    retPurch: 13.6986 },
+  { name: "Saw Mill Auto Wreckers",    retPurch: 12.9870 },
+  { name: "Tolpa's Auto Parts",        retPurch: 12.7747 },
+  { name: "Wilbert's - Hudson Valley", retPurch: 12.9187 },
+  { name: "Wilbert's - OH Akron",      retPurch: 19.1489 },
+  { name: "Wilbert's - Webster",       retPurch: 15.1828 },
+].sort((a, b) => a.retPurch - b.retPurch);
+
+const avgP = purchaseData.reduce((s, d) => s + d.retPurch, 0) / purchaseData.length;
+const maxP = 25;
+const pAvgLeft = (avgP / maxP * 100).toFixed(1);
+
+function pColor(r) {
+  if (r < avgP) return '#34d4a0';
+  if (r < avgP * 1.3) return '#a78bfa';
+  return '#f97066';
+}
+
+let pHtml = '', pAvgDone = false;
+purchaseData.forEach((d, i) => {
+  if (!pAvgDone && d.retPurch >= avgP) {
+    pAvgDone = true;
+    pHtml += `<div class="avg-line-row">
+      <div style="width:22px"></div>
+      <div style="width:178px;font-size:11px;color:var(--muted);text-align:right;">── Network Avg</div>
+      <div style="flex:1;position:relative;height:14px;">
+        <div style="position:absolute;top:6px;left:0;right:0;height:1px;background:repeating-linear-gradient(90deg,#a78bfa 0,#a78bfa 6px,transparent 6px,transparent 12px);"></div>
+        <div style="position:absolute;left:${pAvgLeft}%;top:0;width:2px;height:14px;background:#a78bfa;border-radius:2px;"></div>
+      </div>
+      <div style="width:52px;font-size:11px;color:#a78bfa;text-align:right;font-weight:700;">${avgP.toFixed(1)}%</div>
+      <div style="width:50px;"></div>
+    </div>`;
+  }
+  const w = (d.retPurch / maxP * 100).toFixed(1);
+  const c = pColor(d.retPurch);
+  pHtml += `<div class="bar-row">
+    <div class="rank">${i+1}</div>
+    <div class="site-name" title="${d.name}">${d.name}</div>
+    <div class="bar-track"><div class="bar-fill" style="width:${w}%;background:${c};"></div></div>
+    <div class="bar-label" style="color:${c}">${d.retPurch.toFixed(2)}%</div>
+    <div style="width:50px;"></div>
+  </div>`;
+});
+document.getElementById('chart-purchases').innerHTML = pHtml;
+</script>
+</body>
+</html>

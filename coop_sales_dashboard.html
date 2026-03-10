@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Co-op Sales Performance Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0f1320;
+    --card:      #161d2e;
+    --card2:     #1c2438;
+    --border:    #1e2d4a;
+    --teal:      #00d4aa;
+    --gold:      #f5a623;
+    --silver:    #a8b2bc;
+    --bronze:    #cd7f32;
+    --blue:      #3d7de8;
+    --red:       #ff4757;
+    --amber:     #ffa502;
+    --sub:       #5a7090;
+    --text:      #c8d8ee;
+    --white:     #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    min-height: 100vh;
+  }
+
+  /* subtle grid texture */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,170,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,170,0.015) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none; z-index: 0;
+  }
+
+  .page { position: relative; z-index: 1; max-width: 1300px; margin: 0 auto; padding: 32px 24px 60px; }
+
+  /* ── HEADER ── */
+  .header { margin-bottom: 32px; }
+  .header-meta {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 600; letter-spacing: 3px;
+    color: var(--sub); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .header-meta span { color: var(--teal); }
+  .header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(36px, 5vw, 58px); font-weight: 800;
+    color: var(--white); line-height: 1; letter-spacing: -1px;
+    margin-bottom: 6px;
+  }
+  .header h1 em { color: var(--teal); font-style: normal; }
+  .header-sub {
+    font-size: 13px; color: var(--sub);
+    font-style: italic; letter-spacing: 0.3px;
+  }
+  .teal-rule { width: 60px; height: 3px; background: var(--teal); margin: 12px 0 0; border-radius: 2px; }
+
+  /* ── SECTION LABELS ── */
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px; font-weight: 700; letter-spacing: 3px;
+    color: var(--sub); text-transform: uppercase;
+    margin-bottom: 12px; margin-top: 36px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* ── KPI CARDS ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 0;
+  }
+  .kpi {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px 16px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease both;
+  }
+  .kpi::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .kpi.teal::before  { background: var(--teal); }
+  .kpi.gold::before  { background: var(--gold); }
+  .kpi.blue::before  { background: var(--blue); }
+  .kpi.amber::before { background: var(--amber); }
+
+  .kpi-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
+    color: var(--sub); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .kpi-value {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 34px; font-weight: 800; line-height: 1;
+    margin-bottom: 6px;
+  }
+  .kpi.teal  .kpi-value { color: var(--teal); }
+  .kpi.gold  .kpi-value { color: var(--gold); }
+  .kpi.blue  .kpi-value { color: var(--blue); }
+  .kpi.amber .kpi-value { color: var(--amber); }
+  .kpi-sub { font-size: 11px; color: var(--sub); font-style: italic; }
+  .kpi-sub .up { color: var(--teal); font-style: normal; font-weight: 600; }
+
+  /* ── PODIUM ── */
+  .podium-wrap {
+    display: flex; justify-content: center; align-items: flex-end;
+    gap: 16px; padding: 24px 0 0;
+  }
+  .podium-item { display: flex; flex-direction: column; align-items: center; }
+  .podium-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 700;
+    text-align: center; margin-bottom: 4px;
+    max-width: 160px;
+  }
+  .podium-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px; font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .podium-block {
+    width: 160px; border-radius: 6px 6px 0 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px; font-weight: 800; color: rgba(0,0,0,0.35);
+  }
+  .p1 .podium-block { height: 100px; background: linear-gradient(160deg,#f5a623,#d48b00); }
+  .p2 .podium-block { height: 70px;  background: linear-gradient(160deg,#a8b2bc,#7a8793); }
+  .p3 .podium-block { height: 52px;  background: linear-gradient(160deg,#cd7f32,#9e5f20); }
+  .p1 .podium-name { color: var(--gold); }
+  .p2 .podium-name { color: var(--silver); }
+  .p3 .podium-name { color: var(--bronze); }
+  .p1 .podium-val  { color: var(--gold); }
+  .p2 .podium-val  { color: var(--silver); }
+  .p3 .podium-val  { color: var(--bronze); }
+  .medal { font-size: 22px; margin-bottom: 6px; }
+
+  /* ── RANKING TABLE ── */
+  .rank-table { width: 100%; border-collapse: collapse; }
+  .rank-table th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    color: var(--sub); text-transform: uppercase;
+    padding: 10px 14px; text-align: left;
+    border-bottom: 1px solid var(--border);
+    background: var(--card);
+  }
+  .rank-table th.r { text-align: right; }
+  .rank-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid rgba(30,45,74,0.5);
+    font-size: 13px;
+  }
+  .rank-table tr:nth-child(odd) td  { background: var(--card); }
+  .rank-table tr:nth-child(even) td { background: var(--card2); }
+  .rank-table tr:hover td { background: #1e2d4a; transition: background 0.15s; }
+
+  .rank-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 15px;
+  }
+  .r1 { color: var(--gold); }
+  .r2 { color: var(--silver); }
+  .r3 { color: var(--bronze); }
+  .rn { color: var(--sub); }
+
+  .cust-name { font-weight: 500; color: var(--white); }
+  .cust-name.top3 { font-weight: 700; }
+
+  .amt { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; text-align: right; }
+  .amt.net { color: var(--teal); }
+  .amt.gross { color: var(--sub); font-weight: 400; }
+
+  .inv-num { color: var(--sub); text-align: center; font-size: 13px; }
+
+  .bar-cell { width: 200px; }
+  .bar-wrap { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .bar-fill  { height: 100%; border-radius: 3px; transition: width 1s cubic-bezier(.4,0,.2,1); }
+  .bar-r1 { background: var(--gold); }
+  .bar-r2 { background: var(--silver); }
+  .bar-r3 { background: var(--bronze); }
+  .bar-rn { background: var(--teal); }
+
+  .total-row td {
+    background: #1a3060 !important;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 14px; color: var(--white);
+    border-top: 1px solid var(--blue);
+  }
+
+  /* ── ANNUAL TABLE ── */
+  .annual-table { width: 100%; border-collapse: collapse; }
+  .annual-table th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    color: var(--sub); text-transform: uppercase;
+    padding: 10px 14px; text-align: right;
+    border-bottom: 1px solid var(--border); background: var(--card);
+  }
+  .annual-table th:first-child { text-align: left; }
+  .annual-table td {
+    padding: 11px 14px; border-bottom: 1px solid rgba(30,45,74,0.5);
+    font-size: 13px; text-align: right;
+  }
+  .annual-table td:first-child { text-align: left; }
+  .annual-table tr:nth-child(odd)  td { background: var(--card); }
+  .annual-table tr:nth-child(even) td { background: var(--card2); }
+
+  .yr-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 800;
+  }
+  .yr-2025 { color: var(--teal); }
+  .yr-2026 { color: var(--gold); }
+  .yr-def  { color: var(--white); }
+  .yoy-up  { color: var(--teal); font-weight: 700; }
+  .yoy-dn  { color: var(--red); font-weight: 700; }
+  .yoy-na  { color: var(--sub); }
+  .net-val { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; }
+  .dim-val { color: var(--sub); }
+
+  .ann-bar-wrap { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+  .ann-bar { height: 6px; border-radius: 3px; min-width: 4px; }
+
+  .ytd-row td { background: #0e2240 !important; border-top: 1px solid var(--gold); }
+
+  /* ── MONTHLY TABLE ── */
+  .month-scroll { overflow-x: auto; }
+  .monthly-table { width: 100%; border-collapse: collapse; min-width: 900px; }
+  .monthly-table th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+    color: var(--sub); text-transform: uppercase;
+    padding: 8px 10px; text-align: center;
+    border-bottom: 1px solid var(--border); background: var(--card);
+  }
+  .monthly-table th:first-child { text-align: left; }
+  .monthly-table td {
+    padding: 10px 10px; border-bottom: 1px solid rgba(30,45,74,0.4);
+    font-size: 12px; text-align: center; color: var(--sub);
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+  .monthly-table td:first-child { text-align: left; }
+  .monthly-table tr:nth-child(odd)  td { background: var(--card); }
+  .monthly-table tr:nth-child(even) td { background: var(--card2); }
+  .m-yr {
+    font-size: 14px; font-weight: 800;
+  }
+  .m-2024 { color: #4a90d9; }
+  .m-2025 { color: var(--teal); }
+  .m-2026 { color: var(--gold); }
+  .m-val { font-weight: 600; }
+  .m-2024 .m-val { color: #4a90d9; }
+  .m-2025 .m-val { color: var(--teal); }
+  .m-2026 .m-val { color: var(--gold); }
+  .m-empty { color: #2a3550; }
+  .m-total { font-weight: 800; }
+
+  /* ── CHART BARS ── */
+  .chart-section { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .chart-box {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 20px 20px 14px;
+  }
+  .chart-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    color: var(--sub); text-transform: uppercase; margin-bottom: 18px;
+  }
+
+  /* Annual bar chart */
+  .bar-chart { display: flex; flex-direction: column; gap: 10px; }
+  .bar-row { display: flex; align-items: center; gap: 10px; }
+  .bar-row-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 700; width: 60px; flex-shrink: 0;
+  }
+  .bar-track { flex: 1; height: 22px; background: var(--border); border-radius: 4px; overflow: hidden; position: relative; }
+  .bar-fill-h { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px;
+    font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; color: rgba(0,0,0,0.5);
+    transition: width 1.2s cubic-bezier(.4,0,.2,1);
+  }
+  .bar-track-val {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700;
+    flex-shrink: 0; width: 85px; text-align: right;
+  }
+
+  /* Monthly line chart (CSS only sparkline-style) */
+  .spark-grid { display: flex; flex-direction: column; gap: 6px; }
+  .spark-row { display: flex; align-items: center; gap: 8px; }
+  .spark-yr { font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; width:44px; flex-shrink:0; }
+  .spark-bars { display: flex; gap: 3px; flex: 1; align-items: flex-end; height: 40px; }
+  .spark-bar { flex: 1; border-radius: 2px 2px 0 0; min-height: 2px; transition: height 1s ease; }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 48px; padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 11px; color: var(--sub); font-style: italic;
+    text-align: center;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .kpi:nth-child(1) { animation-delay: 0.05s; }
+  .kpi:nth-child(2) { animation-delay: 0.12s; }
+  .kpi:nth-child(3) { animation-delay: 0.19s; }
+  .kpi:nth-child(4) { animation-delay: 0.26s; }
+
+  @media (max-width: 900px) {
+    .kpi-grid { grid-template-columns: repeat(2,1fr); }
+    .chart-section { grid-template-columns: 1fr; }
+    .podium-wrap { gap: 8px; }
+    .podium-block { width: 120px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-meta">PRP-NE  ·  CO-OP SALES  ·  <span>PERFORMANCE REPORT</span>  |  2021–2026 YTD</div>
+    <h1>Co-op Sales <em>Performance</em> Dashboard</h1>
+    <div class="header-sub">Monthly gross sales tracking — full history | Feb 2026 includes complete customer detail</div>
+    <div class="teal-rule"></div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="section-label">Key Metrics</div>
+  <div class="kpi-grid">
+    <div class="kpi teal">
+      <div class="kpi-label">2025 Gross Sales</div>
+      <div class="kpi-value">$3,354,901</div>
+      <div class="kpi-sub"><span class="up">▲ 52.1%</span> vs 2024</div>
+    </div>
+    <div class="kpi gold">
+      <div class="kpi-label">2026 YTD Gross</div>
+      <div class="kpi-value">$702,332</div>
+      <div class="kpi-sub"><span class="up">▲ 47.8%</span> vs same period 2025</div>
+    </div>
+    <div class="kpi blue">
+      <div class="kpi-label">Record Month</div>
+      <div class="kpi-value">Feb 2026</div>
+      <div class="kpi-sub">$366,478 gross sales &mdash; all-time high</div>
+    </div>
+    <div class="kpi amber">
+      <div class="kpi-label">2025 Units Sold</div>
+      <div class="kpi-value">945</div>
+      <div class="kpi-sub"><span class="up">▲ 44.3%</span> vs 655 in 2024</div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER BAR CHART -->
+  <div class="section-label">Gross Sales by Customer — February 2026 (Best → Lowest)</div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:24px 24px 20px;">
+    <div id="custBarChart"></div>
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--sub);text-transform:uppercase;">Total — All Customers</span>
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--teal);">$366,478</span>
+    </div>
+  </div>
+
+  <!-- MONTHLY TABLE -->
+  <div class="section-label">Monthly Gross Sales — 2024 vs 2025 vs 2026</div>
+  <div class="month-scroll">
+  <table class="monthly-table">
+    <thead>
+      <tr>
+        <th>Year</th>
+        <th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th>
+        <th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody id="monthBody"></tbody>
+  </table>
+  </div>
+
+  <!-- ANNUAL CHART -->
+  <div class="section-label">Visual Analysis — Annual Gross Sales Trend</div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:24px 24px 20px;">
+    <div class="bar-chart" id="annualChart"></div>
+  </div>
+  <div class="section-label">Units Sold by Month — 2023 vs 2024 vs 2025 vs 2026</div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:24px 24px 20px;">
+    <div id="unitsBarChart"></div>
+    <div style="display:flex;gap:20px;margin-top:16px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:2px;background:#4a5568;"></div><span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:#4a5568;">2023</span></div>
+      <div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:2px;background:#4a90d9;"></div><span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:#4a90d9;">2024</span></div>
+      <div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:2px;background:var(--teal);"></div><span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--teal);">2025</span></div>
+      <div style="display:flex;align-items:center;gap:6px;"><div style="width:12px;height:12px;border-radius:2px;background:var(--gold);"></div><span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--gold);">2026 YTD</span></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Source: CO-OP SALES tab (Master Trading Data Workbook) + Customer Sales Ranking Report (Audatex) &nbsp;|&nbsp;
+    Feb 2026 customer detail from ranked report &nbsp;|&nbsp;
+    2021: gross sales not tracked — data begins Aug 2022
+  </div>
+</div>
+
+<script>
+const fmt = n => n == null ? '—' : '$' + n.toLocaleString();
+const fmtU = n => n == null ? '—' : n.toLocaleString();
+
+// ── Customer data ─────────────────────────────────────────────
+const customers = [
+  {rank:1,  name:"Browns Auto Salvage",       gross:85235, inv:26},
+  {rank:2,  name:"Bow Auto Parts",            gross:80456, inv:28},
+  {rank:3,  name:"Cornells Auto Parts",       gross:42312, inv:22},
+  {rank:4,  name:"Bishops Auto Parts",        gross:33185, inv:14},
+  {rank:5,  name:"Goyettes Auto Recycling",   gross:17822, inv:7},
+  {rank:6,  name:"Wilberts Inc",              gross:17529, inv:7},
+  {rank:7,  name:"Tolpas Auto Parts",         gross:16484, inv:7},
+  {rank:8,  name:"Wilbert's Hudson Valley",   gross:15478, inv:4},
+  {rank:9,  name:"Lentini - Ringoes",         gross:14285, inv:7},
+  {rank:10, name:"Lentini - Port Murray",     gross:14198, inv:7},
+  {rank:11, name:"EL&M Auto Parts",           gross:10413, inv:3},
+  {rank:12, name:"Chucks - Douglasville",     gross:8655,  inv:3},
+  {rank:13, name:"Chucks - York",             gross:7327,  inv:4},
+  {rank:14, name:"Dings Auto Parts",          gross:3099,  inv:2},
+];
+const maxGross = customers[0].gross;
+const rankColors = {1:'var(--gold)',2:'var(--silver)',3:'var(--bronze)'};
+
+const custBarChart = document.getElementById('custBarChart');
+customers.forEach(c => {
+  const pct = (c.gross / maxGross * 100).toFixed(1);
+  const col = rankColors[c.rank] || 'var(--teal)';
+  const rankLabel = c.rank <= 3
+    ? `<span style="color:${col};font-weight:800;">#${c.rank}</span>`
+    : `<span style="color:var(--sub);">#${c.rank}</span>`;
+  custBarChart.innerHTML += `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;width:24px;flex-shrink:0;text-align:right;color:${rankColors[c.rank]||'var(--sub)'};">#${c.rank}</span>
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:${c.rank<=3?'700':'500'};color:${c.rank<=3?'var(--white)':'var(--text)'};width:170px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.name}</span>
+      <div style="flex:1;background:var(--border);border-radius:4px;overflow:hidden;height:24px;position:relative;">
+        <div style="width:0%;height:100%;background:${col};border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;transition:width 1.2s cubic-bezier(.4,0,.2,1);" data-w="${pct}%">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;color:rgba(0,0,0,0.55);white-space:nowrap;">${fmt(c.gross)}</span>
+        </div>
+      </div>
+    </div>`;
+});
+
+// ── Monthly data ──────────────────────────────────────────────
+const monthly = {
+  2024: [261037,171017,115599,120397,183651,196091,124889,138857,182628,212988,248063,249665],
+  2025: [310087,216423,239509,217580,298955,322485,304189,246112,299091,351661,252077,296732],
+  2026: [335854,366478,null,null,null,null,null,null,null,null,null,null],
+};
+const mLabels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const mBody = document.getElementById('monthBody');
+[2024,2025,2026].forEach(yr => {
+  const cls = yr===2024?'m-2024':yr===2025?'m-2025':'m-2026';
+  const label = yr===2026?'2026 YTD':String(yr);
+  const vals = monthly[yr];
+  const total = vals.reduce((s,v)=>s+(v||0),0);
+  let cells = vals.map(v => v
+    ? `<td><span class="m-val">${'$'+(v/1000).toFixed(0)}k</span></td>`
+    : `<td class="m-empty">—</td>`).join('');
+  mBody.innerHTML += `
+    <tr class="${cls}">
+      <td><span class="m-yr">${label}</span></td>
+      ${cells}
+      <td><span class="m-val m-total">${'$'+(total/1000).toFixed(0)}k</span></td>
+    </tr>`;
+});
+
+// ── Annual bar chart ──────────────────────────────────────────
+const annualData = [
+  {yr:'2022', gross:329445,  ytd:false},
+  {yr:'2023', gross:1557815, ytd:false},
+  {yr:'2024', gross:2204882, ytd:false},
+  {yr:'2025', gross:3354901, ytd:false},
+  {yr:'2026*', gross:702332, ytd:true},
+];
+const maxAnn = Math.max(...annualData.map(a=>a.gross));
+const annChart = document.getElementById('annualChart');
+annualData.forEach(a => {
+  const pct = (a.gross/maxAnn*95).toFixed(1);
+  const col = a.yr==='2025'?'var(--teal)':a.ytd?'var(--gold)':'var(--blue)';
+  const yrCls = a.yr==='2025'?'yr-2025':a.ytd?'yr-2026':'yr-def';
+  annChart.innerHTML += `
+    <div class="bar-row">
+      <span class="bar-row-label yr-label ${yrCls}" style="font-size:12px">${a.yr}</span>
+      <div class="bar-track">
+        <div class="bar-fill-h" style="width:0%;background:${col}" data-w="${pct}%"></div>
+      </div>
+      <span class="bar-track-val" style="color:${col}">${fmt(a.gross)}</span>
+    </div>`;
+});
+
+// ── Units by month — single continuous chronological bars ──────
+const allUnits = [
+  {label:'May\'23', v:40, yr:2023},{label:'Jun\'23', v:37, yr:2023},{label:'Jul\'23', v:41, yr:2023},
+  {label:'Aug\'23', v:35, yr:2023},{label:'Sep\'23', v:30, yr:2023},{label:'Oct\'23', v:42, yr:2023},
+  {label:'Nov\'23', v:56, yr:2023},{label:'Dec\'23', v:50, yr:2023},
+  {label:'Jan\'24', v:79, yr:2024},{label:'Feb\'24', v:52, yr:2024},{label:'Mar\'24', v:39, yr:2024},
+  {label:'Apr\'24', v:34, yr:2024},{label:'May\'24', v:52, yr:2024},{label:'Jun\'24', v:60, yr:2024},
+  {label:'Jul\'24', v:36, yr:2024},{label:'Aug\'24', v:39, yr:2024},{label:'Sep\'24', v:53, yr:2024},
+  {label:'Oct\'24', v:63, yr:2024},{label:'Nov\'24', v:74, yr:2024},{label:'Dec\'24', v:74, yr:2024},
+  {label:'Jan\'25', v:91, yr:2025},{label:'Feb\'25', v:62, yr:2025},{label:'Mar\'25', v:69, yr:2025},
+  {label:'Apr\'25', v:63, yr:2025},{label:'May\'25', v:84, yr:2025},{label:'Jun\'25', v:93, yr:2025},
+  {label:'Jul\'25', v:83, yr:2025},{label:'Aug\'25', v:67, yr:2025},{label:'Sep\'25', v:83, yr:2025},
+  {label:'Oct\'25', v:97, yr:2025},{label:'Nov\'25', v:70, yr:2025},{label:'Dec\'25', v:83, yr:2025},
+  {label:'Jan\'26', v:93, yr:2026},{label:'Feb\'26', v:105, yr:2026},
+];
+const uColors = {2023:'#4a5568', 2024:'#4a90d9', 2025:'#00d4aa', 2026:'#f5a623'};
+const maxUnits = Math.max(...allUnits.map(d=>d.v));
+const unitsBarChart = document.getElementById('unitsBarChart');
+
+allUnits.forEach(d => {
+  const col = uColors[d.yr];
+  const pct = Math.max((d.v / maxUnits) * 100, 3).toFixed(1);
+  unitsBarChart.innerHTML += `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:${col};width:42px;flex-shrink:0;text-align:right;">${d.label}</span>
+      <div style="flex:1;background:var(--border);border-radius:3px;overflow:hidden;height:20px;">
+        <div style="width:0%;height:100%;background:${col};border-radius:3px;display:flex;align-items:center;justify-content:flex-end;padding-right:7px;box-sizing:border-box;transition:width 1.2s cubic-bezier(.4,0,.2,1);" data-w="${pct}%">
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;color:rgba(0,0,0,0.6);">${d.v}</span>
+        </div>
+      </div>
+    </div>`;
+});
+
+// ── Animate all data-w bars on load ──────────────────────────
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.querySelectorAll('[data-w]').forEach(el => {
+      el.style.width = el.dataset.w;
+    });
+  }, 300);
+});
+</script>
+</body>
+</html>

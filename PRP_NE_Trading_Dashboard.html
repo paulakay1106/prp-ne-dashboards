@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRP-NE Trading Dashboard — Jan–Feb 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --panel: #13161e;
+    --border: #1e2330;
+    --sold: #00c2ff;
+    --purch: #ff6b2b;
+    --text: #e8ecf0;
+    --muted: #6b7688;
+    --accent: #f0b429;
+    --up: #3ddc84;
+    --down: #ff5c5c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #0d0f14 0%, #131a2b 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 40px 24px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+
+  .header-left h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    letter-spacing: 3px;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .header-left .subtitle {
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 5px;
+  }
+
+  .header-right {
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+  }
+
+  .month-block {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    padding: 0 26px;
+    border-right: 1px solid var(--border);
+  }
+  .month-block:last-child { border-right: none; }
+
+  .month-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    color: var(--muted);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-transform: uppercase;
+  }
+
+  .kpi { text-align: right; }
+  .kpi .value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.65rem;
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+  .kpi.sold .value { color: var(--sold); }
+  .kpi.purch .value { color: var(--purch); }
+  .kpi .label {
+    font-size: 0.67rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .kpi-divider { width: 1px; height: 34px; background: var(--border); }
+
+  .mom-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 0 0 24px;
+    justify-content: center;
+  }
+  .mom-pill {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+  .mom-pill.up   { background: rgba(61,220,132,0.12); color: var(--up); }
+  .mom-pill.down { background: rgba(255,92,92,0.12);  color: var(--down); }
+  .mom-pill .mom-label { font-size: 0.64rem; font-weight: 400; color: var(--muted); margin-left: 2px; }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 18px;
+    padding: 11px 40px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .legend-label { font-size: 0.73rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+  .legend-item  { display: flex; align-items: center; gap: 6px; font-size: 0.77rem; font-weight: 500; color: var(--text); }
+  .legend-dot   { width: 10px; height: 10px; border-radius: 2px; }
+  .dot-sold-feb  { background: rgba(0,194,255,0.85); }
+  .dot-purch-feb { background: rgba(255,107,43,0.85); }
+  .dot-sold-jan  { background: rgba(0,194,255,0.38); border: 1px solid rgba(0,194,255,0.65); }
+  .dot-purch-jan { background: rgba(255,107,43,0.38); border: 1px solid rgba(255,107,43,0.65); }
+  .dot-up   { background: rgba(61,220,132,0.75); }
+  .dot-down { background: rgba(255,92,92,0.75); }
+
+  /* Section headers */
+  .section-header {
+    background: #0f1118;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 9px 28px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.88rem;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+  }
+  .panel { background: var(--panel); padding: 22px 26px 18px; }
+  .panel.full-width { grid-column: 1 / -1; }
+
+  /* Chart 1 wrapper — centered, ~55% wide */
+  .chart1-outer {
+    background: var(--panel);
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    padding: 22px 26px 18px;
+  }
+  .chart1-inner { width: 55%; }
+
+  .panel-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.05rem;
+    letter-spacing: 2.5px;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .panel-subtitle {
+    font-size: 0.71rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .panel.full-width, .chart1-outer { grid-column: 1; }
+    .chart1-inner { width: 100%; }
+    .header { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>PRP-NE Trading Data</h1>
+    <div class="subtitle">EZ Runner Report &nbsp;·&nbsp; Jan – Feb 2026 &nbsp;·&nbsp; Site Performance Analysis</div>
+  </div>
+  <div class="header-right">
+    <div class="month-block">
+      <span class="month-label">Feb 2025</span>
+      <div class="kpi sold"><div class="value">18,448</div><div class="label">Parts Sold</div></div>
+      <div class="kpi-divider"></div>
+      <div class="kpi purch"><div class="value">18,448</div><div class="label">Parts Purchased</div></div>
+    </div>
+    <div class="month-block">
+      <span class="month-label">Jan 2026</span>
+      <div class="kpi sold"><div class="value">19,956</div><div class="label">Parts Sold</div></div>
+      <div class="kpi-divider"></div>
+      <div class="kpi purch"><div class="value">19,956</div><div class="label">Parts Purchased</div></div>
+    </div>
+    <div class="month-block">
+      <span class="month-label">Feb 2026</span>
+      <div class="kpi sold"><div class="value">18,835</div><div class="label">Parts Sold</div></div>
+      <div class="kpi-divider"></div>
+      <div class="kpi purch"><div class="value">18,835</div><div class="label">Parts Purchased</div></div>
+    </div>
+    <div class="mom-block">
+      <div class="mom-pill down">▼ 5.6% <span class="mom-label">Sold MoM (Jan→Feb '26)</span></div>
+      <div class="mom-pill down">▼ 5.6% <span class="mom-label">Purch MoM (Jan→Feb '26)</span></div>
+      <div class="mom-pill up">▲ 2.1% <span class="mom-label">Sold YoY (Feb '25→'26)</span></div>
+      <div class="mom-pill up">▲ 2.1% <span class="mom-label">Purch YoY (Feb '25→'26)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="legend">
+  <span class="legend-label">Legend</span>
+  <div class="legend-item"><span class="legend-dot dot-sold-feb"></span> Feb '26 Sold</div>
+  <div class="legend-item"><span class="legend-dot dot-purch-feb"></span> Feb '26 Purchased</div>
+  <div class="legend-item"><span class="legend-dot dot-sold-jan"></span> Jan '26 Sold</div>
+  <div class="legend-item"><span class="legend-dot dot-purch-jan"></span> Jan '26 Purchased</div>
+  <div class="legend-item"><span class="legend-dot" style="background:rgba(0,194,255,0.35);border:1px solid rgba(0,194,255,0.6);"></span> Feb '25 Sold</div>
+  <div class="legend-item"><span class="legend-dot" style="background:rgba(255,107,43,0.35);border:1px solid rgba(255,107,43,0.6);"></span> Feb '25 Purchased</div>
+  <div class="legend-item"><span class="legend-dot dot-up"></span> Increase</div>
+  <div class="legend-item"><span class="legend-dot dot-down"></span> Decrease</div>
+</div>
+
+<!-- SECTION 1: FEB SOLD VS PURCHASED -->
+<div class="section-header">February 2026 — Sold vs Purchased by Site</div>
+<div class="grid">
+  <div class="chart1-outer">
+    <div class="chart1-inner">
+      <div class="panel-title">Sold vs Purchased — Feb 2026</div>
+      <div class="panel-subtitle">Side-by-side · Excluding PRP NE Co-op</div>
+      <div style="height:340px;"><canvas id="chart1"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: FEB RANKINGS -->
+<div class="section-header">February 2026 — Site Rankings</div>
+<div class="grid">
+  <div class="panel">
+    <div class="panel-title">Parts Sold — Feb 2026</div>
+    <div class="panel-subtitle">Ranked highest to lowest</div>
+    <div style="height:520px;"><canvas id="chart2"></canvas></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">Parts Purchased — Feb 2026</div>
+    <div class="panel-subtitle">Ranked highest to lowest</div>
+    <div style="height:520px;"><canvas id="chart3"></canvas></div>
+  </div>
+</div>
+
+<!-- SECTION 3: FEB TOTALS -->
+<div class="section-header">February 2026 — Total Volume by Site</div>
+<div class="grid">
+  <div class="panel full-width">
+    <div class="panel-title">Total Volume by Site — Feb 2026</div>
+    <div class="panel-subtitle">Sold + Purchased · Ranked highest to lowest combined total</div>
+    <div style="height:520px;"><canvas id="chart4"></canvas></div>
+  </div>
+</div>
+
+<!-- SECTION 4: MoM COMPARISON -->
+<div class="section-header">Month-over-Month — January vs February 2026</div>
+<div class="grid">
+  <div class="panel">
+    <div class="panel-title">Parts Sold — Jan vs Feb</div>
+    <div class="panel-subtitle">Jan (dim) vs Feb (bright) · Sorted by Feb volume</div>
+    <div style="height:560px;"><canvas id="chart5"></canvas></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">Parts Purchased — Jan vs Feb</div>
+    <div class="panel-subtitle">Jan (dim) vs Feb (bright) · Sorted by Feb volume</div>
+    <div style="height:560px;"><canvas id="chart6"></canvas></div>
+  </div>
+</div>
+
+<!-- SECTION 5: MoM NET CHANGE -->
+<div class="section-header">Month-over-Month — Net Change Feb vs Jan</div>
+<div class="grid">
+  <div class="panel">
+    <div class="panel-title">Net Change in Sold — Feb vs Jan</div>
+    <div class="panel-subtitle">Green = more in Feb · Red = less in Feb</div>
+    <div style="height:520px;"><canvas id="chart7"></canvas></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">Net Change in Purchased — Feb vs Jan</div>
+    <div class="panel-subtitle">Green = more in Feb · Red = less in Feb</div>
+    <div style="height:520px;"><canvas id="chart8"></canvas></div>
+  </div>
+</div>
+
+<!-- SECTION 6: YoY COMPARISON -->
+<div class="section-header">Year-over-Year — February 2025 vs February 2026</div>
+<div class="grid">
+  <div class="panel">
+    <div class="panel-title">Parts Sold — Feb 2025 vs Feb 2026</div>
+    <div class="panel-subtitle">2025 (dim) vs 2026 (bright) · Sorted by 2026 volume</div>
+    <div style="height:560px;"><canvas id="chart9"></canvas></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">Parts Purchased — Feb 2025 vs Feb 2026</div>
+    <div class="panel-subtitle">2025 (dim) vs 2026 (bright) · Sorted by 2026 volume</div>
+    <div style="height:560px;"><canvas id="chart10"></canvas></div>
+  </div>
+</div>
+
+<!-- SECTION 7: YoY NET CHANGE -->
+<div class="section-header">Year-over-Year — Net Change Feb 2026 vs Feb 2025</div>
+<div class="grid">
+  <div class="panel">
+    <div class="panel-title">Net Change in Sold — Feb 2026 vs Feb 2025</div>
+    <div class="panel-subtitle">Green = more in 2026 · Red = less in 2026</div>
+    <div style="height:520px;"><canvas id="chart11"></canvas></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">Net Change in Purchased — Feb 2026 vs Feb 2025</div>
+    <div class="panel-subtitle">Green = more in 2026 · Red = less in 2026</div>
+    <div style="height:520px;"><canvas id="chart12"></canvas></div>
+  </div>
+</div>
+
+<script>
+Chart.register(ChartDataLabels);
+
+const SOLD_FEB  = 'rgba(0,194,255,0.85)';
+const PURCH_FEB = 'rgba(255,107,43,0.85)';
+const SOLD_JAN  = 'rgba(0,194,255,0.38)';
+const PURCH_JAN = 'rgba(255,107,43,0.38)';
+const SOLD_B    = 'rgba(0,194,255,1)';
+const PURCH_B   = 'rgba(255,107,43,1)';
+
+const feb = [
+  { site: "Alliance Auto Parts",        sold: 880,  purch: 1988 },
+  { site: "Bishop's Auto Parts Inc.",   sold: 1755, purch: 841  },
+  { site: "Bow Auto Parts",             sold: 1805, purch: 1044 },
+  { site: "Brown's Auto Salvage",       sold: 1725, purch: 1712 },
+  { site: "C&H Salvage",                sold: 285,  purch: 222  },
+  { site: "Chuck's - Douglassville",    sold: 529,  purch: 1487 },
+  { site: "Chuck's - York",             sold: 657,  purch: 1534 },
+  { site: "Cornell's Auto Parts",       sold: 2409, purch: 927  },
+  { site: "Ding's Auto Parts",          sold: 407,  purch: 677  },
+  { site: "EL&M Auto Parts",            sold: 845,  purch: 1043 },
+  { site: "Goyette's",                  sold: 1379, purch: 1172 },
+  { site: "Lentini - Port Murray",      sold: 741,  purch: 950  },
+  { site: "Lentini - Ringoes",          sold: 661,  purch: 1589 },
+  { site: "Miller's Auto Recycling",    sold: 616,  purch: 1028 },
+  { site: "Northside Salvage Yard",     sold: 478,  purch: 292  },
+  { site: "Saw Mill Auto Wreckers",     sold: 324,  purch: 231  },
+  { site: "Tolpa's Auto Parts",         sold: 1058, purch: 728  },
+  { site: "Wilbert's - Hudson Valley",  sold: 228,  purch: 209  },
+  { site: "Wilbert's - OH Akron",       sold: 268,  purch: 94   },
+  { site: "Wilbert's - Ontario",        sold: 871,  purch: 0    },
+  { site: "Wilbert's - Webster",        sold: 809,  purch: 1067 },
+];
+
+const jan = [
+  { site: "Alliance Auto Parts",        sold: 870,  purch: 2151 },
+  { site: "Bishop's Auto Parts Inc.",   sold: 2041, purch: 875  },
+  { site: "Bow Auto Parts",             sold: 1970, purch: 1102 },
+  { site: "Brown's Auto Salvage",       sold: 1609, purch: 1848 },
+  { site: "C&H Salvage",                sold: 289,  purch: 265  },
+  { site: "Chuck's - Douglassville",    sold: 551,  purch: 1677 },
+  { site: "Chuck's - York",             sold: 658,  purch: 1545 },
+  { site: "Cornell's Auto Parts",       sold: 2476, purch: 926  },
+  { site: "Ding's Auto Parts",          sold: 588,  purch: 601  },
+  { site: "EL&M Auto Parts",            sold: 975,  purch: 1124 },
+  { site: "Goyette's",                  sold: 1550, purch: 1226 },
+  { site: "Lentini - Port Murray",      sold: 783,  purch: 1004 },
+  { site: "Lentini - Ringoes",          sold: 677,  purch: 1687 },
+  { site: "Miller's Auto Recycling",    sold: 656,  purch: 1052 },
+  { site: "Northside Salvage Yard",     sold: 525,  purch: 328  },
+  { site: "Saw Mill Auto Wreckers",     sold: 310,  purch: 270  },
+  { site: "Tolpa's Auto Parts",         sold: 906,  purch: 833  },
+  { site: "Wilbert's - Hudson Valley",  sold: 238,  purch: 185  },
+  { site: "Wilbert's - OH Akron",       sold: 301,  purch: 113  },
+  { site: "Wilbert's - Ontario",        sold: 1005, purch: 0    },
+  { site: "Wilbert's - Webster",        sold: 885,  purch: 1144 },
+];
+
+function abbrev(name) {
+  return name
+    .replace("Bishop's Auto Parts Inc.", "Bishop's Auto Parts")
+    .replace("Brown's Auto Salvage", "Brown's Salvage")
+    .replace("Chuck's - Douglassville", "Chuck's - Douglasvl.")
+    .replace("Miller's Auto Recycling", "Miller's Recycling")
+    .replace("Northside Salvage Yard", "Northside Salvage")
+    .replace("Saw Mill Auto Wreckers", "Saw Mill Wreckers")
+    .replace("Wilbert's - Hudson Valley", "Wilbert's - Hud. Val.")
+    .replace("Wilbert's - OH Akron", "Wilbert's - Akron");
+}
+
+const TT = {
+  backgroundColor: '#1e2330', titleColor: '#e8ecf0',
+  bodyColor: '#a0a8b8', borderColor: '#2a3040', borderWidth: 1, padding: 10,
+};
+const SC = {
+  x: {
+    grid: { color: 'rgba(255,255,255,0.04)' },
+    ticks: { color: '#6b7688', font: { family: "'DM Sans', sans-serif", size: 11 } },
+    border: { color: '#1e2330' }
+  },
+  y: {
+    grid: { color: 'rgba(255,255,255,0.04)' },
+    ticks: { color: '#6b7688', font: { family: "'DM Sans', sans-serif", size: 11 } },
+    border: { color: '#1e2330' }
+  }
+};
+const LEG = {
+  display: true, position: 'top', align: 'end',
+  labels: { color: '#a0a8b8', font: { family: "'DM Sans', sans-serif", size: 11 }, boxWidth: 10, boxHeight: 10, padding: 14 }
+};
+const yTicks = { color: '#a0a8b8', font: { family: "'DM Sans', sans-serif", size: 10 } };
+
+const dlVert = {
+  display: true, anchor: 'end', align: 'start', rotation: -90,
+  color: '#0d0f14', font: { family: "'DM Sans', sans-serif", size: 9, weight: '700' },
+  formatter: v => v > 0 ? v.toLocaleString() : '', clamp: true,
+};
+const dlHoriz = {
+  display: true, anchor: 'end', align: 'start',
+  color: '#0d0f14', font: { family: "'DM Sans', sans-serif", size: 9, weight: '700' },
+  formatter: v => v > 0 ? v.toLocaleString() : '', clamp: true,
+};
+const dlDiverge = {
+  display: true,
+  anchor: ctx => ctx.dataset.data[ctx.dataIndex] >= 0 ? 'end' : 'end',
+  align:  ctx => ctx.dataset.data[ctx.dataIndex] >= 0 ? 'start' : 'end',
+  color:  ctx => ctx.dataset.data[ctx.dataIndex] >= 0 ? '#0d0f14' : '#fff',
+  font: { family: "'DM Sans', sans-serif", size: 9, weight: '700' },
+  formatter: v => v !== 0 ? (v > 0 ? '+' : '') + v.toLocaleString() : '',
+  clamp: true,
+};
+
+// ── CHART 1: Feb Sold vs Purchased (alpha) ────────────────────────────────────
+const alpha = [...feb].sort((a,b) => a.site.localeCompare(b.site));
+new Chart(document.getElementById('chart1'), {
+  type: 'bar',
+  data: {
+    labels: alpha.map(d => abbrev(d.site)),
+    datasets: [
+      { label:'Feb Sold',      data: alpha.map(d=>d.sold),  backgroundColor: SOLD_FEB,  borderColor: SOLD_B,  borderWidth:1, borderRadius:3 },
+      { label:'Feb Purchased', data: alpha.map(d=>d.purch), backgroundColor: PURCH_FEB, borderColor: PURCH_B, borderWidth:1, borderRadius:3 },
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins: { legend: LEG, datalabels: dlVert, tooltip: { ...TT, callbacks:{ label: ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString()}` } } },
+    scales: { ...SC, x: { ...SC.x, ticks:{ ...SC.x.ticks, maxRotation:45, minRotation:30 } } }
+  }
+});
+
+// ── CHART 2: Feb Sold H→L ─────────────────────────────────────────────────────
+const s2 = [...feb].sort((a,b)=>b.sold-a.sold);
+new Chart(document.getElementById('chart2'), {
+  type:'bar',
+  data: {
+    labels: s2.map(d=>abbrev(d.site)),
+    datasets:[{ label:'Feb Sold', data:s2.map(d=>d.sold),
+      backgroundColor: s2.map((_,i)=>`rgba(0,194,255,${0.55+0.45*(1-i/s2.length)})`),
+      borderColor:SOLD_B, borderWidth:1, borderRadius:3 }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{ legend:{display:false}, datalabels:dlHoriz, tooltip:{...TT, callbacks:{label:ctx=>` Feb Sold: ${ctx.parsed.x.toLocaleString()}`}} },
+    scales:{ ...SC, y:{...SC.y, ticks:yTicks} }
+  }
+});
+
+// ── CHART 3: Feb Purchased H→L ───────────────────────────────────────────────
+const s3 = [...feb].sort((a,b)=>b.purch-a.purch);
+new Chart(document.getElementById('chart3'), {
+  type:'bar',
+  data: {
+    labels: s3.map(d=>abbrev(d.site)),
+    datasets:[{ label:'Feb Purchased', data:s3.map(d=>d.purch),
+      backgroundColor: s3.map((_,i)=>`rgba(255,107,43,${0.55+0.45*(1-i/s3.length)})`),
+      borderColor:PURCH_B, borderWidth:1, borderRadius:3 }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{ legend:{display:false}, datalabels:dlHoriz, tooltip:{...TT, callbacks:{label:ctx=>` Feb Purchased: ${ctx.parsed.x.toLocaleString()}`}} },
+    scales:{ ...SC, y:{...SC.y, ticks:yTicks} }
+  }
+});
+
+// ── CHART 4: Feb Total Volume (horizontal, stacked, H→L) ─────────────────────
+const s4 = [...feb].map(d=>({...d,total:d.sold+d.purch})).sort((a,b)=>b.total-a.total).reverse();
+new Chart(document.getElementById('chart4'), {
+  type:'bar',
+  data: {
+    labels: s4.map(d=>abbrev(d.site)),
+    datasets:[
+      { label:'Feb Sold',      data:s4.map(d=>d.sold),  backgroundColor:SOLD_FEB,  borderColor:SOLD_B,  borderWidth:1, borderRadius:0 },
+      { label:'Feb Purchased', data:s4.map(d=>d.purch), backgroundColor:PURCH_FEB, borderColor:PURCH_B, borderWidth:1, borderRadius:3 },
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{
+      legend:LEG,
+      datalabels:{
+        display: true, anchor:'center', align:'center',
+        color:'#0d0f14', font:{ family:"'DM Sans', sans-serif", size:9, weight:'700' },
+        formatter: v => v > 80 ? v.toLocaleString() : '',
+        clamp:true,
+      },
+      tooltip:{...TT, callbacks:{
+        label: ctx=>` ${ctx.dataset.label}: ${ctx.parsed.x.toLocaleString()}`,
+        footer: items=>`Total: ${items.reduce((s,i)=>s+i.parsed.x,0).toLocaleString()}`
+      }}
+    },
+    scales:{
+      ...SC,
+      x:{ ...SC.x, stacked:true },
+      y:{ ...SC.y, stacked:true, ticks:yTicks }
+    }
+  }
+});
+
+// Build merged dataset sorted by Feb sold desc
+const merged = [...feb].map(d => {
+  const j = jan.find(j=>j.site===d.site)||{sold:0,purch:0};
+  return {...d, janSold:j.sold, janPurch:j.purch};
+});
+
+// ── CHART 5: MoM Sold comparison, sorted by Feb sold ─────────────────────────
+const s5 = [...merged].sort((a,b)=>b.sold-a.sold);
+new Chart(document.getElementById('chart5'), {
+  type:'bar',
+  data: {
+    labels: s5.map(d=>abbrev(d.site)),
+    datasets:[
+      { label:'Jan Sold', data:s5.map(d=>d.janSold), backgroundColor:SOLD_JAN, borderColor:'rgba(0,194,255,0.6)',  borderWidth:1, borderRadius:3 },
+      { label:'Feb Sold', data:s5.map(d=>d.sold),    backgroundColor:SOLD_FEB, borderColor:SOLD_B,                borderWidth:1, borderRadius:3 },
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{ legend:LEG, datalabels:dlHoriz, tooltip:{...TT, callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.x.toLocaleString()}`}} },
+    scales:{ ...SC, y:{...SC.y, ticks:yTicks} }
+  }
+});
+
+// ── CHART 6: MoM Purchased comparison, sorted by Feb purch ───────────────────
+const s6 = [...merged].sort((a,b)=>b.purch-a.purch);
+new Chart(document.getElementById('chart6'), {
+  type:'bar',
+  data: {
+    labels: s6.map(d=>abbrev(d.site)),
+    datasets:[
+      { label:'Jan Purchased', data:s6.map(d=>d.janPurch), backgroundColor:PURCH_JAN, borderColor:'rgba(255,107,43,0.6)', borderWidth:1, borderRadius:3 },
+      { label:'Feb Purchased', data:s6.map(d=>d.purch),    backgroundColor:PURCH_FEB, borderColor:PURCH_B,                borderWidth:1, borderRadius:3 },
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{ legend:LEG, datalabels:dlHoriz, tooltip:{...TT, callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.x.toLocaleString()}`}} },
+    scales:{ ...SC, y:{...SC.y, ticks:yTicks} }
+  }
+});
+
+// ── CHART 7: Net Change Sold ──────────────────────────────────────────────────
+const s7 = [...merged].map(d=>({site:d.site, delta:d.sold-d.janSold})).sort((a,b)=>b.delta-a.delta);
+new Chart(document.getElementById('chart7'), {
+  type:'bar',
+  data: {
+    labels: s7.map(d=>abbrev(d.site)),
+    datasets:[{ label:'Sold Change', data:s7.map(d=>d.delta),
+      backgroundColor: s7.map(d=>d.delta>=0?'rgba(61,220,132,0.75)':'rgba(255,92,92,0.75)'),
+      borderColor:     s7.map(d=>d.delta>=0?'rgba(61,220,132,1)'   :'rgba(255,92,92,1)'),
+      borderWidth:1, borderRadius:3 }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{ legend:{display:false}, datalabels:dlDiverge, tooltip:{...TT, callbacks:{label:ctx=>` Change: ${ctx.parsed.x>0?'+':''}${ctx.parsed.x.toLocaleString()}`}} },
+    scales:{ ...SC, x:{...SC.x, ticks:{...SC.x.ticks, callback:v=>(v>0?'+':'')+v.toLocaleString()}}, y:{...SC.y, ticks:yTicks} }
+  }
+});
+
+// ── CHART 8: Net Change Purchased ────────────────────────────────────────────
+const s8 = [...merged].map(d=>({site:d.site, delta:d.purch-d.janPurch})).sort((a,b)=>b.delta-a.delta);
+new Chart(document.getElementById('chart8'), {
+  type:'bar',
+  data: {
+    labels: s8.map(d=>abbrev(d.site)),
+    datasets:[{ label:'Purchase Change', data:s8.map(d=>d.delta),
+      backgroundColor: s8.map(d=>d.delta>=0?'rgba(61,220,132,0.75)':'rgba(255,92,92,0.75)'),
+      borderColor:     s8.map(d=>d.delta>=0?'rgba(61,220,132,1)'   :'rgba(255,92,92,1)'),
+      borderWidth:1, borderRadius:3 }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{ legend:{display:false}, datalabels:dlDiverge, tooltip:{...TT, callbacks:{label:ctx=>` Change: ${ctx.parsed.x>0?'+':''}${ctx.parsed.x.toLocaleString()}`}} },
+    scales:{ ...SC, x:{...SC.x, ticks:{...SC.x.ticks, callback:v=>(v>0?'+':'')+v.toLocaleString()}}, y:{...SC.y, ticks:yTicks} }
+  }
+});
+
+// ── FEB 2025 DATA ─────────────────────────────────────────────────────────────
+const feb25 = [
+  { site: "Alliance Auto Parts",        sold: 721,  purch: 2516 },
+  { site: "Bishop's Auto Parts Inc.",   sold: 1949, purch: 721  },
+  { site: "Bow Auto Parts",             sold: 1574, purch: 1122 },
+  { site: "Brown's Auto Salvage",       sold: 1687, purch: 1707 },
+  { site: "C&H Salvage",                sold: 360,  purch: 196  },
+  { site: "Chuck's - Douglassville",    sold: 479,  purch: 1535 },
+  { site: "Chuck's - York",             sold: 548,  purch: 1441 },
+  { site: "Cornell's Auto Parts",       sold: 2664, purch: 1003 },
+  { site: "Ding's Auto Parts",          sold: 536,  purch: 320  },
+  { site: "EL&M Auto Parts",            sold: 846,  purch: 1088 },
+  { site: "Goyette's",                  sold: 1431, purch: 1184 },
+  { site: "Lentini - Port Murray",      sold: 832,  purch: 712  },
+  { site: "Lentini - Ringoes",          sold: 677,  purch: 1070 },
+  { site: "Miller's Auto Recycling",    sold: 610,  purch: 689  },
+  { site: "Northside Salvage Yard",     sold: 349,  purch: 139  },
+  { site: "Saw Mill Auto Wreckers",     sold: 368,  purch: 186  },
+  { site: "Tolpa's Auto Parts",         sold: 803,  purch: 1014 },
+  { site: "Wilbert's - Hudson Valley",  sold: 272,  purch: 262  },
+  { site: "Wilbert's - OH Akron",       sold: 232,  purch: 49   },
+  { site: "Wilbert's - Ontario",        sold: 885,  purch: 2    },
+  { site: "Wilbert's - Webster",        sold: 563,  purch: 1490 },
+];
+
+const SOLD_25  = 'rgba(0,194,255,0.35)';
+const PURCH_25 = 'rgba(255,107,43,0.35)';
+
+// Merge feb26 with feb25
+const yoy = [...feb].map(d => {
+  const y = feb25.find(f=>f.site===d.site)||{sold:0,purch:0};
+  return { ...d, sold25: y.sold, purch25: y.purch };
+});
+
+// ── CHART 9: YoY Sold comparison ─────────────────────────────────────────────
+const s9 = [...yoy].sort((a,b)=>b.sold-a.sold);
+new Chart(document.getElementById('chart9'), {
+  type:'bar',
+  data: {
+    labels: s9.map(d=>abbrev(d.site)),
+    datasets:[
+      { label:'Feb 2025 Sold', data:s9.map(d=>d.sold25), backgroundColor:SOLD_25,  borderColor:'rgba(0,194,255,0.6)',  borderWidth:1, borderRadius:3 },
+      { label:'Feb 2026 Sold', data:s9.map(d=>d.sold),   backgroundColor:SOLD_FEB, borderColor:SOLD_B,                borderWidth:1, borderRadius:3 },
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{ legend:LEG, datalabels:dlHoriz, tooltip:{...TT, callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.x.toLocaleString()}`}} },
+    scales:{ ...SC, y:{...SC.y, ticks:yTicks} }
+  }
+});
+
+// ── CHART 10: YoY Purchased comparison ───────────────────────────────────────
+const s10 = [...yoy].sort((a,b)=>b.purch-a.purch);
+new Chart(document.getElementById('chart10'), {
+  type:'bar',
+  data: {
+    labels: s10.map(d=>abbrev(d.site)),
+    datasets:[
+      { label:'Feb 2025 Purchased', data:s10.map(d=>d.purch25), backgroundColor:PURCH_25,  borderColor:'rgba(255,107,43,0.6)', borderWidth:1, borderRadius:3 },
+      { label:'Feb 2026 Purchased', data:s10.map(d=>d.purch),   backgroundColor:PURCH_FEB, borderColor:PURCH_B,                borderWidth:1, borderRadius:3 },
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{ legend:LEG, datalabels:dlHoriz, tooltip:{...TT, callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.x.toLocaleString()}`}} },
+    scales:{ ...SC, y:{...SC.y, ticks:yTicks} }
+  }
+});
+
+// ── CHART 11: YoY Net Change Sold ─────────────────────────────────────────────
+const s11 = [...yoy].map(d=>({site:d.site, delta:d.sold-d.sold25})).sort((a,b)=>b.delta-a.delta);
+new Chart(document.getElementById('chart11'), {
+  type:'bar',
+  data: {
+    labels: s11.map(d=>abbrev(d.site)),
+    datasets:[{ label:'Sold YoY Change', data:s11.map(d=>d.delta),
+      backgroundColor: s11.map(d=>d.delta>=0?'rgba(61,220,132,0.75)':'rgba(255,92,92,0.75)'),
+      borderColor:     s11.map(d=>d.delta>=0?'rgba(61,220,132,1)'   :'rgba(255,92,92,1)'),
+      borderWidth:1, borderRadius:3 }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{ legend:{display:false}, datalabels:dlDiverge, tooltip:{...TT, callbacks:{label:ctx=>` YoY Change: ${ctx.parsed.x>0?'+':''}${ctx.parsed.x.toLocaleString()}`}} },
+    scales:{ ...SC, x:{...SC.x, ticks:{...SC.x.ticks, callback:v=>(v>0?'+':'')+v.toLocaleString()}}, y:{...SC.y, ticks:yTicks} }
+  }
+});
+
+// ── CHART 12: YoY Net Change Purchased ───────────────────────────────────────
+const s12 = [...yoy].map(d=>({site:d.site, delta:d.purch-d.purch25})).sort((a,b)=>b.delta-a.delta);
+new Chart(document.getElementById('chart12'), {
+  type:'bar',
+  data: {
+    labels: s12.map(d=>abbrev(d.site)),
+    datasets:[{ label:'Purchase YoY Change', data:s12.map(d=>d.delta),
+      backgroundColor: s12.map(d=>d.delta>=0?'rgba(61,220,132,0.75)':'rgba(255,92,92,0.75)'),
+      borderColor:     s12.map(d=>d.delta>=0?'rgba(61,220,132,1)'   :'rgba(255,92,92,1)'),
+      borderWidth:1, borderRadius:3 }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{ legend:{display:false}, datalabels:dlDiverge, tooltip:{...TT, callbacks:{label:ctx=>` YoY Change: ${ctx.parsed.x>0?'+':''}${ctx.parsed.x.toLocaleString()}`}} },
+    scales:{ ...SC, x:{...SC.x, ticks:{...SC.x.ticks, callback:v=>(v>0?'+':'')+v.toLocaleString()}}, y:{...SC.y, ticks:yTicks} }
+  }
+});
+</script>
+</body>
+</html>

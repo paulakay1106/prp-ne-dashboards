@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRP-NE National Trading Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Barlow+Condensed:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<style>
+  :root {
+    --bg:      #14161e;
+    --bg2:     #1c1f2e;
+    --bg3:     #22263a;
+    --border:  #2a2f48;
+    --green:   #00e5a0;
+    --yellow:  #f5c842;
+    --blue:    #38bdf8;
+    --red:     #f43f5e;
+    --purple:  #a78bfa;
+    --muted:   #6b7399;
+    --text:    #ffffff;
+    --subtext: #c8cfe8;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    padding: 22px 44px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 3rem;
+    line-height: 1;
+    letter-spacing: -0.5px;
+  }
+  h1 span { color: var(--green); }
+  .header-sub {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 6px;
+    font-style: italic;
+  }
+  .header-legend {
+    display: flex;
+    gap: 22px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .leg-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+  .leg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── KPI STRIP ── */
+  .kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-bottom: 1px solid var(--border);
+  }
+  .kpi {
+    padding: 20px 28px;
+    border-right: 1px solid var(--border);
+  }
+  .kpi:last-child { border-right: none; }
+  .kpi-lbl {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.63rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .kpi-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 2.3rem;
+    line-height: 1;
+    letter-spacing: -0.5px;
+  }
+  .kpi-val.green  { color: var(--green); }
+  .kpi-val.yellow { color: var(--yellow); }
+  .kpi-val.blue   { color: var(--blue); }
+  .kpi-val.white  { color: #fff; }
+  .kpi-val.red    { color: var(--red); }
+  .kpi-foot {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 5px;
+    font-size: 0.7rem;
+    color: var(--muted);
+    flex-wrap: wrap;
+  }
+  .badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.67rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 2px 7px;
+    border-radius: 3px;
+  }
+  .badge.up   { background: rgba(0,229,160,0.15); color: var(--green); }
+  .badge.down { background: rgba(244,63,94,0.15); color: var(--red); }
+  .badge.flat { background: rgba(107,115,153,0.18); color: var(--muted); }
+
+  /* ── PAGE ── */
+  .page { padding: 0 44px 60px; }
+
+  /* ── SECTION LABEL ── */
+  .sec {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.63rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 26px 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .sec::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── PANELS ── */
+  .panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 22px 26px;
+    margin-bottom: 16px;
+  }
+  .panel-t {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.63rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  /* ── INSIGHT CARDS ── */
+  .insights {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+  .icard {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-top: 2px solid;
+    border-radius: 4px;
+    padding: 15px 18px;
+  }
+  .icard.g { border-top-color: var(--green); }
+  .icard.y { border-top-color: var(--yellow); }
+  .icard.b { border-top-color: var(--blue); }
+  .icard-eye {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.61rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+  .icard-body { font-size: 0.79rem; color: var(--subtext); line-height: 1.55; }
+  .icard-body strong { color: #fff; font-weight: 600; }
+
+  /* ── CHART WRAPPER — constrained width, centered ── */
+  .chart-wrap {
+    width: 55%;
+    margin: 0 auto;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="eyebrow">PRP-NE · National Overview · Trading Volume Report</div>
+  <h1>National <span>Trading</span> Dashboard</h1>
+  <div class="header-sub">NA Sold vs Purchased · PRP-NE vs National Total · Aug 2023 – Feb 2026 · Source: National Sold, National Purchased, NA Historical</div>
+  <div class="header-legend">
+    <div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div>NA Sold</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--yellow)"></div>NA Purchased</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--blue)"></div>PRP-NE Total</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--purple)"></div>National Total</div>
+  </div>
+</div>
+
+<!-- KPI STRIP -->
+<div class="kpi-strip">
+  <div class="kpi">
+    <div class="kpi-lbl">NA Sold — Feb 2026</div>
+    <div class="kpi-val green">2,432</div>
+    <div class="kpi-foot"><span class="badge down">▼ 2.8%</span> vs Jan 2026 (2,501)</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-lbl">NA Purchased — Feb 2026</div>
+    <div class="kpi-val yellow">4,994</div>
+    <div class="kpi-foot"><span class="badge down">▼ 8.1%</span> vs Jan 2026 (5,432)</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-lbl">National Total — Feb 2026</div>
+    <div class="kpi-val white">7,426</div>
+    <div class="kpi-foot"><span class="badge down">▼ 6.4%</span> vs Jan 2026 (7,933)</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-lbl">PRP-NE — Feb 2026</div>
+    <div class="kpi-val blue">18,835</div>
+    <div class="kpi-foot"><span class="badge down">▼ 5.6%</span> vs Jan 2026 (19,956)</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-lbl">NE as % of National</div>
+    <div class="kpi-val green">71.7%</div>
+    <div class="kpi-foot"><span class="badge flat">Feb 2026</span> 18,835 of 26,261 combined</div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- INSIGHTS -->
+  <div class="sec">Key Insights</div>
+  <div class="insights">
+    <div class="icard g">
+      <div class="icard-eye">📦 NA Sold vs Purchased</div>
+      <div class="icard-body">Purchased consistently runs <strong>~2× Sold</strong> nationally. Feb 2026: Sold <strong>2,432</strong> vs Purchased <strong>4,994</strong>. Both saw a step-change increase starting Jan 2025 — likely new members added nationally.</div>
+    </div>
+    <div class="icard y">
+      <div class="icard-eye">📊 PRP-NE vs National</div>
+      <div class="icard-body">PRP-NE volume far exceeds the national total — NE consistently represents <strong>~70–75%</strong> of combined activity. National total grew from ~5–6k/mo in 2023–2024 to <strong>7–9k/mo</strong> in 2025.</div>
+    </div>
+    <div class="icard b">
+      <div class="icard-eye">📈 Growth Trend</div>
+      <div class="icard-body">National totals jumped sharply from <strong>~6,500</strong> (Dec 2024) to <strong>8,655</strong> (Jan 2025) — a +32% surge. PRP-NE has remained relatively stable while national activity expanded.</div>
+    </div>
+  </div>
+
+  <!-- CHART 1: NA Sold vs Purchased -->
+  <div class="sec">NA Sold vs Purchased — Aug 2023 to Present</div>
+  <div class="panel">
+    <div class="panel-t">Monthly NA Sold vs NA Purchased — Source: National Sold &amp; National Purchased Tabs</div>
+    <div class="chart-wrap">
+      <canvas id="soldVsPurchChart" height="160"></canvas>
+    </div>
+  </div>
+
+  <!-- CHART 2: PRP-NE vs National Total -->
+  <div class="sec">PRP-NE vs National Total — Aug 2023 to Present</div>
+  <div class="panel">
+    <div class="panel-t">Monthly Volume: PRP-NE Total vs National Total — Source: NA Historical Tab</div>
+    <div class="chart-wrap">
+      <canvas id="neVsNatChart" height="160"></canvas>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ════════════════════════════════════
+// REGISTER DATALABELS PLUGIN
+// ════════════════════════════════════
+Chart.register(ChartDataLabels);
+
+// ════════════════════════════════════
+// DATA — from NA Historical (Aug 2023 → Feb 2026)
+// ════════════════════════════════════
+const LABELS = [
+  'Aug 23','Sep 23','Oct 23','Nov 23','Dec 23',
+  'Jan 24','Feb 24','Mar 24','Apr 24','May 24','Jun 24','Jul 24','Aug 24','Sep 24','Oct 24','Nov 24','Dec 24',
+  'Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25',
+  'Jan 26','Feb 26'
+];
+
+const NA_SOLD = [
+  1532,1431,1773,1761,1652,
+  1999,1962,1927,1902,1906,1778,1872,1971,1897,2316,1933,1954,
+  2954,2706,2745,3051,2983,2990,3252,3078,2529,2753,2197,2382,
+  2501,2432
+];
+
+const NA_PURCH = [
+  4005,3569,4195,3832,3752,
+  4371,4026,4113,4290,4302,4092,4107,4347,4136,4876,4232,4575,
+  5701,5231,5342,5487,5584,5640,5997,5875,5878,6036,4934,5177,
+  5432,4994
+];
+
+const NAT_TOTAL = [
+  5537,5000,5968,5593,5404,
+  6370,5988,6040,6192,6208,5870,5979,6318,6033,7192,6165,6529,
+  8655,7937,8087,8538,8567,8630,9249,8953,8407,8789,7131,7559,
+  7933,7426
+];
+
+const PRP_NE = [
+  18425,15985,18206,16947,15875,
+  18843,18228,18386,18283,18513,17194,18194,18328,17636,20183,16628,16597,
+  20697,18298,19851,18029,17484,18041,19849,18910,19236,21534,17544,19800,
+  19956,18835
+];
+
+// ════════════════════════════════════
+// CHART.JS DEFAULTS
+// ════════════════════════════════════
+Chart.defaults.font.family = "'Barlow Condensed', sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#6b7399';
+
+const TTP = {
+  backgroundColor: '#1c1f2e',
+  borderColor: '#2a2f48',
+  borderWidth: 1,
+  titleColor: '#fff',
+  bodyColor: '#c8cfe8',
+  padding: 11,
+  cornerRadius: 3
+};
+const GRID = { color: 'rgba(42,47,72,0.8)', drawBorder: false };
+const TICKS = { color: '#6b7399', font: { size: 10, family: "'Barlow Condensed', sans-serif" } };
+
+const SHARED_OPTS = {
+  responsive: true,
+  interaction: { mode: 'index', intersect: false },
+  plugins: {
+    legend: {
+      labels: {
+        color: '#6b7399',
+        font: { size: 11, family: "'Barlow Condensed', sans-serif" },
+        boxWidth: 12, padding: 18
+      }
+    },
+    tooltip: {
+      ...TTP,
+      callbacks: {
+        label: c => `  ${c.dataset.label}: ${c.raw.toLocaleString()}`,
+        footer: items => {
+          const total = items.reduce((s, i) => s + i.raw, 0);
+          return `  Total: ${total.toLocaleString()}`;
+        }
+      }
+    }
+  },
+  scales: {
+    x: {
+      stacked: true,
+      grid: { display: false },
+      ticks: { ...TICKS, maxRotation: 45 }
+    },
+    y: {
+      stacked: true,
+      grid: GRID,
+      ticks: { ...TICKS, callback: v => v.toLocaleString() },
+      min: 0
+    }
+  }
+};
+
+// shared datalabel config — only show on top segment
+const DL_TOP = {
+  anchor: 'end',
+  align: 'top',
+  offset: 2,
+  color: 'rgba(255,255,255,0.82)',
+  font: { size: 8, family: "'Barlow Condensed', sans-serif", weight: '700' },
+  formatter: v => v >= 1000 ? (v/1000).toFixed(1)+'k' : v
+};
+const DL_OFF = { display: false };
+
+// ════════════════════════════════════
+// CHART 1 — NA SOLD vs PURCHASED (stacked)
+// ════════════════════════════════════
+new Chart(document.getElementById('soldVsPurchChart'), {
+  type: 'bar',
+  data: {
+    labels: LABELS,
+    datasets: [
+      {
+        label: 'NA Sold',
+        data: NA_SOLD,
+        backgroundColor: 'rgba(0,229,160,0.88)',
+        borderRadius: 0,
+        borderSkipped: false,
+        barPercentage: 0.88,
+        categoryPercentage: 0.92,
+        datalabels: DL_OFF
+      },
+      {
+        label: 'NA Purchased',
+        data: NA_PURCH,
+        backgroundColor: 'rgba(245,200,66,0.82)',
+        borderRadius: 3,
+        borderSkipped: false,
+        barPercentage: 0.88,
+        categoryPercentage: 0.92,
+        datalabels: DL_TOP
+      }
+    ]
+  },
+  options: SHARED_OPTS
+});
+
+// ════════════════════════════════════
+// CHART 2 — PRP-NE vs NATIONAL TOTAL (stacked)
+// ════════════════════════════════════
+new Chart(document.getElementById('neVsNatChart'), {
+  type: 'bar',
+  data: {
+    labels: LABELS,
+    datasets: [
+      {
+        label: 'National Total',
+        data: NAT_TOTAL,
+        backgroundColor: 'rgba(167,139,250,0.82)',
+        borderRadius: 0,
+        borderSkipped: false,
+        barPercentage: 0.88,
+        categoryPercentage: 0.92,
+        datalabels: DL_OFF
+      },
+      {
+        label: 'PRP-NE Total',
+        data: PRP_NE,
+        backgroundColor: 'rgba(56,189,248,0.85)',
+        borderRadius: 3,
+        borderSkipped: false,
+        barPercentage: 0.88,
+        categoryPercentage: 0.92,
+        datalabels: DL_TOP
+      }
+    ]
+  },
+  options: SHARED_OPTS
+});
+</script>
+</body>
+</html>
