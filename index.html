@@ -246,6 +246,52 @@
 </style>
 </head>
 <body>
+<style>
+.topnav {
+  background: #1c1f2e;
+  border-bottom: 1px solid #2a2f48;
+  padding: 10px 44px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+.topnav a {
+  font-family: Barlow Condensed, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7399;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.topnav a:hover { color: #fff; border-color: #2a2f48; background: #22263a; }
+.topnav a.active { color: #00e5a0; border-color: #00e5a0; }
+.topnav .sep { color: #2a2f48; font-size: 0.8rem; }
+</style>
+<div class="topnav">
+  <a href="index.html" class="active">🏠 Hub</a>
+  <span class="sep">|</span>
+  <a href="national_trading_dashboard.html">National Trading</a>
+  <span class="sep">|</span>
+  <a href="PRP_NE_Trading_Dashboard.html">PRP-NE Trading</a>
+  <span class="sep">|</span>
+  <a href="coop_sales_dashboard.html">Co-op Sales</a>
+  <span class="sep">|</span>
+  <a href="ez_runner_quality_chart.html">EZ Runner</a>
+  <span class="sep">|</span>
+  <a href="part_grading_dashboard_feb2026.html">Part Grading</a>
+  <span class="sep">|</span>
+  <a href="production_dashboard.html">Production</a>
+</div>
 <div class="wrap">
 
   <!-- HEADER -->
@@ -327,19 +373,7 @@
 
   </div>
 
-  <!-- HOW TO SHARE -->
-  <div class="sec">How to Share This Hub</div>
-  <div class="instructions">
-    <h3>📤 Uploading to Netlify Drop (Free — 3 minutes)</h3>
-    <ol>
-      <li>Go to <strong>app.netlify.com/drop</strong> in your browser</li>
-      <li>Select all 7 files at once: <code>index.html</code> + all 6 dashboard <code>.html</code> files</li>
-      <li>Drag and drop them all into the Netlify page at the same time</li>
-      <li>Netlify gives you a free URL like <code>amazing-name-123.netlify.app</code></li>
-      <li>Share that single link with your group — they'll land on this hub page</li>
-      <li><strong>Optional:</strong> Create a free Netlify account to keep the link permanently</li>
-    </ol>
-  </div>
+
 
   <div class="footer">
     <span>PRP-NE · Internal Use Only</span>
