@@ -9,457 +9,341 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <style>
   :root {
-    --bg:      #14161e;
-    --bg2:     #1c1f2e;
-    --bg3:     #22263a;
-    --border:  #2a2f48;
-    --green:   #00e5a0;
-    --yellow:  #f5c842;
-    --blue:    #38bdf8;
-    --red:     #f43f5e;
-    --purple:  #a78bfa;
-    --muted:   #6b7399;
-    --text:    #ffffff;
-    --subtext: #c8cfe8;
+    --bg:#14161e;--bg2:#1c1f2e;--bg3:#22263a;--border:#3a4060;
+    --green:#00e5a0;--yellow:#f5c842;--blue:#38bdf8;--red:#f43f5e;--purple:#a78bfa;
+    --orange:#fb923c;--muted:#9aa3c2;--text:#fff;--subtext:#dde2f0;
   }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Barlow', sans-serif;
-    font-size: 14px;
-    line-height: 1.5;
-  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font-size:15px;line-height:1.55;}
 
-  /* ── HEADER ── */
-  .header {
-    padding: 22px 44px 20px;
-    border-bottom: 1px solid var(--border);
-  }
-  .eyebrow {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-  h1 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 800;
-    font-size: 3rem;
-    line-height: 1;
-    letter-spacing: -0.5px;
-  }
-  h1 span { color: var(--green); }
-  .header-sub {
-    font-size: 0.78rem;
-    color: var(--muted);
-    margin-top: 6px;
-    font-style: italic;
-  }
-  .header-legend {
-    display: flex;
-    gap: 22px;
-    margin-top: 14px;
-    flex-wrap: wrap;
-  }
-  .leg-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.72rem;
-    letter-spacing: 0.05em;
-    color: var(--muted);
-  }
-  .leg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  /* HEADER */
+  .header{padding:22px 44px 20px;border-bottom:1px solid var(--border);}
+  .eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:.82rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+  h1{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:3rem;line-height:1;letter-spacing:-.5px;}
+  h1 span{color:var(--green);}
+  .header-sub{font-size:.88rem;color:var(--subtext);margin-top:6px;font-style:italic;}
+  .header-legend{display:flex;gap:22px;margin-top:14px;flex-wrap:wrap;}
+  .leg-item{display:flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:.84rem;letter-spacing:.05em;color:var(--subtext);}
+  .leg-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
 
-  /* ── KPI STRIP ── */
-  .kpi-strip {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    border-bottom: 1px solid var(--border);
-  }
-  .kpi {
-    padding: 20px 28px;
-    border-right: 1px solid var(--border);
-  }
-  .kpi:last-child { border-right: none; }
-  .kpi-lbl {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.63rem;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-  .kpi-val {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 800;
-    font-size: 2.3rem;
-    line-height: 1;
-    letter-spacing: -0.5px;
-  }
-  .kpi-val.green  { color: var(--green); }
-  .kpi-val.yellow { color: var(--yellow); }
-  .kpi-val.blue   { color: var(--blue); }
-  .kpi-val.white  { color: #fff; }
-  .kpi-val.red    { color: var(--red); }
-  .kpi-foot {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 5px;
-    font-size: 0.7rem;
-    color: var(--muted);
-    flex-wrap: wrap;
-  }
-  .badge {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.67rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    padding: 2px 7px;
-    border-radius: 3px;
-  }
-  .badge.up   { background: rgba(0,229,160,0.15); color: var(--green); }
-  .badge.down { background: rgba(244,63,94,0.15); color: var(--red); }
-  .badge.flat { background: rgba(107,115,153,0.18); color: var(--muted); }
+  /* KPI STRIP */
+  .kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border);}
+  .kpi{padding:18px 26px;border-right:1px solid var(--border);}
+  .kpi:last-child{border-right:none;}
+  .kpi-lbl{font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--subtext);margin-bottom:4px;}
+  .kpi-val{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:2.2rem;line-height:1;letter-spacing:-.5px;}
+  .kpi-val.green{color:var(--green);}.kpi-val.yellow{color:var(--yellow);}.kpi-val.blue{color:var(--blue);}.kpi-val.white{color:#fff;}
+  .kpi-foot{display:flex;align-items:center;gap:6px;margin-top:5px;font-size:.82rem;color:var(--subtext);flex-wrap:wrap;}
+  .kpi-daily{margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-family:'Barlow Condensed',sans-serif;font-size:.82rem;color:var(--subtext);}
+  .kpi-daily span{color:#fff;font-weight:700;}
+  .badge{font-family:'Barlow Condensed',sans-serif;font-size:.76rem;font-weight:700;letter-spacing:.06em;padding:2px 8px;border-radius:3px;}
+  .badge.up{background:rgba(0,229,160,.22);color:var(--green);}
+  .badge.down{background:rgba(244,63,94,.22);color:var(--red);}
+  .badge.flat{background:rgba(155,163,194,.22);color:var(--subtext);}
 
-  /* ── PAGE ── */
-  .page { padding: 0 44px 60px; }
+  /* PAGE */
+  .page{padding:0 44px 60px;}
+  .sec{font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--subtext);padding:24px 0 14px;display:flex;align-items:center;gap:14px;}
+  .sec::after{content:'';flex:1;height:1px;background:var(--border);}
 
-  /* ── SECTION LABEL ── */
-  .sec {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.63rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding: 26px 0 14px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .sec::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  /* DAILY GRID */
+  .daily-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .dcard{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:16px 20px;}
+  .dcard.latest{border-color:rgba(0,229,160,.5);}
+  .dcard-month{font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--subtext);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
+  .wdays{font-size:.72rem;background:var(--bg3);border:1px solid var(--border);padding:2px 8px;border-radius:3px;color:var(--subtext);letter-spacing:.08em;}
+  .dcard-rows{display:flex;flex-direction:column;gap:9px;}
+  .drow{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;}
+  .drow-lbl{font-family:'Barlow Condensed',sans-serif;font-size:.86rem;letter-spacing:.04em;color:var(--subtext);}
+  .drow-sub{font-size:.74rem;color:var(--muted);}
+  .drow-val{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.2rem;text-align:right;}
 
-  /* ── PANELS ── */
-  .panel {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 22px 26px;
-    margin-bottom: 16px;
-  }
-  .panel-t {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.63rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 20px;
-  }
+  /* INSIGHT / CALLOUT CARDS */
+  .insights{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:4px;}
+  .icard{background:var(--bg2);border:1px solid var(--border);border-top:2px solid;border-radius:4px;padding:15px 18px;}
+  .icard.g{border-top-color:var(--green);}.icard.y{border-top-color:var(--yellow);}.icard.b{border-top-color:var(--blue);}
+  .icard-eye{font-family:'Barlow Condensed',sans-serif;font-size:.76rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--subtext);margin-bottom:6px;}
+  .icard-body{font-size:.88rem;color:var(--subtext);line-height:1.6;}
+  .icard-body strong{color:#fff;font-weight:700;}
 
-  /* ── INSIGHT CARDS ── */
-  .insights {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 4px;
-  }
-  .icard {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-top: 2px solid;
-    border-radius: 4px;
-    padding: 15px 18px;
-  }
-  .icard.g { border-top-color: var(--green); }
-  .icard.y { border-top-color: var(--yellow); }
-  .icard.b { border-top-color: var(--blue); }
-  .icard-eye {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.61rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 5px;
-  }
-  .icard-body { font-size: 0.79rem; color: var(--subtext); line-height: 1.55; }
-  .icard-body strong { color: #fff; font-weight: 600; }
+  .callouts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:4px;}
+  .ccard{background:var(--bg2);border:1px solid var(--border);border-left:3px solid;border-radius:4px;padding:14px 16px;}
+  .ccard.g{border-left-color:var(--green);}.ccard.r{border-left-color:var(--red);}
+  .ccard.y{border-left-color:var(--yellow);}.ccard.p{border-left-color:var(--purple);}
+  .ccard-eye{font-family:'Barlow Condensed',sans-serif;font-size:.76rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--subtext);margin-bottom:6px;}
+  .ccard-body{font-size:.88rem;color:var(--subtext);line-height:1.55;}
+  .ccard-body strong{color:#fff;font-weight:700;}
 
-  /* ── CHART WRAPPER — constrained width, centered ── */
-  .chart-wrap {
-    width: 55%;
-    margin: 0 auto;
-  }
+  /* PANELS */
+  .panel{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:20px 22px 16px;margin-bottom:16px;}
+  .panel-t{font-family:'Barlow Condensed',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--subtext);margin-bottom:16px;}
+  .chart-wrap{width:55%;margin:0 auto;}
+
+  /* PARTNER TAGS */
+  .tag{font-family:'Barlow Condensed',sans-serif;font-size:.74rem;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:2px;}
+  .tag.buyer   {background:rgba(244,63,94,.25);color:var(--red);}
+  .tag.seller  {background:rgba(0,229,160,.22);color:var(--green);}
+  .tag.balanced{background:rgba(155,163,194,.22);color:var(--subtext);}
+  .tag.new     {background:rgba(167,139,250,.25);color:var(--purple);}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- ══════════════════════════════════════
+     HEADER
+══════════════════════════════════════ -->
 <div class="header">
-  <div class="eyebrow">PRP-NE · National Overview · Trading Volume Report</div>
+  <div class="eyebrow">PRP-NE · National Overview · Trading Volume Report · Updated April 2026</div>
   <h1>National <span>Trading</span> Dashboard</h1>
-  <div class="header-sub">NA Sold vs Purchased · PRP-NE vs National Total · Aug 2023 – Feb 2026 · Source: National Sold, National Purchased, NA Historical</div>
+  <div class="header-sub">NA Sold vs Purchased · PRP-NE vs National Total · Partner Rankings · Aug 2023 – Mar 2026</div>
   <div class="header-legend">
     <div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div>NA Sold</div>
     <div class="leg-item"><div class="leg-dot" style="background:var(--yellow)"></div>NA Purchased</div>
     <div class="leg-item"><div class="leg-dot" style="background:var(--blue)"></div>PRP-NE Total</div>
     <div class="leg-item"><div class="leg-dot" style="background:var(--purple)"></div>National Total</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--red)"></div>Net Buyer</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div>Net Seller</div>
   </div>
 </div>
 
 <!-- KPI STRIP -->
 <div class="kpi-strip">
   <div class="kpi">
-    <div class="kpi-lbl">NA Sold — Feb 2026</div>
-    <div class="kpi-val green">2,432</div>
-    <div class="kpi-foot"><span class="badge down">▼ 2.8%</span> vs Jan 2026 (2,501)</div>
+    <div class="kpi-lbl">NA Sold — Mar 2026</div>
+    <div class="kpi-val green">2,764</div>
+    <div class="kpi-foot"><span class="badge up">▲ 13.6%</span> vs Feb 2026 (2,432)</div>
+    <div class="kpi-daily">Daily avg: <span>125.6 / day</span> · 22 working days</div>
   </div>
   <div class="kpi">
-    <div class="kpi-lbl">NA Purchased — Feb 2026</div>
-    <div class="kpi-val yellow">4,994</div>
-    <div class="kpi-foot"><span class="badge down">▼ 8.1%</span> vs Jan 2026 (5,432)</div>
+    <div class="kpi-lbl">NA Purchased — Mar 2026</div>
+    <div class="kpi-val yellow">6,107</div>
+    <div class="kpi-foot"><span class="badge up">▲ 22.3%</span> vs Feb 2026 (4,994)</div>
+    <div class="kpi-daily">Daily avg: <span>277.6 / day</span> · 22 working days</div>
   </div>
   <div class="kpi">
-    <div class="kpi-lbl">National Total — Feb 2026</div>
-    <div class="kpi-val white">7,426</div>
-    <div class="kpi-foot"><span class="badge down">▼ 6.4%</span> vs Jan 2026 (7,933)</div>
+    <div class="kpi-lbl">National Total — Mar 2026</div>
+    <div class="kpi-val white">8,871</div>
+    <div class="kpi-foot"><span class="badge up">▲ 19.4%</span> vs Feb 2026 (7,426)</div>
+    <div class="kpi-daily">Daily avg: <span>403.2 / day</span> · 22 working days</div>
   </div>
   <div class="kpi">
-    <div class="kpi-lbl">PRP-NE — Feb 2026</div>
-    <div class="kpi-val blue">18,835</div>
-    <div class="kpi-foot"><span class="badge down">▼ 5.6%</span> vs Jan 2026 (19,956)</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-lbl">NE as % of National</div>
-    <div class="kpi-val green">71.7%</div>
-    <div class="kpi-foot"><span class="badge flat">Feb 2026</span> 18,835 of 26,261 combined</div>
+    <div class="kpi-lbl">PRP-NE — Mar 2026</div>
+    <div class="kpi-val blue">22,245</div>
+    <div class="kpi-foot"><span class="badge up">▲ 18.1%</span> vs Feb 2026 (18,835)</div>
+    <div class="kpi-daily">Daily avg: <span>1,011.1 / day</span> · 22 working days</div>
   </div>
 </div>
 
 <div class="page">
 
-  <!-- INSIGHTS -->
-  <div class="sec">Key Insights</div>
+  <!-- ── SECTION 1: DAILY AVERAGES ── -->
+  <div class="sec">Daily Averages — Jan, Feb &amp; Mar 2026</div>
+  <div class="daily-grid">
+    <div class="dcard">
+      <div class="dcard-month">January 2026 <span class="wdays">21 working days</span></div>
+      <div class="dcard-rows">
+        <div class="drow"><div><div class="drow-lbl">NA Sold / day</div><div class="drow-sub">2,501 total</div></div><div class="drow-val" style="color:var(--green)">119.1</div></div>
+        <div class="drow"><div><div class="drow-lbl">NA Purchased / day</div><div class="drow-sub">5,432 total</div></div><div class="drow-val" style="color:var(--yellow)">258.7</div></div>
+        <div class="drow"><div><div class="drow-lbl">National Total / day</div><div class="drow-sub">7,933 total</div></div><div class="drow-val" style="color:#fff">377.8</div></div>
+        <div class="drow"><div><div class="drow-lbl">PRP-NE / day</div><div class="drow-sub">19,956 total</div></div><div class="drow-val" style="color:var(--blue)">950.3</div></div>
+      </div>
+    </div>
+    <div class="dcard">
+      <div class="dcard-month">February 2026 <span class="wdays">20 working days</span></div>
+      <div class="dcard-rows">
+        <div class="drow"><div><div class="drow-lbl">NA Sold / day</div><div class="drow-sub">2,432 total</div></div><div class="drow-val" style="color:var(--green)">121.6</div></div>
+        <div class="drow"><div><div class="drow-lbl">NA Purchased / day</div><div class="drow-sub">4,994 total</div></div><div class="drow-val" style="color:var(--yellow)">249.7</div></div>
+        <div class="drow"><div><div class="drow-lbl">National Total / day</div><div class="drow-sub">7,426 total</div></div><div class="drow-val" style="color:#fff">371.3</div></div>
+        <div class="drow"><div><div class="drow-lbl">PRP-NE / day</div><div class="drow-sub">18,835 total</div></div><div class="drow-val" style="color:var(--blue)">941.8</div></div>
+      </div>
+    </div>
+    <div class="dcard latest">
+      <div class="dcard-month">March 2026 <span style="color:var(--green);font-size:.6rem;font-weight:700;">● LATEST</span> <span class="wdays">22 working days</span></div>
+      <div class="dcard-rows">
+        <div class="drow"><div><div class="drow-lbl">NA Sold / day</div><div class="drow-sub">2,764 total</div></div><div class="drow-val" style="color:var(--green)">125.6</div></div>
+        <div class="drow"><div><div class="drow-lbl">NA Purchased / day</div><div class="drow-sub">6,107 total</div></div><div class="drow-val" style="color:var(--yellow)">277.6</div></div>
+        <div class="drow"><div><div class="drow-lbl">National Total / day</div><div class="drow-sub">8,871 total</div></div><div class="drow-val" style="color:#fff">403.2</div></div>
+        <div class="drow"><div><div class="drow-lbl">PRP-NE / day</div><div class="drow-sub">22,245 total</div></div><div class="drow-val" style="color:var(--blue)">1,011.1</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 2: NATIONAL INSIGHTS ── -->
+  <div class="sec">National Overview Insights</div>
   <div class="insights">
     <div class="icard g">
       <div class="icard-eye">📦 NA Sold vs Purchased</div>
-      <div class="icard-body">Purchased consistently runs <strong>~2× Sold</strong> nationally. Feb 2026: Sold <strong>2,432</strong> vs Purchased <strong>4,994</strong>. Both saw a step-change increase starting Jan 2025 — likely new members added nationally.</div>
+      <div class="icard-body">Purchased runs ~<strong>2.2× Sold</strong> nationally. Mar 2026: Sold <strong>2,764</strong> vs Purchased <strong>6,107</strong> — strongest purchased month on record. Daily sold avg hit a new high of <strong>125.6/day</strong>.</div>
     </div>
     <div class="icard y">
       <div class="icard-eye">📊 PRP-NE vs National</div>
-      <div class="icard-body">PRP-NE volume far exceeds the national total — NE consistently represents <strong>~70–75%</strong> of combined activity. National total grew from ~5–6k/mo in 2023–2024 to <strong>7–9k/mo</strong> in 2025.</div>
+      <div class="icard-body">PRP-NE Mar 2026 at <strong>22,245</strong> is the highest recorded month. NE represents ~<strong>71–72%</strong> of combined activity. National total hit <strong>8,871</strong>, also a record.</div>
     </div>
     <div class="icard b">
-      <div class="icard-eye">📈 Growth Trend</div>
-      <div class="icard-body">National totals jumped sharply from <strong>~6,500</strong> (Dec 2024) to <strong>8,655</strong> (Jan 2025) — a +32% surge. PRP-NE has remained relatively stable while national activity expanded.</div>
+      <div class="icard-eye">📈 Daily Rate Milestone</div>
+      <div class="icard-body">Mar 2026 PRP-NE daily avg of <strong>1,011/day</strong> is the first time NE crossed the <strong>1,000/day</strong> threshold. National hit <strong>403/day</strong>, also a new high.</div>
     </div>
   </div>
 
-  <!-- CHART 1: NA Sold vs Purchased -->
+  <!-- ── SECTION 3: NATIONAL TREND CHARTS ── -->
   <div class="sec">NA Sold vs Purchased — Aug 2023 to Present</div>
   <div class="panel">
     <div class="panel-t">Monthly NA Sold vs NA Purchased — Source: National Sold &amp; National Purchased Tabs</div>
-    <div class="chart-wrap">
-      <canvas id="soldVsPurchChart" height="160"></canvas>
-    </div>
+    <div class="chart-wrap"><canvas id="soldVsPurchChart" height="160"></canvas></div>
   </div>
 
-  <!-- CHART 2: PRP-NE vs National Total -->
   <div class="sec">PRP-NE vs National Total — Aug 2023 to Present</div>
   <div class="panel">
     <div class="panel-t">Monthly Volume: PRP-NE Total vs National Total — Source: NA Historical Tab</div>
-    <div class="chart-wrap">
-      <canvas id="neVsNatChart" height="160"></canvas>
+    <div class="chart-wrap"><canvas id="neVsNatChart" height="160"></canvas></div>
+  </div>
+
+  <!-- ── SECTION 4: PARTNER INSIGHTS ── -->
+  <div class="sec">Partner Key Findings — Apr 2025 – Mar 2026</div>
+  <div class="callouts">
+    <div class="ccard g">
+      <div class="ccard-eye">🏆 Biggest Net Sellers</div>
+      <div class="ccard-body"><strong>W. Lakeside</strong> (+1,997) and <strong>Wilberts Inc.</strong> (+1,838) sell into the network with zero purchases — pure contributors. <strong>Bishops</strong> (+864) and <strong>Sawmill</strong> (+673) also consistently net positive.</div>
+    </div>
+    <div class="ccard r">
+      <div class="ccard-eye">📥 Heaviest Net Buyers</div>
+      <div class="ccard-body"><strong>Browns</strong> (–5,260) buys 3.6× what it sells — the most imbalanced partner. <strong>Tolpas</strong> (–3,788) and <strong>Lentini Ringoes</strong> (–3,873) also run deep deficits, each buying 2.9–3.5× their sold volume.</div>
+    </div>
+    <div class="ccard p">
+      <div class="ccard-eye">🆕 Millers — Late Entry</div>
+      <div class="ccard-body"><strong>Millers</strong> joined in Sep 2025 and immediately became one of the largest purchasers — buying <strong>3,544</strong> vs only <strong>766</strong> sold (4.6× ratio), the highest purchase-to-sell ratio of any active partner.</div>
+    </div>
+    <div class="ccard y">
+      <div class="ccard-eye">⚖️ Most Balanced</div>
+      <div class="ccard-body"><strong>Wilberts Hudson Valley</strong> is the most balanced partner (–37 net over 12 months). <strong>Northside</strong> (–214) and <strong>Elm</strong> (–696) also run near 1:1 ratios.</div>
     </div>
   </div>
 
-</div>
+  <!-- ── SECTION 5: PARTNER RANKING CHARTS ── -->
+  <div class="sec">Partner Rankings — 12-Month Sold vs Purchased</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+    <div class="panel" style="margin-bottom:0;">
+      <div class="panel-t">Ranked by 12-Month Sold Volume (High → Low)</div>
+      <canvas id="rankSoldChart"></canvas>
+    </div>
+    <div class="panel" style="margin-bottom:0;">
+      <div class="panel-t">Ranked by 12-Month Purchased Volume (High → Low)</div>
+      <canvas id="rankPurchChart"></canvas>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-t">Combined Comparison — Sold &amp; Purchased Together · Sorted by Total Volume</div>
+    <canvas id="rankBothChart"></canvas>
+  </div>
+
+</div><!-- end .page -->
 
 <script>
-// ════════════════════════════════════
-// REGISTER DATALABELS PLUGIN
-// ════════════════════════════════════
 Chart.register(ChartDataLabels);
+Chart.defaults.font.family = "'Barlow Condensed',sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#6b7399';
 
-// ════════════════════════════════════
-// DATA — from NA Historical (Aug 2023 → Feb 2026)
-// ════════════════════════════════════
+// ── SHARED HELPERS
+const TTP  = {backgroundColor:'#1c1f2e',borderColor:'#3a4060',borderWidth:1,titleColor:'#fff',bodyColor:'#dde2f0',padding:11,cornerRadius:3};
+const TTP2 = {backgroundColor:'#1c1f2e',borderColor:'#3a4060',borderWidth:1,titleColor:'#fff',bodyColor:'#dde2f0',padding:10,cornerRadius:3};
+const GRID = {color:'rgba(58,64,96,0.9)',drawBorder:false};
+const TICKS= {color:'#9aa3c2',font:{size:11,family:"'Barlow Condensed',sans-serif"}};
+const DL_TOP = {anchor:'end',align:'top',offset:2,color:'rgba(255,255,255,0.9)',font:{size:9,family:"'Barlow Condensed',sans-serif",weight:'700'},formatter:v=>v>=1000?(v/1000).toFixed(1)+'k':v};
+const DL_OFF = {display:false};
+
+// ════════════════════════
+// NATIONAL TREND CHARTS
+// ════════════════════════
 const LABELS = [
   'Aug 23','Sep 23','Oct 23','Nov 23','Dec 23',
   'Jan 24','Feb 24','Mar 24','Apr 24','May 24','Jun 24','Jul 24','Aug 24','Sep 24','Oct 24','Nov 24','Dec 24',
   'Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25',
-  'Jan 26','Feb 26'
+  'Jan 26','Feb 26','Mar 26'
+];
+const NA_SOLD  = [1532,1431,1773,1761,1652,1999,1962,1927,1902,1906,1778,1872,1971,1897,2316,1933,1954,2954,2706,2745,3051,2983,2990,3252,3078,2529,2753,2197,2382,2501,2432,2764];
+const NA_PURCH = [4005,3569,4195,3832,3752,4371,4026,4113,4290,4302,4092,4107,4347,4136,4876,4232,4575,5701,5231,5342,5487,5584,5640,5997,5875,5878,6036,4934,5177,5432,4994,6107];
+const NAT_TOTAL= [5537,5000,5968,5593,5404,6370,5988,6040,6192,6208,5870,5979,6318,6033,7192,6165,6529,8655,7937,8087,8538,8567,8630,9249,8953,8407,8789,7131,7559,7933,7426,8871];
+const PRP_NE   = [18425,15985,18206,16947,15875,18843,18228,18386,18283,18513,17194,18194,18328,17636,20183,16628,16597,20697,18298,19851,18029,17484,18041,19849,18910,19236,21534,17544,19800,19956,18835,22245];
+const N = LABELS.length;
+function mkC(base,bright){return LABELS.map((_,i)=>i===N-1?bright:base);}
+
+new Chart(document.getElementById('soldVsPurchChart'),{type:'bar',data:{labels:LABELS,datasets:[
+  {label:'NA Sold',data:NA_SOLD,backgroundColor:mkC('rgba(0,229,160,0.65)','rgba(0,229,160,1)'),borderRadius:0,borderSkipped:false,barPercentage:0.88,categoryPercentage:0.92,datalabels:DL_OFF},
+  {label:'NA Purchased',data:NA_PURCH,backgroundColor:mkC('rgba(245,200,66,0.62)','rgba(245,200,66,1)'),borderRadius:3,borderSkipped:false,barPercentage:0.88,categoryPercentage:0.92,datalabels:DL_TOP}
+]},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{
+  legend:{labels:{color:'#6b7399',font:{size:11,family:"'Barlow Condensed',sans-serif"},boxWidth:12,padding:16}},
+  tooltip:{...TTP,callbacks:{label:c=>`  ${c.dataset.label}: ${c.raw.toLocaleString()}`,footer:items=>`  Total: ${items.reduce((s,i)=>s+i.raw,0).toLocaleString()}`}}
+},scales:{x:{stacked:true,grid:{display:false},ticks:{...TICKS,maxRotation:45}},y:{stacked:true,grid:GRID,ticks:{...TICKS,callback:v=>(v/1000).toFixed(0)+'k'},min:0}}}});
+
+new Chart(document.getElementById('neVsNatChart'),{type:'bar',data:{labels:LABELS,datasets:[
+  {label:'National Total',data:NAT_TOTAL,backgroundColor:mkC('rgba(167,139,250,0.62)','rgba(167,139,250,1)'),borderRadius:0,borderSkipped:false,barPercentage:0.88,categoryPercentage:0.92,datalabels:DL_OFF},
+  {label:'PRP-NE Total',data:PRP_NE,backgroundColor:mkC('rgba(56,189,248,0.65)','rgba(56,189,248,1)'),borderRadius:3,borderSkipped:false,barPercentage:0.88,categoryPercentage:0.92,datalabels:DL_TOP}
+]},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{
+  legend:{labels:{color:'#6b7399',font:{size:11,family:"'Barlow Condensed',sans-serif"},boxWidth:12,padding:16}},
+  tooltip:{...TTP,callbacks:{label:c=>`  ${c.dataset.label}: ${c.raw.toLocaleString()}`,footer:items=>`  Total: ${items.reduce((s,i)=>s+i.raw,0).toLocaleString()}`}}
+},scales:{x:{stacked:true,grid:{display:false},ticks:{...TICKS,maxRotation:45}},y:{stacked:true,grid:GRID,ticks:{...TICKS,callback:v=>(v/1000).toFixed(0)+'k'},min:0}}}});
+
+// ════════════════════════
+// PARTNER RANKING CHARTS
+// ════════════════════════
+const RANK_DATA = [
+  {name:'BOW',               sold:3533,purch:6006},
+  {name:'GOYETTES',          sold:3700,purch:5779},
+  {name:'CORNELLS',          sold:2557,purch:3792},
+  {name:'BISHOPS',           sold:2332,purch:1468},
+  {name:'TOLPAS',            sold:2004,purch:5792},
+  {name:'W. LAKESIDE',       sold:1997,purch:0},
+  {name:'BROWNS',            sold:1996,purch:7256},
+  {name:'WILBERTS Inc.',     sold:1838,purch:0},
+  {name:'CHUCKS Y',          sold:1801,purch:4780},
+  {name:'LENTINI RINGOES',   sold:1549,purch:5422},
+  {name:'ELM',               sold:1528,purch:2224},
+  {name:'LENTINI PORT MURRAY',sold:1403,purch:2942},
+  {name:'CHUCKS D',          sold:1387,purch:3998},
+  {name:'SAWMILL',           sold:1155,purch:482},
+  {name:'MILLERS',           sold:766, purch:3544},
+  {name:'DINGS',             sold:955, purch:2092},
+  {name:'ALLIANCE',          sold:865, purch:1849},
+  {name:'NORTHSIDE',         sold:717, purch:931},
+  {name:'W. HUDSON VALLEY',  sold:675, purch:712},
+  {name:'C&H',               sold:149, purch:211},
 ];
 
-const NA_SOLD = [
-  1532,1431,1773,1761,1652,
-  1999,1962,1927,1902,1906,1778,1872,1971,1897,2316,1933,1954,
-  2954,2706,2745,3051,2983,2990,3252,3078,2529,2753,2197,2382,
-  2501,2432
-];
+const DL_RANK = {anchor:'end',align:'end',offset:2,color:'rgba(255,255,255,0.88)',font:{size:10,family:"'Barlow Condensed',sans-serif",weight:'700'},formatter:v=>v>0?v.toLocaleString():''};
+const Y_TICKS = {color:'#dde2f0',font:{size:11,family:"'Barlow Condensed',sans-serif",weight:'600'}};
 
-const NA_PURCH = [
-  4005,3569,4195,3832,3752,
-  4371,4026,4113,4290,4302,4092,4107,4347,4136,4876,4232,4575,
-  5701,5231,5342,5487,5584,5640,5997,5875,5878,6036,4934,5177,
-  5432,4994
-];
+// Chart 1 — ranked by sold
+const bySold = [...RANK_DATA].sort((a,b)=>b.sold-a.sold);
+new Chart(document.getElementById('rankSoldChart'),{type:'bar',data:{labels:bySold.map(d=>d.name),datasets:[
+  {label:'Sold',      data:bySold.map(d=>d.sold), backgroundColor:'rgba(0,229,160,0.85)', borderRadius:3,borderSkipped:false,barPercentage:0.55,categoryPercentage:0.85,datalabels:DL_RANK},
+  {label:'Purchased', data:bySold.map(d=>d.purch),backgroundColor:'rgba(245,200,66,0.70)',borderRadius:3,borderSkipped:false,barPercentage:0.55,categoryPercentage:0.85,datalabels:DL_RANK}
+]},options:{indexAxis:'y',responsive:true,plugins:{
+  legend:{labels:{color:'#dde2f0',font:{size:12,family:"'Barlow Condensed',sans-serif"},boxWidth:11,padding:12}},
+  tooltip:{...TTP2,callbacks:{label:c=>`  ${c.dataset.label}: ${c.raw.toLocaleString()}`}}
+},scales:{x:{grid:{color:'rgba(58,64,96,0.8)'},ticks:{color:'#9aa3c2',font:{size:11},callback:v=>v.toLocaleString()},min:0},y:{grid:{display:false},ticks:Y_TICKS}}}});
 
-const NAT_TOTAL = [
-  5537,5000,5968,5593,5404,
-  6370,5988,6040,6192,6208,5870,5979,6318,6033,7192,6165,6529,
-  8655,7937,8087,8538,8567,8630,9249,8953,8407,8789,7131,7559,
-  7933,7426
-];
+// Chart 2 — ranked by purchased
+const byPurch = [...RANK_DATA].sort((a,b)=>b.purch-a.purch);
+new Chart(document.getElementById('rankPurchChart'),{type:'bar',data:{labels:byPurch.map(d=>d.name),datasets:[
+  {label:'Purchased', data:byPurch.map(d=>d.purch),backgroundColor:'rgba(245,200,66,0.85)',borderRadius:3,borderSkipped:false,barPercentage:0.55,categoryPercentage:0.85,datalabels:DL_RANK},
+  {label:'Sold',      data:byPurch.map(d=>d.sold), backgroundColor:'rgba(0,229,160,0.65)', borderRadius:3,borderSkipped:false,barPercentage:0.55,categoryPercentage:0.85,datalabels:DL_RANK}
+]},options:{indexAxis:'y',responsive:true,plugins:{
+  legend:{labels:{color:'#dde2f0',font:{size:12,family:"'Barlow Condensed',sans-serif"},boxWidth:11,padding:12}},
+  tooltip:{...TTP2,callbacks:{label:c=>`  ${c.dataset.label}: ${c.raw.toLocaleString()}`}}
+},scales:{x:{grid:{color:'rgba(58,64,96,0.8)'},ticks:{color:'#9aa3c2',font:{size:11},callback:v=>v.toLocaleString()},min:0},y:{grid:{display:false},ticks:Y_TICKS}}}});
 
-const PRP_NE = [
-  18425,15985,18206,16947,15875,
-  18843,18228,18386,18283,18513,17194,18194,18328,17636,20183,16628,16597,
-  20697,18298,19851,18029,17484,18041,19849,18910,19236,21534,17544,19800,
-  19956,18835
-];
-
-// ════════════════════════════════════
-// CHART.JS DEFAULTS
-// ════════════════════════════════════
-Chart.defaults.font.family = "'Barlow Condensed', sans-serif";
-Chart.defaults.font.size = 11;
-Chart.defaults.color = '#6b7399';
-
-const TTP = {
-  backgroundColor: '#1c1f2e',
-  borderColor: '#2a2f48',
-  borderWidth: 1,
-  titleColor: '#fff',
-  bodyColor: '#c8cfe8',
-  padding: 11,
-  cornerRadius: 3
-};
-const GRID = { color: 'rgba(42,47,72,0.8)', drawBorder: false };
-const TICKS = { color: '#6b7399', font: { size: 10, family: "'Barlow Condensed', sans-serif" } };
-
-const SHARED_OPTS = {
-  responsive: true,
-  interaction: { mode: 'index', intersect: false },
-  plugins: {
-    legend: {
-      labels: {
-        color: '#6b7399',
-        font: { size: 11, family: "'Barlow Condensed', sans-serif" },
-        boxWidth: 12, padding: 18
-      }
-    },
-    tooltip: {
-      ...TTP,
-      callbacks: {
-        label: c => `  ${c.dataset.label}: ${c.raw.toLocaleString()}`,
-        footer: items => {
-          const total = items.reduce((s, i) => s + i.raw, 0);
-          return `  Total: ${total.toLocaleString()}`;
-        }
-      }
-    }
-  },
-  scales: {
-    x: {
-      stacked: true,
-      grid: { display: false },
-      ticks: { ...TICKS, maxRotation: 45 }
-    },
-    y: {
-      stacked: true,
-      grid: GRID,
-      ticks: { ...TICKS, callback: v => v.toLocaleString() },
-      min: 0
-    }
-  }
-};
-
-// shared datalabel config — only show on top segment
-const DL_TOP = {
-  anchor: 'end',
-  align: 'top',
-  offset: 2,
-  color: 'rgba(255,255,255,0.82)',
-  font: { size: 8, family: "'Barlow Condensed', sans-serif", weight: '700' },
-  formatter: v => v >= 1000 ? (v/1000).toFixed(1)+'k' : v
-};
-const DL_OFF = { display: false };
-
-// ════════════════════════════════════
-// CHART 1 — NA SOLD vs PURCHASED (stacked)
-// ════════════════════════════════════
-new Chart(document.getElementById('soldVsPurchChart'), {
-  type: 'bar',
-  data: {
-    labels: LABELS,
-    datasets: [
-      {
-        label: 'NA Sold',
-        data: NA_SOLD,
-        backgroundColor: 'rgba(0,229,160,0.88)',
-        borderRadius: 0,
-        borderSkipped: false,
-        barPercentage: 0.88,
-        categoryPercentage: 0.92,
-        datalabels: DL_OFF
-      },
-      {
-        label: 'NA Purchased',
-        data: NA_PURCH,
-        backgroundColor: 'rgba(245,200,66,0.82)',
-        borderRadius: 3,
-        borderSkipped: false,
-        barPercentage: 0.88,
-        categoryPercentage: 0.92,
-        datalabels: DL_TOP
-      }
-    ]
-  },
-  options: SHARED_OPTS
-});
-
-// ════════════════════════════════════
-// CHART 2 — PRP-NE vs NATIONAL TOTAL (stacked)
-// ════════════════════════════════════
-new Chart(document.getElementById('neVsNatChart'), {
-  type: 'bar',
-  data: {
-    labels: LABELS,
-    datasets: [
-      {
-        label: 'National Total',
-        data: NAT_TOTAL,
-        backgroundColor: 'rgba(167,139,250,0.82)',
-        borderRadius: 0,
-        borderSkipped: false,
-        barPercentage: 0.88,
-        categoryPercentage: 0.92,
-        datalabels: DL_OFF
-      },
-      {
-        label: 'PRP-NE Total',
-        data: PRP_NE,
-        backgroundColor: 'rgba(56,189,248,0.85)',
-        borderRadius: 3,
-        borderSkipped: false,
-        barPercentage: 0.88,
-        categoryPercentage: 0.92,
-        datalabels: DL_TOP
-      }
-    ]
-  },
-  options: SHARED_OPTS
-});
+// Chart 3 — combined, sorted by total
+const byTotal = [...RANK_DATA].sort((a,b)=>(b.sold+b.purch)-(a.sold+a.purch));
+new Chart(document.getElementById('rankBothChart'),{type:'bar',data:{labels:byTotal.map(d=>d.name),datasets:[
+  {label:'Sold',      data:byTotal.map(d=>d.sold), backgroundColor:'rgba(0,229,160,0.85)', borderRadius:3,borderSkipped:false,barPercentage:0.7,categoryPercentage:0.85,datalabels:DL_RANK},
+  {label:'Purchased', data:byTotal.map(d=>d.purch),backgroundColor:'rgba(245,200,66,0.78)',borderRadius:3,borderSkipped:false,barPercentage:0.7,categoryPercentage:0.85,datalabels:DL_RANK}
+]},options:{indexAxis:'y',responsive:true,plugins:{
+  legend:{labels:{color:'#dde2f0',font:{size:12,family:"'Barlow Condensed',sans-serif"},boxWidth:11,padding:14}},
+  tooltip:{...TTP2,callbacks:{label:c=>`  ${c.dataset.label}: ${c.raw.toLocaleString()}`,footer:items=>`  Total: ${items.reduce((s,i)=>s+i.raw,0).toLocaleString()}`}}
+},scales:{x:{grid:{color:'rgba(58,64,96,0.8)'},ticks:{color:'#9aa3c2',font:{size:11},callback:v=>v.toLocaleString()},min:0,max:14000},y:{grid:{display:false},ticks:{...Y_TICKS,font:{size:12,family:"'Barlow Condensed',sans-serif",weight:'600'}}}}}});;
 </script>
 </body>
 </html>

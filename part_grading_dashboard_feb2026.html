@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Part Grading Dashboard — February 2026</title>
+<title>Part Grading Dashboard — March 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -289,10 +289,10 @@
     <div class="header-left">
       <div class="header-label">PRP-NE · Part Grade Report</div>
       <div class="header-title">Part Grading <span>Dashboard</span></div>
-      <div class="header-sub">2026-02-01 → 2026-02-28 · All Sites</div>
+      <div class="header-sub">2026-03-01 → 2026-03-31 · All Sites</div>
     </div>
     <div class="header-badge">
-      <strong>599</strong>
+      <strong>738</strong>
       Total Grade Events
     </div>
   </div>
@@ -301,23 +301,23 @@
   <div class="kpi-row">
     <div class="kpi k-total">
       <div class="kpi-label">Total Grades</div>
-      <div class="kpi-val yellow">599</div>
-      <div class="kpi-sub">Feb 2026</div>
+      <div class="kpi-val yellow">738</div>
+      <div class="kpi-sub">Mar 2026</div>
     </div>
     <div class="kpi k-yard">
       <div class="kpi-label">Yard Grades</div>
-      <div class="kpi-val cyan">579</div>
-      <div class="kpi-sub">96.66% of total</div>
+      <div class="kpi-val cyan">619</div>
+      <div class="kpi-sub">83.88% of total</div>
     </div>
     <div class="kpi k-carrier">
       <div class="kpi-label">Carrier Grades</div>
-      <div class="kpi-val red">20</div>
-      <div class="kpi-sub">3.34% of total</div>
+      <div class="kpi-val red">119</div>
+      <div class="kpi-sub">16.12% of total</div>
     </div>
     <div class="kpi k-top">
       <div class="kpi-label">Top Issue</div>
       <div class="kpi-val purple" style="font-size:20px; line-height:1.3">Not as Described</div>
-      <div class="kpi-sub">449 grades · 74.96%</div>
+      <div class="kpi-sub">485 grades · 65.76%</div>
     </div>
     <div class="kpi k-sites">
       <div class="kpi-label">Active Sites</div>
@@ -326,135 +326,17 @@
     </div>
   </div>
 
-  <!-- Row 1: Donut + Source split + Tier breakdown -->
-  <div class="grid-3">
-    <!-- Donut: Yard vs Carrier -->
+  <!-- Row 1: Grade Tier Breakdown bar chart -->
+  <div class="grid-full" style="margin-bottom:18px;">
     <div class="card">
-      <div class="card-title"><span class="dot cyan"></span>Source Split</div>
-      <div class="source-split">
-        <div class="split-block">
-          <div class="split-label">Yard</div>
-          <div class="split-num">579</div>
-          <div class="split-pct">96.66%</div>
-        </div>
-        <div class="split-block carrier-block">
-          <div class="split-label">Carrier</div>
-          <div class="split-num">20</div>
-          <div class="split-pct">3.34%</div>
-        </div>
-      </div>
-      <div style="margin-top:18px;">
-        <div class="chart-wrap donut">
-          <canvas id="donutChart"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tier breakdown by grade type -->
-    <div class="card" style="grid-column: span 2;">
       <div class="card-title"><span class="dot"></span>Grade Tier Breakdown — All Sites</div>
-      <table class="tier-table">
-        <thead>
-          <tr>
-            <th>Tier / Subtier</th>
-            <th>Yard</th>
-            <th>Carrier</th>
-            <th>Total</th>
-            <th style="text-align:right">% Share</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><div class="tier-name" style="font-weight:700; color:var(--accent)">Total</div></td>
-            <td><span class="tag-yard">579</span></td>
-            <td><span class="tag-carrier">20</span></td>
-            <td style="font-weight:700; color:var(--accent); font-family:'DM Mono',monospace">599</td>
-            <td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>100.0%</div></td>
-          </tr>
-          <tr>
-            <td><div class="tier-name">Not as Described</div><div class="tier-sub">Yard only</div></td>
-            <td><span class="tag-yard">449</span></td>
-            <td>—</td>
-            <td>449</td>
-            <td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:75%"></div></div>74.96%</div></td>
-          </tr>
-          <tr>
-            <td><div class="tier-name">Incorrect Part Sent</div><div class="tier-sub">Yard only</div></td>
-            <td><span class="tag-yard">51</span></td>
-            <td>—</td>
-            <td>51</td>
-            <td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:8.5%"></div></div>8.51%</div></td>
-          </tr>
-          <tr>
-            <td><div class="tier-name">Part Not Prepared to Industry Standard</div></td>
-            <td><span class="tag-yard">42</span></td>
-            <td>—</td>
-            <td>42</td>
-            <td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:7%"></div></div>7.01%</div></td>
-          </tr>
-          <tr>
-            <td><div class="tier-name">Failure To Meet Minimum Packaging Stds</div></td>
-            <td><span class="tag-yard">34</span></td>
-            <td>—</td>
-            <td>34</td>
-            <td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:5.7%"></div></div>5.68%</div></td>
-          </tr>
-          <tr>
-            <td><div class="tier-name">Part Damaged in Transit</div><div class="tier-sub">Carrier</div></td>
-            <td>—</td>
-            <td><span class="tag-carrier">20</span></td>
-            <td>20</td>
-            <td><div class="pct-bar"><div class="bar-track"><div class="bar-fill red" style="width:3.3%"></div></div>3.34%</div></td>
-          </tr>
-          <tr>
-            <td><div class="tier-name">Shipped to Wrong Location</div></td>
-            <td><span class="tag-yard">2</span></td>
-            <td>—</td>
-            <td>2</td>
-            <td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:0.3%"></div></div>0.33%</div></td>
-          </tr>
-          <tr>
-            <td><div class="tier-name">Shipped Late</div></td>
-            <td><span class="tag-yard">1</span></td>
-            <td>—</td>
-            <td>1</td>
-            <td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:0.2%"></div></div>0.17%</div></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Row 2: Horizontal bar chart for sites -->
-  <div class="section-label">By Selling Site</div>
-  <div class="grid-2">
-    <div class="card">
-      <div class="card-title"><span class="dot green"></span>Total Grades by Site — Top 21</div>
-      <div class="chart-wrap tall">
-        <canvas id="siteBarChart"></canvas>
+      <div style="position:relative; height:280px;">
+        <canvas id="tierBarChart"></canvas>
       </div>
     </div>
-
-    <!-- Site table -->
-    <div class="card">
-      <div class="card-title"><span class="dot purple"></span>Site Detail — Yard vs Carrier</div>
-      <table class="site-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Site</th>
-            <th>Yard</th>
-            <th>Carrier</th>
-            <th>Total</th>
-            <th>Share</th>
-          </tr>
-        </thead>
-        <tbody id="siteTableBody"></tbody>
-      </table>
-    </div>
   </div>
 
-  <!-- Row 3: Packaging breakdown + Incorrect Part detail -->
+    <!-- Row 3: Packaging breakdown + Incorrect Part detail -->
   <div class="section-label">Issue Detail</div>
   <div class="grid-2">
     <div class="card">
@@ -463,8 +345,8 @@
         <canvas id="packagingChart"></canvas>
       </div>
       <div class="insight-row">
-        <div class="insight-chip"><span class="ic">📦</span> 34 total packaging failures</div>
-        <div class="insight-chip"><span class="ic">⚠️</span> 5.68% of all grades</div>
+        <div class="insight-chip"><span class="ic">📦</span> 41 total packaging failures</div>
+        <div class="insight-chip"><span class="ic">⚠️</span> 5.56% of all grades</div>
       </div>
     </div>
 
@@ -484,9 +366,9 @@
         <canvas id="carrierChart"></canvas>
       </div>
       <div class="insight-row" style="margin-top:12px;">
-        <div class="insight-chip"><span class="ic">🚚</span> All 20 carrier grades = Part Damaged in Transit</div>
-        <div class="insight-chip"><span class="ic">📍</span> 12 sites had zero carrier grades</div>
-        <div class="insight-chip"><span class="ic">🔴</span> Tolpa's Auto Parts led with 3 carrier grades</div>
+        <div class="insight-chip"><span class="ic">🚚</span> All 119 carrier grades = Part Damaged in Transit</div>
+        <div class="insight-chip"><span class="ic">📍</span> 1 site had zero carrier grades (Wilbert's OH Akron)</div>
+        <div class="insight-chip"><span class="ic">🔴</span> Bow Auto Parts led with 12 carrier grades</div>
       </div>
     </div>
   </div>
@@ -502,9 +384,9 @@
         <canvas id="allSitesGradeChart"></canvas>
       </div>
       <div class="insight-row" style="margin-top:14px;">
-        <div class="insight-chip"><span class="ic">🏆</span> Cornell's leads at 90 grades</div>
-        <div class="insight-chip"><span class="ic">📊</span> Top 4 sites = 46% of all grades</div>
-        <div class="insight-chip"><span class="ic">💡</span> Stacked by grade type where detail available</div>
+        <div class="insight-chip"><span class="ic">🏆</span> Cornell's leads at 106 grades</div>
+        <div class="insight-chip"><span class="ic">📊</span> Top 4 sites = 40% of all grades</div>
+        <div class="insight-chip"><span class="ic">✅</span> All 21 sites have 100% verified tier data</div>
       </div>
     </div>
   </div>
@@ -578,16 +460,80 @@
       </div>
       <div style="margin-top:10px; padding:8px 10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--accent);">
         <span style="font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--text-muted);">
-          ⚠ The source report (Report #90) expanded subtier detail for 4 sites only — remaining sites show totals distributed proportionally based on network-wide ratios from Report #30.
+          ⚠ March 2026: All 21 sites have 100% verified tier data directly from Report #90. No estimates used.
         </span>
       </div>
     </div>
   </div>
 
+  <!-- Row 6: Normalized Grade Rates -->
+  <div class="section-label">Grade Rate — Normalized by Volume</div>
+  <div class="grid-full" style="margin-bottom:18px;">
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--accent)"></span>Grades per 100 Parts Sold — March 2026 · Adjusted for Site Volume</div>
+
+      <!-- Toggle -->
+      <div class="filter-tabs" id="rateTabs" style="margin-bottom:18px;">
+        <button class="ftab active" data-rate="sold">Per 100 Parts Sold</button>
+        <button class="ftab" data-rate="purch">Per 100 Parts Purchased</button>
+        <button class="ftab" data-rate="raw">Raw Grade Count</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+        <!-- Bar chart -->
+        <div>
+          <div style="position:relative;height:420px;">
+            <canvas id="rateChart"></canvas>
+          </div>
+        </div>
+        <!-- Table -->
+        <div style="overflow-y:auto;max-height:440px;">
+          <table class="matrix-table" id="rateTable">
+            <thead>
+              <tr>
+                <th class="site-col" style="text-align:left">Site</th>
+                <th style="text-align:right">Grades</th>
+                <th style="text-align:right">Parts Sold</th>
+                <th style="text-align:right">Rate/100 Sold</th>
+                <th style="text-align:right">Parts Purch</th>
+                <th style="text-align:right">Rate/100 Purch</th>
+              </tr>
+            </thead>
+            <tbody id="rateTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="insight-row" style="margin-top:16px;">
+        <div class="insight-chip"><span class="ic">⚠️</span> Saw Mill: 7.48 grades per 100 sold — highest rate</div>
+        <div class="insight-chip"><span class="ic">✅</span> Brown's: 1.38 per 100 sold — lowest rate</div>
+        <div class="insight-chip"><span class="ic">📊</span> Cornell's drops from #1 raw to #7 by rate</div>
+        <div class="insight-chip"><span class="ic">💡</span> Goyette's #2 raw but #2 by rate too — consistent issue</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 6: Top 10 Part Types from Report #60 -->
+  <div class="section-label">Top Graded Part Types</div>
+  <div class="grid-full" style="margin-bottom:18px;">
+    <div class="card">
+      <div class="card-title"><span class="dot" style="background:var(--accent)"></span>Top 10 Most Graded Part Types — March 2026 · Report #60</div>
+      <div style="position:relative; height:320px;">
+        <canvas id="partTypeChart"></canvas>
+      </div>
+      <div class="insight-row" style="margin-top:14px;">
+        <div class="insight-chip"><span class="ic">💡</span> Headlamps (L+R) = 103 grades combined</div>
+        <div class="insight-chip"><span class="ic">🚪</span> All door variants = 157 grades combined</div>
+        <div class="insight-chip"><span class="ic">🔧</span> Top 10 parts account for 441 of 738 total grades</div>
+      </div>
+    </div>
+  </div>
+
   <div class="footer">
-    PRP-NE · Part Grading Report · February 2026 · Reports #30 & #90 · Generated by Dashboard Tool
+    PRP-NE · Part Grading Report · March 2026 · Reports #30, #60 & #90 · Generated by Dashboard Tool
   </div>
 </div>
+
 <script>
 const CYAN = '#4fc4cf';
 const RED = '#e05c5c';
@@ -600,124 +546,100 @@ Chart.defaults.color = '#6b7280';
 Chart.defaults.font.family = "'Rajdhani', sans-serif";
 Chart.defaults.font.size = 11;
 
-// ── Site data (Yard vs Carrier) ───────────────────────────────────────
+// ── March 2026 site data — 100% verified from Report #90 ──────────────
 const siteData = [
-  { name: "Cornell's Auto Parts",    yard: 88, carrier: 2,  total: 90 },
-  { name: "Goyette's",               yard: 71, carrier: 0,  total: 71 },
-  { name: "Alliance Auto Parts",     yard: 47, carrier: 1,  total: 48 },
-  { name: "Brown's Auto Salvage",    yard: 41, carrier: 1,  total: 42 },
-  { name: "Bishop's Auto Parts",     yard: 39, carrier: 2,  total: 41 },
-  { name: "Lentini - Ringoes",       yard: 29, carrier: 1,  total: 30 },
-  { name: "Lentini - Port Murray",   yard: 28, carrier: 0,  total: 28 },
-  { name: "Chuck's - Douglassville", yard: 27, carrier: 2,  total: 29 },
-  { name: "Tolpa's Auto Parts",      yard: 26, carrier: 3,  total: 29 },
-  { name: "Bow Auto Parts",          yard: 24, carrier: 1,  total: 25 },
-  { name: "Wilbert's - Ontario",     yard: 24, carrier: 0,  total: 24 },
-  { name: "Wilbert's - Webster",     yard: 21, carrier: 1,  total: 22 },
-  { name: "EL&M Auto Parts",         yard: 20, carrier: 0,  total: 20 },
-  { name: "Miller's Auto Recycling", yard: 20, carrier: 0,  total: 20 },
-  { name: "Chuck's - York",          yard: 16, carrier: 2,  total: 18 },
-  { name: "Saw Mill Auto Wreckers",  yard: 17, carrier: 1,  total: 18 },
-  { name: "Northside Salvage Yard",  yard: 16, carrier: 1,  total: 17 },
-  { name: "Ding's Auto Parts",       yard: 10, carrier: 2,  total: 12 },
-  { name: "C&H Salvage",             yard:  8, carrier: 0,  total:  8 },
-  { name: "Wilbert's - Hudson Valley", yard: 5, carrier: 0, total:  5 },
-  { name: "Wilbert's - OH Akron",    yard:  2, carrier: 0,  total:  2 },
-].sort((a, b) => b.total - a.total);
+  { name: "Cornell's Auto Parts",     yard:97,  carrier:9,  total:106 },
+  { name: "Goyette's",                yard:81,  carrier:9,  total:90  },
+  { name: "Bishop's Auto Parts",      yard:47,  carrier:8,  total:55  },
+  { name: "Bow Auto Parts",           yard:35,  carrier:12, total:47  },
+  { name: "Tolpa's Auto Parts",       yard:37,  carrier:7,  total:44  },
+  { name: "Alliance Auto Parts",      yard:37,  carrier:6,  total:43  },
+  { name: "Lentini - Ringoes",        yard:26,  carrier:11, total:37  },
+  { name: "Miller's Auto Recycling",  yard:25,  carrier:9,  total:34  },
+  { name: "Brown's Auto Salvage",     yard:26,  carrier:4,  total:30  },
+  { name: "Chuck's - York",           yard:22,  carrier:7,  total:29  },
+  { name: "Lentini - Port Murray",    yard:26,  carrier:3,  total:29  },
+  { name: "Wilbert's - Ontario",      yard:23,  carrier:5,  total:28  },
+  { name: "Saw Mill Auto Wreckers",   yard:24,  carrier:3,  total:27  },
+  { name: "Wilbert's - Webster",      yard:18,  carrier:8,  total:26  },
+  { name: "Northside Salvage Yard",   yard:23,  carrier:1,  total:24  },
+  { name: "Chuck's - Douglassville",  yard:18,  carrier:4,  total:22  },
+  { name: "EL&M Auto Parts",          yard:16,  carrier:5,  total:21  },
+  { name: "Ding's Auto Parts",        yard:12,  carrier:4,  total:16  },
+  { name: "C&H Salvage",              yard:11,  carrier:2,  total:13  },
+  { name: "Wilbert's - OH Akron",     yard:10,  carrier:0,  total:10  },
+  { name: "Wilbert's - Hudson Valley",yard:5,   carrier:2,  total:7   },
+];
 
-// ── Full grade detail per site ────────────────────────────────────────
-// actual=true: subtier counts verified directly from Report #90 source file
-// actual=false: proportionally estimated from Report #30 network-wide ratios
+// ── Full grade detail — all actual from Report #90 ────────────────────
 const fullSiteData = [
-  { name: "Cornell's Auto Parts",      nad:68, ips:8,  nps:6, pkg:5, pdit:2, other:1, total:90,  actual:false },
-  { name: "Goyette's",                 nad:54, ips:6,  nps:5, pkg:4, pdit:0, other:2, total:71,  actual:false },
-  { name: "Alliance Auto Parts",       nad:38, ips:5,  nps:3, pkg:1, pdit:1, other:0, total:48,  actual:true  },
-  { name: "Brown's Auto Salvage",      nad:30, ips:6,  nps:4, pkg:1, pdit:1, other:0, total:42,  actual:true  },
-  { name: "Bishop's Auto Parts",       nad:33, ips:2,  nps:3, pkg:1, pdit:2, other:0, total:41,  actual:true  },
-  { name: "Lentini - Ringoes",         nad:23, ips:3,  nps:2, pkg:2, pdit:1, other:0, total:30,  actual:false },
-  { name: "Lentini - Port Murray",     nad:21, ips:2,  nps:2, pkg:2, pdit:0, other:1, total:28,  actual:false },
-  { name: "Chuck's - Douglassville",   nad:22, ips:2,  nps:2, pkg:2, pdit:2, other:0, total:29,  actual:false },
-  { name: "Tolpa's Auto Parts",        nad:22, ips:2,  nps:2, pkg:2, pdit:1, other:0, total:29,  actual:false },
-  { name: "Bow Auto Parts",            nad:19, ips:3,  nps:0, pkg:1, pdit:1, other:1, total:25,  actual:true  },
-  { name: "Wilbert's - Ontario",       nad:18, ips:2,  nps:2, pkg:1, pdit:0, other:1, total:24,  actual:false },
-  { name: "Wilbert's - Webster",       nad:17, ips:2,  nps:2, pkg:1, pdit:1, other:0, total:22,  actual:false },
-  { name: "EL&M Auto Parts",           nad:15, ips:2,  nps:1, pkg:1, pdit:0, other:1, total:20,  actual:false },
-  { name: "Miller's Auto Recycling",   nad:15, ips:2,  nps:1, pkg:1, pdit:0, other:1, total:20,  actual:false },
-  { name: "Chuck's - York",            nad:14, ips:2,  nps:1, pkg:0, pdit:1, other:0, total:18,  actual:false },
-  { name: "Saw Mill Auto Wreckers",    nad:14, ips:2,  nps:1, pkg:0, pdit:1, other:0, total:18,  actual:false },
-  { name: "Northside Salvage Yard",    nad:13, ips:1,  nps:1, pkg:1, pdit:1, other:0, total:17,  actual:false },
-  { name: "Ding's Auto Parts",         nad: 9, ips:1,  nps:1, pkg:0, pdit:1, other:0, total:12,  actual:false },
-  { name: "C&H Salvage",               nad: 6, ips:1,  nps:1, pkg:0, pdit:0, other:0, total: 8,  actual:false },
-  { name: "Wilbert's - Hudson Valley", nad: 4, ips:0,  nps:0, pkg:0, pdit:0, other:1, total: 5,  actual:false },
-  { name: "Wilbert's - OH Akron",      nad: 2, ips:0,  nps:0, pkg:0, pdit:0, other:0, total: 2,  actual:false },
+  { name: "Cornell's Auto Parts",     nad:70, ips:10, nps:10, pkg:7,  pdit:9,  other:0, yard:97,  carrier:9,  total:106, actual:true },
+  { name: "Goyette's",                nad:64, ips:7,  nps:6,  pkg:4,  pdit:9,  other:0, yard:81,  carrier:9,  total:90,  actual:true },
+  { name: "Bishop's Auto Parts",      nad:39, ips:3,  nps:4,  pkg:0,  pdit:8,  other:1, yard:47,  carrier:8,  total:55,  actual:true },
+  { name: "Bow Auto Parts",           nad:32, ips:2,  nps:1,  pkg:0,  pdit:12, other:0, yard:35,  carrier:12, total:47,  actual:true },
+  { name: "Tolpa's Auto Parts",       nad:29, ips:3,  nps:1,  pkg:3,  pdit:7,  other:1, yard:37,  carrier:7,  total:44,  actual:true },
+  { name: "Alliance Auto Parts",      nad:32, ips:0,  nps:4,  pkg:1,  pdit:6,  other:0, yard:37,  carrier:6,  total:43,  actual:true },
+  { name: "Lentini - Ringoes",        nad:24, ips:0,  nps:2,  pkg:0,  pdit:11, other:0, yard:26,  carrier:11, total:37,  actual:true },
+  { name: "Miller's Auto Recycling",  nad:18, ips:4,  nps:1,  pkg:2,  pdit:9,  other:0, yard:25,  carrier:9,  total:34,  actual:true },
+  { name: "Brown's Auto Salvage",     nad:23, ips:0,  nps:1,  pkg:2,  pdit:4,  other:0, yard:26,  carrier:4,  total:30,  actual:true },
+  { name: "Chuck's - York",           nad:17, ips:0,  nps:3,  pkg:2,  pdit:7,  other:0, yard:22,  carrier:7,  total:29,  actual:true },
+  { name: "Lentini - Port Murray",    nad:22, ips:1,  nps:3,  pkg:0,  pdit:3,  other:0, yard:26,  carrier:3,  total:29,  actual:true },
+  { name: "Wilbert's - Ontario",      nad:16, ips:0,  nps:3,  pkg:4,  pdit:5,  other:0, yard:23,  carrier:5,  total:28,  actual:true },
+  { name: "Saw Mill Auto Wreckers",   nad:18, ips:2,  nps:4,  pkg:0,  pdit:3,  other:0, yard:24,  carrier:3,  total:27,  actual:true },
+  { name: "Wilbert's - Webster",      nad:10, ips:3,  nps:1,  pkg:4,  pdit:8,  other:0, yard:18,  carrier:8,  total:26,  actual:true },
+  { name: "Northside Salvage Yard",   nad:19, ips:2,  nps:0,  pkg:2,  pdit:1,  other:0, yard:23,  carrier:1,  total:24,  actual:true },
+  { name: "Chuck's - Douglassville",  nad:14, ips:2,  nps:0,  pkg:2,  pdit:4,  other:0, yard:18,  carrier:4,  total:22,  actual:true },
+  { name: "EL&M Auto Parts",          nad:9,  ips:1,  nps:1,  pkg:5,  pdit:5,  other:0, yard:16,  carrier:5,  total:21,  actual:true },
+  { name: "Ding's Auto Parts",        nad:11, ips:0,  nps:0,  pkg:1,  pdit:4,  other:0, yard:12,  carrier:4,  total:16,  actual:true },
+  { name: "C&H Salvage",              nad:11, ips:0,  nps:0,  pkg:0,  pdit:2,  other:0, yard:11,  carrier:2,  total:13,  actual:true },
+  { name: "Wilbert's - OH Akron",     nad:4,  ips:4,  nps:1,  pkg:1,  pdit:0,  other:0, yard:10,  carrier:0,  total:10,  actual:true },
+  { name: "Wilbert's - Hudson Valley",nad:3,  ips:0,  nps:1,  pkg:1,  pdit:2,  other:0, yard:5,   carrier:2,  total:7,   actual:true },
 ];
 
 function sh(name) { return name.length > 18 ? name.substring(0,17)+'...' : name; }
 
-// ── Donut ─────────────────────────────────────────────────────────────
-new Chart(document.getElementById('donutChart'), {
-  type: 'doughnut',
-  data: {
-    labels: ['Yard (96.66%)', 'Carrier (3.34%)'],
-    datasets: [{ data: [579, 20], backgroundColor: [CYAN, RED], borderColor: '#13161e', borderWidth: 3, hoverOffset: 6 }]
-  },
-  options: {
-    cutout: '68%',
-    plugins: {
-      legend: { display: true, position: 'bottom', labels: { padding: 12, boxWidth: 10, color: '#9ca3af' } },
-      tooltip: { callbacks: { label: ctx => " " + ctx.label + ": " + ctx.raw } }
-    }
-  }
-});
-
-// ── Site horizontal bar ───────────────────────────────────────────────
-new Chart(document.getElementById('siteBarChart'), {
+// ── Tier Breakdown Bar Chart ─────────────────────────────────────────
+new Chart(document.getElementById('tierBarChart'), {
   type: 'bar',
   data: {
-    labels: siteData.map(s => sh(s.name)),
-    datasets: [
-      { label: 'Yard',    data: siteData.map(s => s.yard),    backgroundColor: CYAN,   borderRadius: 3 },
-      { label: 'Carrier', data: siteData.map(s => s.carrier), backgroundColor: RED,    borderRadius: 3 }
-    ]
+    labels: ['Not as Described', 'Part Dmg in Transit', 'Not Prep. to Std.', 'Incorrect Part Sent', 'Packaging Failures', 'Shipped to Wrong Location'],
+    datasets: [{
+      label: 'Grade Count',
+      data: [485, 119, 47, 44, 41, 2],
+      backgroundColor: [CYAN, RED, PURPLE, YELLOW, GREEN, '#555e75'],
+      borderRadius: 6,
+      borderSkipped: false
+    }]
   },
   options: {
-    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    responsive: true, maintainAspectRatio: false,
     scales: {
-      x: { stacked: true, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: MUTED } },
-      y: { stacked: true, grid: { display: false }, ticks: { color: '#9ca3af', font: { size: 9 } } }
+      x: { grid: { display: false }, ticks: { color: '#9ca3af', font: { size: 10 } } },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: MUTED } }
     },
     plugins: {
-      legend: { display: true, position: 'top', labels: { color: '#9ca3af', boxWidth: 10, padding: 10 } },
-      tooltip: { callbacks: { afterBody: (items) => "Total: " + siteData[items[0].dataIndex].total } }
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: function(ctx) { return " " + ctx.raw + " grades"; },
+          afterLabel: function(ctx) {
+            var pct = ((ctx.raw / 738) * 100).toFixed(1);
+            return pct + "% of all grades";
+          }
+        }
+      }
     }
   }
 });
 
-// ── Site table ────────────────────────────────────────────────────────
-const tbody = document.getElementById('siteTableBody');
-const maxTotal = siteData[0].total;
-siteData.forEach((s, i) => {
-  const pct = ((s.total / 599) * 100).toFixed(1);
-  const barW = Math.round((s.total / maxTotal) * 100);
-  const color = s.carrier > 2 ? RED : (s.total >= 40 ? CYAN : GREEN);
-  const carrierCell = s.carrier > 0 ? '<span style="color:' + RED + '">' + s.carrier + '</span>' : '<span style="color:' + MUTED + '">—</span>';
-  const tr = document.createElement('tr');
-  tr.innerHTML =
-    '<td><span class="rank-num">' + (i+1) + '</span></td>' +
-    '<td><span class="site-name">' + s.name + '</span></td>' +
-    '<td class="mono-cell" style="color:' + CYAN + '">' + s.yard + '</td>' +
-    '<td class="mono-cell">' + carrierCell + '</td>' +
-    '<td class="mono-cell" style="font-weight:600;color:var(--text)">' + s.total + '</td>' +
-    '<td><div class="share-bar"><div class="share-track"><div class="share-fill" style="width:' + barW + '%;background:' + color + '"></div></div><span style="font-size:10px;color:' + MUTED + '">' + pct + '%</span></div></td>';
-  tbody.appendChild(tr);
-});
+// [site bar chart removed]
 
-// ── Packaging subtier chart ───────────────────────────────────────────
+// ── Packaging subtier chart — March data from #30 ────────────────────
 new Chart(document.getElementById('packagingChart'), {
   type: 'bar',
   data: {
-    labels: ['Improper Banding', 'Incorrect/Inad. Box', 'Insuff./Improper Fill', 'Incorrect/Inad. Skid'],
-    datasets: [{ label: 'Grade Count', data: [11, 9, 9, 5], backgroundColor: [YELLOW, PURPLE, CYAN, GREEN], borderRadius: 5 }]
+    labels: ['Incorrect/Inad. Box', 'Insuff./Improper Fill', 'Improper Banding', 'Incorrect/Inad. Skid'],
+    datasets: [{ label: 'Grade Count', data: [23, 10, 4, 4], backgroundColor: [YELLOW, PURPLE, CYAN, GREEN], borderRadius: 5 }]
   },
   options: {
     responsive: true,
@@ -729,16 +651,17 @@ new Chart(document.getElementById('packagingChart'), {
   }
 });
 
-// ── Top sites issue stack chart ───────────────────────────────────────
+// ── Top sites issue stack ─────────────────────────────────────────────
 new Chart(document.getElementById('issueStackChart'), {
   type: 'bar',
   data: {
-    labels: ["Cornell's", "Goyette's", "Brown's", "Bishop's", "Alliance", "Tolpa's"],
+    labels: ["Cornell's", "Goyette's", "Bishop's", "Bow", "Tolpa's", "Alliance"],
     datasets: [
-      { label: 'Not as Described',   data: [76, 61, 30, 33, 38, 20], backgroundColor: CYAN,   borderRadius: 3 },
-      { label: 'Incorrect Part Sent',data: [4,  4,  6,  2,  5,  0],  backgroundColor: YELLOW, borderRadius: 3 },
-      { label: 'Not Prepared',       data: [5,  3,  4,  3,  0,  3],  backgroundColor: PURPLE, borderRadius: 3 },
-      { label: 'Packaging',          data: [3,  3,  1,  1,  1,  2],  backgroundColor: GREEN,  borderRadius: 3 }
+      { label: 'Not as Described',    data: [70, 64, 39, 32, 29, 32], backgroundColor: CYAN,   borderRadius: 3 },
+      { label: 'Incorrect Part Sent', data: [10,  7,  3,  2,  3,  0], backgroundColor: YELLOW, borderRadius: 3 },
+      { label: 'Not Prepared',        data: [10,  6,  4,  1,  1,  4], backgroundColor: PURPLE, borderRadius: 3 },
+      { label: 'Packaging',           data: [ 7,  4,  0,  0,  3,  1], backgroundColor: GREEN,  borderRadius: 3 },
+      { label: 'Part Dmg Transit',    data: [ 9,  9,  8, 12,  7,  6], backgroundColor: RED,    borderRadius: 3 }
     ]
   },
   options: {
@@ -752,18 +675,18 @@ new Chart(document.getElementById('issueStackChart'), {
 });
 
 // ── Carrier by site ───────────────────────────────────────────────────
-const carrierSites = siteData.filter(s => s.carrier > 0).sort((a,b) => b.carrier - a.carrier);
+var carrierSites = siteData.filter(function(s) { return s.carrier > 0; }).sort(function(a,b) { return b.carrier - a.carrier; });
 new Chart(document.getElementById('carrierChart'), {
   type: 'bar',
   data: {
-    labels: carrierSites.map(s => sh(s.name)),
-    datasets: [{ label: 'Carrier Grades', data: carrierSites.map(s => s.carrier), backgroundColor: RED, borderRadius: 4 }]
+    labels: carrierSites.map(function(s) { return sh(s.name); }),
+    datasets: [{ label: 'Carrier Grades', data: carrierSites.map(function(s) { return s.carrier; }), backgroundColor: RED, borderRadius: 4 }]
   },
   options: {
     responsive: true, maintainAspectRatio: false,
     scales: {
       x: { grid: { display: false }, ticks: { color: MUTED, font: { size: 9 } } },
-      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: MUTED, stepSize: 1 }, max: 4 }
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: MUTED, stepSize: 1 } }
     },
     plugins: { legend: { display: false } }
   }
@@ -773,14 +696,14 @@ new Chart(document.getElementById('carrierChart'), {
 new Chart(document.getElementById('allSitesGradeChart'), {
   type: 'bar',
   data: {
-    labels: fullSiteData.map(s => sh(s.name)),
+    labels: fullSiteData.map(function(s) { return sh(s.name); }),
     datasets: [
-      { label: 'Not as Described',    data: fullSiteData.map(s => s.nad),   backgroundColor: CYAN,     borderRadius: 2 },
-      { label: 'Incorrect Part Sent', data: fullSiteData.map(s => s.ips),   backgroundColor: YELLOW,   borderRadius: 2 },
-      { label: 'Not Prep. to Std.',   data: fullSiteData.map(s => s.nps),   backgroundColor: PURPLE,   borderRadius: 2 },
-      { label: 'Packaging Failures',  data: fullSiteData.map(s => s.pkg),   backgroundColor: GREEN,    borderRadius: 2 },
-      { label: 'Part Dmg in Transit', data: fullSiteData.map(s => s.pdit),  backgroundColor: RED,      borderRadius: 2 },
-      { label: 'Other',               data: fullSiteData.map(s => s.other), backgroundColor: '#555e75',borderRadius: 2 }
+      { label: 'Not as Described',    data: fullSiteData.map(function(s) { return s.nad;   }), backgroundColor: CYAN,     borderRadius: 2 },
+      { label: 'Incorrect Part Sent', data: fullSiteData.map(function(s) { return s.ips;   }), backgroundColor: YELLOW,   borderRadius: 2 },
+      { label: 'Not Prep. to Std.',   data: fullSiteData.map(function(s) { return s.nps;   }), backgroundColor: PURPLE,   borderRadius: 2 },
+      { label: 'Packaging Failures',  data: fullSiteData.map(function(s) { return s.pkg;   }), backgroundColor: GREEN,    borderRadius: 2 },
+      { label: 'Part Dmg in Transit', data: fullSiteData.map(function(s) { return s.pdit;  }), backgroundColor: RED,      borderRadius: 2 },
+      { label: 'Other',               data: fullSiteData.map(function(s) { return s.other; }), backgroundColor: '#555e75',borderRadius: 2 }
     ]
   },
   options: {
@@ -791,7 +714,7 @@ new Chart(document.getElementById('allSitesGradeChart'), {
     },
     plugins: {
       legend: { position: 'bottom', labels: { color: '#9ca3af', boxWidth: 10, padding: 12, font: { size: 10 } } },
-      tooltip: { callbacks: { footer: items => "Total: " + fullSiteData[items[0].dataIndex].total } }
+      tooltip: { callbacks: { footer: function(items) { return "Total: " + fullSiteData[items[0].dataIndex].total; } } }
     }
   }
 });
@@ -806,7 +729,7 @@ function makeCatChart(canvasId, key, color) {
       labels: filtered.map(function(s) { return sh(s.name); }),
       datasets: [{
         data: filtered.map(function(s) { return s[key]; }),
-        backgroundColor: filtered.map(function(s) { return s.actual ? color : color + '88'; }),
+        backgroundColor: color,
         borderRadius: 4
       }]
     },
@@ -853,24 +776,22 @@ var maxes = {
 var matrixBody = document.getElementById('matrixBody');
 fullSiteData.forEach(function(s) {
   var tr = document.createElement('tr');
-  var verifiedBadge = s.actual ? ' <span style="color:#4fc4cf;font-size:9px">✓</span>' : '';
   tr.innerHTML =
-    '<td class="site-cell">' + s.name + verifiedBadge + '</td>' +
-    '<td class="' + heatClass(s.nad,   maxes.nad)   + '">' + (s.nad   || '—') + '</td>' +
-    '<td class="' + heatClass(s.ips,   maxes.ips)   + '">' + (s.ips   || '—') + '</td>' +
-    '<td class="' + heatClass(s.nps,   maxes.nps)   + '">' + (s.nps   || '—') + '</td>' +
-    '<td class="' + heatClass(s.pkg,   maxes.pkg)   + '">' + (s.pkg   || '—') + '</td>' +
-    '<td class="' + heatClass(s.pdit,  maxes.pdit)  + '">' + (s.pdit  || '—') + '</td>' +
-    '<td class="' + heatClass(s.other, maxes.other) + '">' + (s.other || '—') + '</td>' +
+    '<td class="site-cell">' + s.name + ' <span style="color:#4fc4cf;font-size:9px">&#10003;</span></td>' +
+    '<td class="' + heatClass(s.nad,   maxes.nad)   + '">' + (s.nad   || '&#8212;') + '</td>' +
+    '<td class="' + heatClass(s.ips,   maxes.ips)   + '">' + (s.ips   || '&#8212;') + '</td>' +
+    '<td class="' + heatClass(s.nps,   maxes.nps)   + '">' + (s.nps   || '&#8212;') + '</td>' +
+    '<td class="' + heatClass(s.pkg,   maxes.pkg)   + '">' + (s.pkg   || '&#8212;') + '</td>' +
+    '<td class="' + heatClass(s.pdit,  maxes.pdit)  + '">' + (s.pdit  || '&#8212;') + '</td>' +
+    '<td class="' + heatClass(s.other, maxes.other) + '">' + (s.other || '&#8212;') + '</td>' +
     '<td style="font-weight:700;color:#f0b429">' + s.total + '</td>';
   matrixBody.appendChild(tr);
 });
 
 var totals = { nad:0, ips:0, nps:0, pkg:0, pdit:0, other:0, total:0 };
 fullSiteData.forEach(function(s) {
-  totals.nad += s.nad; totals.ips += s.ips; totals.nps += s.nps;
-  totals.pkg += s.pkg; totals.pdit += s.pdit; totals.other += s.other;
-  totals.total += s.total;
+  totals.nad+=s.nad; totals.ips+=s.ips; totals.nps+=s.nps;
+  totals.pkg+=s.pkg; totals.pdit+=s.pdit; totals.other+=s.other; totals.total+=s.total;
 });
 var tfoot = document.getElementById('matrixFoot');
 var footRow = document.createElement('tr');
@@ -881,6 +802,151 @@ footRow.innerHTML =
   '<td>' + totals.total + '</td>';
 tfoot.appendChild(footRow);
 
+// ── TOP 10 PART TYPES chart (NEW — from Report #60) ───────────────────
+new Chart(document.getElementById('partTypeChart'), {
+  type: 'bar',
+  data: {
+    labels: ['HEADLAMP L', 'LID/GATE', 'FENDER R', 'DOOR LF', 'DOOR R REAR', 'HOOD', 'DOOR RF', 'HEADLAMP R', 'DOOR L REAR', 'FENDER L'],
+    datasets: [{
+      label: 'Grade Count',
+      data: [70, 56, 54, 50, 41, 39, 35, 33, 31, 31],
+      backgroundColor: [CYAN, CYAN, YELLOW, YELLOW, PURPLE, GREEN, YELLOW, CYAN, PURPLE, YELLOW],
+      borderRadius: 5
+    }]
+  },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    scales: {
+      x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: MUTED } },
+      y: { grid: { display: false }, ticks: { color: '#9ca3af', font: { size: 10 } } }
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => " " + ctx.raw + " grades" } }
+    }
+  }
+});
+
+// ── NORMALIZED GRADE RATE SECTION ────────────────────────────────────
+var rateData = [
+  { name: "Saw Mill Auto Wreckers",   grades:27,  sold:361,  purch:265,  rateSold:7.48, ratePurch:10.19 },
+  { name: "Goyette's",                grades:90,  sold:1583, purch:1482, rateSold:5.69, ratePurch:6.07  },
+  { name: "Northside Salvage Yard",   grades:24,  sold:441,  purch:371,  rateSold:5.44, ratePurch:6.47  },
+  { name: "Alliance Auto Parts",      grades:43,  sold:969,  purch:2653, rateSold:4.44, ratePurch:1.62  },
+  { name: "Lentini - Ringoes",        grades:37,  sold:839,  purch:1792, rateSold:4.41, ratePurch:2.06  },
+  { name: "Tolpa's Auto Parts",       grades:44,  sold:1135, purch:852,  rateSold:3.88, ratePurch:5.16  },
+  { name: "Cornell's Auto Parts",     grades:106, sold:2806, purch:1066, rateSold:3.78, ratePurch:9.94  },
+  { name: "Miller's Auto Recycling",  grades:34,  sold:907,  purch:1035, rateSold:3.75, ratePurch:3.29  },
+  { name: "Chuck's - York",           grades:29,  sold:793,  purch:1718, rateSold:3.66, ratePurch:1.69  },
+  { name: "Wilbert's - OH Akron",     grades:10,  sold:278,  purch:141,  rateSold:3.60, ratePurch:7.09  },
+  { name: "Lentini - Port Murray",    grades:29,  sold:809,  purch:1046, rateSold:3.58, ratePurch:2.77  },
+  { name: "C&H Salvage",              grades:13,  sold:364,  purch:235,  rateSold:3.57, ratePurch:5.53  },
+  { name: "Chuck's - Douglassville",  grades:22,  sold:620,  purch:1755, rateSold:3.55, ratePurch:1.25  },
+  { name: "Wilbert's - Webster",      grades:26,  sold:911,  purch:1399, rateSold:2.85, ratePurch:1.86  },
+  { name: "Ding's Auto Parts",        grades:16,  sold:567,  purch:694,  rateSold:2.82, ratePurch:2.31  },
+  { name: "Wilbert's - Ontario",      grades:28,  sold:1051, purch:null, rateSold:2.66, ratePurch:null  },
+  { name: "Bishop's Auto Parts",      grades:55,  sold:2125, purch:1020, rateSold:2.59, ratePurch:5.39  },
+  { name: "Wilbert's - Hudson Valley",grades:7,   sold:284,  purch:244,  rateSold:2.46, ratePurch:2.87  },
+  { name: "Bow Auto Parts",           grades:47,  sold:2010, purch:1311, rateSold:2.34, ratePurch:3.59  },
+  { name: "EL&M Auto Parts",          grades:21,  sold:1093, purch:1194, rateSold:1.92, ratePurch:1.76  },
+  { name: "Brown's Auto Salvage",     grades:30,  sold:2174, purch:1972, rateSold:1.38, ratePurch:1.52  },
+];
+
+var rateChart = null;
+var currentRateMode = 'sold';
+
+function getBarColor(rate, max) {
+  var p = rate / max;
+  if (p > 0.7) return RED;
+  if (p > 0.4) return YELLOW;
+  return CYAN;
+}
+
+function renderRateChart(mode) {
+  currentRateMode = mode;
+  var sorted;
+  if (mode === 'sold') {
+    sorted = rateData.slice().sort(function(a,b) { return b.rateSold - a.rateSold; });
+  } else if (mode === 'purch') {
+    sorted = rateData.filter(function(s) { return s.ratePurch !== null; })
+                     .sort(function(a,b) { return b.ratePurch - a.ratePurch; });
+  } else {
+    sorted = rateData.slice().sort(function(a,b) { return b.grades - a.grades; });
+  }
+
+  var vals = sorted.map(function(s) {
+    return mode === 'sold' ? s.rateSold : mode === 'purch' ? s.ratePurch : s.grades;
+  });
+  var maxVal = Math.max.apply(null, vals);
+  var colors = vals.map(function(v) { return getBarColor(v, maxVal); });
+  var label = mode === 'sold' ? 'Grades per 100 Parts Sold' : mode === 'purch' ? 'Grades per 100 Parts Purchased' : 'Raw Grade Count';
+
+  if (rateChart) rateChart.destroy();
+  rateChart = new Chart(document.getElementById('rateChart'), {
+    type: 'bar',
+    data: {
+      labels: sorted.map(function(s) { return sh(s.name); }),
+      datasets: [{
+        label: label,
+        data: vals,
+        backgroundColor: colors,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: MUTED } },
+        y: { grid: { display: false }, ticks: { color: '#9ca3af', font: { size: 9 } } }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              var s = sorted[ctx.dataIndex];
+              if (mode === 'raw') return " " + s.grades + " grades";
+              return " " + ctx.raw.toFixed(2) + " grades per 100 " + (mode === 'sold' ? 'sold' : 'purchased');
+            },
+            afterLabel: function(ctx) {
+              var s = sorted[ctx.dataIndex];
+              return "Grades: " + s.grades + "  |  Sold: " + s.sold + (s.purch ? "  |  Purch: " + s.purch : "");
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // Update table — always sorted by rate/sold
+  var tableSorted = rateData.slice().sort(function(a,b) { return b.rateSold - a.rateSold; });
+  var maxRate = tableSorted[0].rateSold;
+  var tb = document.getElementById('rateTableBody');
+  tb.innerHTML = '';
+  tableSorted.forEach(function(s, i) {
+    var rateClass = s.rateSold > 5 ? 'cell-heat-4' : s.rateSold > 3.5 ? 'cell-heat-3' : s.rateSold > 2.5 ? 'cell-heat-2' : 'cell-heat-1';
+    var rpClass = s.ratePurch ? (s.ratePurch > 7 ? 'cell-heat-4' : s.ratePurch > 4 ? 'cell-heat-3' : s.ratePurch > 2.5 ? 'cell-heat-2' : 'cell-heat-1') : 'zero';
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td class="site-cell" style="font-size:11px">' + s.name + '</td>' +
+      '<td style="text-align:right;font-weight:700;color:#f0b429">' + s.grades + '</td>' +
+      '<td style="text-align:right;color:#9ca3af">' + s.sold.toLocaleString() + '</td>' +
+      '<td class="' + rateClass + '" style="text-align:right;font-weight:700">' + s.rateSold.toFixed(2) + '</td>' +
+      '<td style="text-align:right;color:#9ca3af">' + (s.purch ? s.purch.toLocaleString() : '—') + '</td>' +
+      '<td class="' + rpClass + '" style="text-align:right;font-weight:700">' + (s.ratePurch ? s.ratePurch.toFixed(2) : '—') + '</td>';
+    tb.appendChild(tr);
+  });
+}
+
+renderRateChart('sold');
+
+document.getElementById('rateTabs').addEventListener('click', function(e) {
+  var btn = e.target.closest('.ftab');
+  if (!btn) return;
+  document.querySelectorAll('#rateTabs .ftab').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderRateChart(btn.dataset.rate);
+});
 </script>
 </body>
 </html>

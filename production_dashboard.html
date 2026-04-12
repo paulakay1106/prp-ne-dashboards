@@ -8,427 +8,108 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root {
-    --bg: #0d0f14;
-    --surface: #161a23;
-    --surface2: #1e2430;
-    --border: #2a3040;
-    --accent: #e8c547;
-    --accent2: #4ec9b0;
-    --accent3: #f07b53;
-    --text: #e8eaf0;
-    --muted: #8892a4;
-    --up: #4ec9b0;
-    --down: #f07b53;
+    --bg: #0d0f14; --surface: #161a23; --surface2: #1e2430; --border: #2a3040;
+    --accent: #e8c547; --accent2: #4ec9b0; --accent3: #f07b53;
+    --text: #e8eaf0; --muted: #8892a4; --up: #4ec9b0; --down: #f07b53;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.5; padding: 24px; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    line-height: 1.5;
-    padding: 24px;
-    min-height: 100vh;
-  }
+  .header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .header-left h1 { font-family: 'Bebas Neue', sans-serif; font-size: 48px; letter-spacing: 3px; color: var(--accent); line-height: 1; }
+  .header-left p { color: var(--muted); font-size: 13px; margin-top: 4px; letter-spacing: 1px; text-transform: uppercase; }
+  .header-right { text-align: right; }
+  .header-right .period { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .header-right .date { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--accent2); letter-spacing: 2px; }
 
-  /* HEADER */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 28px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-left h1 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 48px;
-    letter-spacing: 3px;
-    color: var(--accent);
-    line-height: 1;
-  }
-  .header-left p {
-    color: var(--muted);
-    font-size: 13px;
-    margin-top: 4px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  .header-right {
-    text-align: right;
-  }
-  .header-right .period {
-    font-size: 13px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  .header-right .date {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    color: var(--accent2);
-    letter-spacing: 2px;
-  }
-
-  /* KPI CARDS */
-  .kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-  .kpi-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px 18px;
-    position: relative;
-    overflow: hidden;
-  }
-  .kpi-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--accent);
-  }
-  .kpi-card.green::before { background: var(--accent2); }
+  .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 20px; }
+  .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; position: relative; overflow: hidden; }
+  .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+  .kpi-card.green::before  { background: var(--accent2); }
   .kpi-card.orange::before { background: var(--accent3); }
-  .kpi-card.blue::before { background: #5b9ef5; }
+  .kpi-card.blue::before   { background: #5b9ef5; }
   .kpi-card.purple::before { background: #b07fe8; }
+  .kpi-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .kpi-value { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 1px; line-height: 1; color: var(--text); }
+  .kpi-sub { font-size: 12px; margin-top: 6px; display: flex; align-items: center; gap: 4px; }
+  .kpi-sub.up { color: var(--up); } .kpi-sub.down { color: var(--down); } .kpi-sub.neutral { color: var(--muted); }
 
-  .kpi-label {
-    font-size: 11px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-  }
-  .kpi-value {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 36px;
-    letter-spacing: 1px;
-    line-height: 1;
-    color: var(--text);
-  }
-  .kpi-sub {
-    font-size: 12px;
-    margin-top: 6px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .kpi-sub.up { color: var(--up); }
-  .kpi-sub.down { color: var(--down); }
-  .kpi-sub.neutral { color: var(--muted); }
+  .section-label { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 12px; margin-top: 8px; display: flex; align-items: center; gap: 10px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  /* TWO COLUMN LAYOUT */
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 16px;
-  }
-  .three-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 16px;
-  }
+  .mom-comparison-panel { margin-bottom: 20px; display: flex; flex-direction: column; gap: 12px; }
+  .mom-summary-strip { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 28px; display: flex; align-items: center; gap: 24px; }
+  .mom-summary-block { text-align: center; min-width: 140px; }
+  .mom-month-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .mom-month-val { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 2px; line-height: 1; }
+  .mom-month-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .mom-arrow-block { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 80px; }
+  .mom-arrow-icon { font-size: 28px; color: var(--border); }
+  .mom-arrow-delta { font-size: 15px; font-weight: 700; }
+  .mom-arrow-pct { font-size: 12px; font-weight: 600; }
+  .up-delta, .up-pct { color: var(--up); } .down-delta, .down-pct { color: var(--down); }
+  .mom-stat-divider { width: 1px; height: 60px; background: var(--border); margin: 0 8px; }
+  .mom-stat-item { flex: 1; text-align: center; padding: 0 8px; }
+  .mom-stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+  .mom-stat-pair { display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .mom-stat-prev { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--muted); opacity: 0.6; }
+  .mom-stat-curr { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--text); }
+  .mom-stat-arrow { font-size: 14px; }
+  .up-arrow { color: var(--up); } .down-arrow { color: var(--down); }
+  .mom-stat-note { font-size: 11px; margin-top: 3px; }
+  .up-note { color: var(--up); } .down-note { color: var(--down); }
 
-  /* CHART CARDS */
-  .chart-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px;
-  }
-  .chart-card.full { grid-column: 1 / -1; }
-  .chart-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px;
-    letter-spacing: 2px;
-    color: var(--accent);
-    margin-bottom: 4px;
-  }
-  .chart-subtitle {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 16px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .chart-wrap {
-    position: relative;
-  }
-
-  /* PARTNER TABLE */
-  .partner-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  .partner-table th {
-    text-align: left;
-    padding: 8px 10px;
-    color: var(--muted);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    border-bottom: 1px solid var(--border);
-    font-weight: 500;
-  }
-  .partner-table th.right { text-align: right; }
-  .partner-table td {
-    padding: 8px 10px;
-    border-bottom: 1px solid rgba(42,48,64,0.5);
-    color: var(--text);
-  }
-  .partner-table td.right { text-align: right; }
-  .partner-table tr:hover td { background: rgba(255,255,255,0.02); }
-  .partner-table tr:last-child td { border-bottom: none; }
-
-  .badge-up {
-    color: var(--up);
-    font-size: 12px;
-    font-weight: 600;
-  }
-  .badge-down {
-    color: var(--down);
-    font-size: 12px;
-    font-weight: 600;
-  }
-  .badge-flat {
-    color: var(--muted);
-    font-size: 12px;
-  }
-
-  .rank-bar {
-    display: inline-block;
-    height: 6px;
-    border-radius: 3px;
-    background: var(--accent2);
-    vertical-align: middle;
-    margin-right: 8px;
-    opacity: 0.7;
-  }
-
-  /* SECTION DIVIDER */
-  .section-label {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 13px;
-    letter-spacing: 3px;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    margin-top: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  .efficiency-meter {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .eff-bar-wrap {
-    flex: 1;
-    height: 6px;
-    background: var(--border);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .eff-bar {
-    height: 100%;
-    border-radius: 3px;
-    background: var(--accent2);
-  }
-  .eff-val {
-    font-size: 12px;
-    color: var(--muted);
-    min-width: 32px;
-    text-align: right;
-  }
-
-  /* MOM CHANGE SECTION */
-  .mom-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-  }
-  .mom-item {
-    background: var(--surface2);
-    border-radius: 8px;
-    padding: 10px 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .mom-name { font-size: 12px; color: var(--text); font-weight: 500; }
-  .mom-change { font-size: 13px; font-weight: 600; }
-
-  /* MOM COMPARISON PANEL */
-  .mom-comparison-panel {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .mom-summary-strip {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px 28px;
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
-  .mom-summary-block {
-    text-align: center;
-    min-width: 140px;
-  }
-  .mom-summary-block.right-block { }
-  .mom-month-label {
-    font-size: 11px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
-  }
-  .mom-month-val {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 52px;
-    letter-spacing: 2px;
-    line-height: 1;
-    color: var(--text);
-  }
-  .mom-month-sub {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-  .mom-arrow-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    min-width: 80px;
-  }
-  .mom-arrow-icon {
-    font-size: 28px;
-    color: var(--border);
-  }
-  .mom-arrow-delta {
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-  .mom-arrow-pct {
-    font-size: 12px;
-    font-weight: 600;
-  }
-  .down-delta, .down-pct { color: var(--down); }
-  .up-delta, .up-pct { color: var(--up); }
-  .mom-stat-divider {
-    width: 1px;
-    height: 60px;
-    background: var(--border);
-    margin: 0 8px;
-  }
-  .mom-stat-item {
-    flex: 1;
-    text-align: center;
-    padding: 0 8px;
-  }
-  .mom-stat-label {
-    font-size: 11px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 6px;
-  }
-  .mom-stat-pair {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
-  .mom-stat-prev {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    color: var(--muted);
-    opacity: 0.6;
-  }
-  .mom-stat-arrow {
-    font-size: 14px;
-  }
-  .up-arrow { color: var(--up); }
-  .down-arrow { color: var(--down); }
-  .mom-stat-curr {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    color: var(--text);
-  }
-  .mom-stat-note {
-    font-size: 11px;
-    margin-top: 3px;
-  }
-  .up-note { color: var(--up); }
-  .down-note { color: var(--down); }
-
-  /* GAINERS / LOSERS */
-  .mom-wl-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 0.4fr;
-    gap: 12px;
-  }
-  .mom-wl-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px 18px;
-  }
+  .mom-wl-grid { display: grid; grid-template-columns: 1fr 1fr 0.4fr; gap: 12px; }
+  .mom-wl-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
   .mom-wl-card.winners { border-top: 3px solid var(--up); }
   .mom-wl-card.losers  { border-top: 3px solid var(--down); }
   .mom-wl-card.flat    { border-top: 3px solid var(--border); }
-  .mom-wl-title {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--muted);
-    margin-bottom: 12px;
-    font-weight: 600;
-  }
+  .mom-wl-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 12px; font-weight: 600; }
   .mom-wl-list { display: flex; flex-direction: column; gap: 6px; }
-  .mom-wl-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 13px;
-  }
+  .mom-wl-row { display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
   .mom-wl-name { color: var(--text); font-weight: 500; }
   .mom-wl-nums { color: var(--muted); font-size: 12px; }
   .mom-wl-change { font-weight: 700; font-size: 13px; min-width: 42px; text-align: right; }
   .wl-bar { height: 3px; border-radius: 2px; margin-top: 3px; }
 
-  .footer {
-    margin-top: 24px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    color: var(--muted);
-    font-size: 12px;
-  }
+  .two-col   { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+  .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .chart-title { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--accent); margin-bottom: 4px; }
+  .chart-subtitle { font-size: 12px; color: var(--muted); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .partner-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .partner-table th { text-align: left; padding: 8px 10px; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; border-bottom: 1px solid var(--border); font-weight: 500; }
+  .partner-table th.right { text-align: right; }
+  .partner-table td { padding: 8px 10px; border-bottom: 1px solid rgba(42,48,64,0.5); color: var(--text); }
+  .partner-table td.right { text-align: right; }
+  .partner-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .partner-table tr:last-child td { border-bottom: none; }
+  .badge-up { color: var(--up); font-size: 12px; font-weight: 600; }
+  .badge-down { color: var(--down); font-size: 12px; font-weight: 600; }
+  .badge-flat { color: var(--muted); font-size: 12px; }
+
+  .efficiency-meter { display: flex; align-items: center; gap: 8px; }
+  .eff-bar-wrap { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .eff-bar { height: 100%; border-radius: 3px; }
+  .eff-val { font-size: 12px; color: var(--muted); min-width: 36px; text-align: right; }
+
+  /* DAILY AVG CARDS */
+  .da-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .da-card { background: var(--surface2); border-radius: 8px; padding: 12px 14px; }
+  .da-name { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
+  .da-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+  .da-months { display: flex; gap: 14px; }
+  .da-m { display: flex; flex-direction: column; align-items: center; }
+  .da-m-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; }
+  .da-m-val { font-family: 'Bebas Neue', sans-serif; font-size: 19px; line-height: 1.1; }
+  .da-trail-block { text-align: right; }
+  .da-trail-lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; }
+  .da-trail-val { font-size: 13px; color: var(--accent); font-weight: 600; }
+  .da-trail-delta { font-size: 11px; margin-top: 1px; }
+
+  .footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; }
 </style>
 </head>
 <body>
@@ -440,112 +121,134 @@
   </div>
   <div class="header-right">
     <div class="period">Reporting Period</div>
-    <div class="date">February 2026</div>
+    <div class="date">March 2026</div>
   </div>
 </div>
 
 <!-- KPI CARDS -->
 <div class="kpi-grid">
   <div class="kpi-card">
-    <div class="kpi-label">Total Vehicles — Feb 2026</div>
-    <div class="kpi-value">2,871</div>
-    <div class="kpi-sub down">▼ 2.3% vs Jan 2026 (2,940)</div>
+    <div class="kpi-label">Total Vehicles — Mar 2026</div>
+    <div class="kpi-value">3,154</div>
+    <div class="kpi-sub up">▲ 9.9% vs Feb 2026 (2,871)</div>
   </div>
   <div class="kpi-card green">
     <div class="kpi-label">Avg Vehicles / Day</div>
-    <div class="kpi-value">143.6</div>
-    <div class="kpi-sub up">▲ vs 140.0 last month</div>
+    <div class="kpi-value">143.4</div>
+    <div class="kpi-sub neutral">↔ Feb was 143.6 / day</div>
   </div>
   <div class="kpi-card orange">
     <div class="kpi-label">Active Bays</div>
-    <div class="kpi-value">86.5</div>
-    <div class="kpi-sub neutral">↔ Jan was 87.5 bays</div>
+    <div class="kpi-value">86.0</div>
+    <div class="kpi-sub neutral">↔ Feb was 86.5 bays</div>
   </div>
   <div class="kpi-card blue">
     <div class="kpi-label">Avg Vehicles / Bay / Day</div>
-    <div class="kpi-value">1.66</div>
-    <div class="kpi-sub up">▲ vs 1.60 last month</div>
+    <div class="kpi-value">1.667</div>
+    <div class="kpi-sub up">▲ vs 1.660 last month</div>
   </div>
   <div class="kpi-card purple">
-    <div class="kpi-label">YoY Growth (Feb '25 → '26)</div>
-    <div class="kpi-value">+9.9%</div>
-    <div class="kpi-sub up">▲ 2,613 → 2,871</div>
+    <div class="kpi-label">YoY Growth (Mar '25 → '26)</div>
+    <div class="kpi-value">+11.4%</div>
+    <div class="kpi-sub up">▲ 2,830 → 3,154</div>
   </div>
 </div>
 
-<!-- JAN vs FEB 2026 COMPARISON PANEL -->
-<div class="section-label">January 2026 vs February 2026 — Month-over-Month Detail</div>
+<!-- FEB → MAR MOM COMPARISON -->
+<div class="section-label">February 2026 vs March 2026 — Month-over-Month Detail</div>
 <div class="mom-comparison-panel">
-  <!-- Big summary strip -->
   <div class="mom-summary-strip">
     <div class="mom-summary-block">
-      <div class="mom-month-label">January 2026</div>
-      <div class="mom-month-val">2,940</div>
-      <div class="mom-month-sub">21 working days · 87.5 bays</div>
+      <div class="mom-month-label">February 2026</div>
+      <div class="mom-month-val" style="color:var(--muted)">2,871</div>
+      <div class="mom-month-sub">20 working days · 86.5 bays</div>
     </div>
     <div class="mom-arrow-block">
       <div class="mom-arrow-icon">→</div>
-      <div class="mom-arrow-delta down-delta">▼ 69 vehicles</div>
-      <div class="mom-arrow-pct down-pct">−2.3%</div>
+      <div class="mom-arrow-delta up-delta">▲ +283 vehicles</div>
+      <div class="mom-arrow-pct up-pct">+9.9%</div>
     </div>
-    <div class="mom-summary-block right-block">
-      <div class="mom-month-label">February 2026</div>
-      <div class="mom-month-val">2,871</div>
-      <div class="mom-month-sub">20 working days · 86.5 bays</div>
+    <div class="mom-summary-block">
+      <div class="mom-month-label">March 2026</div>
+      <div class="mom-month-val" style="color:var(--text)">3,154</div>
+      <div class="mom-month-sub">22 working days · 86.0 bays</div>
     </div>
     <div class="mom-stat-divider"></div>
     <div class="mom-stat-item">
       <div class="mom-stat-label">Avg / Day</div>
       <div class="mom-stat-pair">
-        <span class="mom-stat-prev">140.0</span>
-        <span class="mom-stat-arrow up-arrow">▲</span>
-        <span class="mom-stat-curr">143.6</span>
+        <span class="mom-stat-prev">143.6</span>
+        <span class="mom-stat-arrow down-arrow">▼</span>
+        <span class="mom-stat-curr">143.4</span>
       </div>
-      <div class="mom-stat-note up-note">+3.6 / day</div>
+      <div class="mom-stat-note down-note">−0.2 / day (flat)</div>
     </div>
     <div class="mom-stat-item">
       <div class="mom-stat-label">Veh / Bay / Day</div>
       <div class="mom-stat-pair">
-        <span class="mom-stat-prev">1.600</span>
+        <span class="mom-stat-prev">1.660</span>
         <span class="mom-stat-arrow up-arrow">▲</span>
-        <span class="mom-stat-curr">1.660</span>
+        <span class="mom-stat-curr">1.667</span>
       </div>
-      <div class="mom-stat-note up-note">+0.06 efficiency</div>
+      <div class="mom-stat-note up-note">+0.007 efficiency</div>
     </div>
     <div class="mom-stat-item">
       <div class="mom-stat-label">Active Bays</div>
       <div class="mom-stat-pair">
-        <span class="mom-stat-prev">87.5</span>
+        <span class="mom-stat-prev">86.5</span>
         <span class="mom-stat-arrow down-arrow">▼</span>
-        <span class="mom-stat-curr">86.5</span>
+        <span class="mom-stat-curr">86.0</span>
       </div>
-      <div class="mom-stat-note down-note">−1 bay</div>
+      <div class="mom-stat-note down-note">−0.5 bays</div>
     </div>
     <div class="mom-stat-item">
       <div class="mom-stat-label">Working Days</div>
       <div class="mom-stat-pair">
-        <span class="mom-stat-prev">21</span>
-        <span class="mom-stat-arrow down-arrow">▼</span>
-        <span class="mom-stat-curr">20</span>
+        <span class="mom-stat-prev">20</span>
+        <span class="mom-stat-arrow up-arrow">▲</span>
+        <span class="mom-stat-curr">22</span>
       </div>
-      <div class="mom-stat-note down-note">−1 day</div>
+      <div class="mom-stat-note up-note">+2 days</div>
     </div>
   </div>
-
-  <!-- Winners / Losers split -->
   <div class="mom-wl-grid">
-    <div class="mom-wl-card winners">
-      <div class="mom-wl-title">▲ Gainers — Feb vs Jan</div>
-      <div class="mom-wl-list" id="gainers"></div>
-    </div>
-    <div class="mom-wl-card losers">
-      <div class="mom-wl-title">▼ Decliners — Feb vs Jan</div>
-      <div class="mom-wl-list" id="losers"></div>
-    </div>
-    <div class="mom-wl-card flat">
-      <div class="mom-wl-title">— Unchanged</div>
-      <div class="mom-wl-list" id="flatters"></div>
-    </div>
+    <div class="mom-wl-card winners"><div class="mom-wl-title">▲ Gainers — Mar vs Feb</div><div class="mom-wl-list" id="gainers"></div></div>
+    <div class="mom-wl-card losers"><div class="mom-wl-title">▼ Decliners — Mar vs Feb</div><div class="mom-wl-list" id="losers"></div></div>
+    <div class="mom-wl-card flat"><div class="mom-wl-title">— Unchanged</div><div class="mom-wl-list" id="flatters"></div></div>
+  </div>
+</div>
+
+<!-- DAILY AVERAGES -->
+<div class="section-label">Daily Averages — Vehicles Per Working Day</div>
+<div class="two-col" style="margin-bottom:16px;">
+  <div class="chart-card">
+    <div class="chart-title">Group Daily Avg — Monthly Trend</div>
+    <div class="chart-subtitle">Vehicles per working day · Jan 2024 – Mar 2026</div>
+    <canvas id="dailyAvgTrend" height="210"></canvas>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">Partner Daily Avg — Jan / Feb / Mar 2026</div>
+    <div class="chart-subtitle">Vehicles per working day · 3-month comparison</div>
+    <canvas id="partnerDailyBar" height="210"></canvas>
+  </div>
+</div>
+
+<div class="chart-card" style="margin-bottom:16px;">
+  <div class="chart-title">Partner Daily Averages — Detail View</div>
+  <div class="chart-subtitle">Jan / Feb / Mar 2026 · with 12-month trailing avg (Apr 2025 – Mar 2026) · ▲▼ = vs trailing benchmark</div>
+  <div class="da-grid" id="daCards"></div>
+</div>
+
+<div class="two-col" style="margin-bottom:16px;">
+  <div class="chart-card">
+    <div class="chart-title">Daily Avg — Mar 2026 Ranked</div>
+    <div class="chart-subtitle">Vehicles per working day · all partners</div>
+    <canvas id="dailyRanked" height="260"></canvas>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">Mar 2026 Daily Avg vs 12-Month Trailing</div>
+    <div class="chart-subtitle">Teal = this month · Gold = trailing benchmark</div>
+    <canvas id="dailyVsTrailing" height="260"></canvas>
   </div>
 </div>
 
@@ -554,408 +257,215 @@
 <div class="two-col">
   <div class="chart-card">
     <div class="chart-title">Monthly Vehicles Processed — 2024–2026</div>
-    <div class="chart-subtitle">Group Total · Last 26 Months</div>
-    <div class="chart-wrap"><canvas id="trendChart" height="220"></canvas></div>
+    <div class="chart-subtitle">Group Total · Last 27 Months</div>
+    <canvas id="trendChart" height="220"></canvas>
   </div>
   <div class="chart-card">
     <div class="chart-title">Quarterly Group Totals — 2025</div>
     <div class="chart-subtitle">Q1 through Q4 Full Year</div>
-    <div class="chart-wrap"><canvas id="quarterChart" height="220"></canvas></div>
+    <canvas id="quarterChart" height="220"></canvas>
   </div>
 </div>
 
-<!-- PARTNER COMPARISON CHARTS -->
-<div class="section-label">Partner Comparisons — Feb 2026 vs Jan 2026</div>
+<!-- PARTNER COMPARISON -->
+<div class="section-label">Partner Comparisons — Mar 2026 vs Feb 2026</div>
 <div class="chart-card" style="margin-bottom:16px;">
   <div class="chart-title">Vehicles Processed by Partner — Current vs Prior Month</div>
-  <div class="chart-subtitle">February 2026 vs January 2026</div>
-  <div class="chart-wrap"><canvas id="partnerBar" height="160"></canvas></div>
+  <div class="chart-subtitle">March 2026 vs February 2026</div>
+  <canvas id="partnerBar" height="160"></canvas>
 </div>
 
 <div class="two-col">
   <div class="chart-card">
     <div class="chart-title">Quarterly Performance by Partner — 2025</div>
     <div class="chart-subtitle">Top 10 Partners by Annual Volume</div>
-    <div class="chart-wrap"><canvas id="quarterlyPartner" height="260"></canvas></div>
+    <canvas id="quarterlyPartner" height="260"></canvas>
   </div>
-
   <div class="chart-card">
     <div class="chart-title">Efficiency: Vehicles / Bay / Day</div>
-    <div class="chart-subtitle">February 2026 — All Partners</div>
-    <div style="overflow-y:auto; max-height:280px;">
-      <table class="partner-table" id="effTable"></table>
-    </div>
+    <div class="chart-subtitle">March 2026 — All Partners</div>
+    <div style="overflow-y:auto;max-height:280px;"><table class="partner-table" id="effTable"></table></div>
   </div>
 </div>
 
-<!-- MOM CHANGES -->
+<!-- MOM CHART -->
 <div class="section-label">Month-over-Month Changes — All Partners</div>
 <div class="chart-card" style="margin-bottom:16px;">
-  <div class="chart-title">Month-over-Month Change (Jan → Feb 2026)</div>
+  <div class="chart-title">Month-over-Month Change (Feb → Mar 2026)</div>
   <div class="chart-subtitle">Absolute vehicle change per partner</div>
-  <div class="chart-wrap"><canvas id="momChart" height="140"></canvas></div>
+  <canvas id="momChart" height="140"></canvas>
 </div>
 
-<!-- FULL PARTNER TABLE -->
-<div class="section-label">Full Partner Scorecard — 2025 Quarterly + Current</div>
+<!-- FULL SCORECARD -->
+<div class="section-label">Full Partner Scorecard — 2025 Quarterly + 2026 YTD</div>
 <div class="chart-card">
   <div class="chart-title">Partner Performance Summary</div>
-  <div class="chart-subtitle">2025 Quarterly Totals + Jan/Feb 2026</div>
+  <div class="chart-subtitle">2025 Quarterly Totals + Jan / Feb / Mar 2026 with Daily Averages</div>
   <table class="partner-table" id="fullTable"></table>
 </div>
 
 <div class="footer">
   <span>Source: Production Numbers Report — All Partners</span>
-  <span>Generated March 2026 · Data through February 2026</span>
+  <span>Generated April 2026 · Data through March 2026</span>
 </div>
 
 <script>
-const ACCENT = '#e8c547';
-const TEAL = '#4ec9b0';
-const ORANGE = '#f07b53';
-const BLUE = '#5b9ef5';
-const PURPLE = '#b07fe8';
+const ACCENT='#e8c547', TEAL='#4ec9b0', ORANGE='#f07b53', BLUE='#5b9ef5', PURPLE='#b07fe8';
+Chart.defaults.color='#8892a4';
+Chart.defaults.font.family="'DM Sans', sans-serif";
+Chart.defaults.font.size=12;
 
-Chart.defaults.color = '#8892a4';
-Chart.defaults.font.family = "'DM Sans', sans-serif";
-Chart.defaults.font.size = 12;
-
-// ── GROUP TREND (Jan 2024 → Feb 2026) ──────────────────────────────────────
-const trendMonths = ['Jan 24','Feb 24','Mar 24','Apr 24','May 24','Jun 24','Jul 24','Aug 24','Sep 24','Oct 24','Nov 24','Dec 24','Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26'];
-const trendVehicles = [2269,2201,2179,2332,2402,2150,2237,2366,2275,2612,2125,2190,2796,2613,2830,2955,2785,2911,2990,2774,3003,3215,2536,2924,2940,2871];
-
-new Chart(document.getElementById('trendChart'), {
-  type: 'line',
-  data: {
-    labels: trendMonths,
-    datasets: [{
-      data: trendVehicles,
-      borderColor: TEAL,
-      backgroundColor: 'rgba(78,201,176,0.08)',
-      borderWidth: 2,
-      pointRadius: 3,
-      pointHoverRadius: 6,
-      pointBackgroundColor: TEAL,
-      fill: true,
-      tension: 0.35
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { display: false },
-      tooltip: { callbacks: { label: ctx => `  ${ctx.parsed.y.toLocaleString()} vehicles` } }
-    },
-    scales: {
-      x: { grid: { color: '#1e2430' }, ticks: { maxRotation: 45, minRotation: 45 } },
-      y: { grid: { color: '#1e2430' }, min: 1800 }
-    }
-  }
-});
-
-// ── QUARTERLY 2025 ─────────────────────────────────────────────────────────
-new Chart(document.getElementById('quarterChart'), {
-  type: 'bar',
-  data: {
-    labels: ['Q1 2025','Q2 2025','Q3 2025','Q4 2025'],
-    datasets: [{
-      label: 'Vehicles Processed',
-      data: [8239, 8367, 8538, 8751],
-      backgroundColor: [BLUE, TEAL, ACCENT, ORANGE],
-      borderRadius: 6,
-      borderSkipped: false
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { display: false },
-      tooltip: { callbacks: { label: ctx => `  ${ctx.parsed.y.toLocaleString()} vehicles` } }
-    },
-    scales: {
-      x: { grid: { display: false } },
-      y: { grid: { color: '#1e2430' }, min: 7500 }
-    }
-  }
-});
-
-// ── PARTNER BAR — FEB vs JAN ───────────────────────────────────────────────
-const partners = ['Alliance','Bishops','Bow','Browns','C&H','Chucks Y','Chucks D','Cornells','Dings','EL&M','Goyettes','Lentini R','Lentini PM','Millers','Northside','Saw Mill','Tolpas','Wilberts Inc.','Wilberts Lksd','Wilberts HV','Wilberts OH'];
-const feb26 = [103,165,270,175,40,219,118,168,50,120,178,96,115,241,194,100,165,62,154,81,57];
-const jan26 = [124,195,288,157,40,204,110,175,59,118,178,101,122,238,177,100,201,65,157,78,53];
-
-new Chart(document.getElementById('partnerBar'), {
-  type: 'bar',
-  data: {
-    labels: partners,
-    datasets: [
-      { label: 'Feb 2026', data: feb26, backgroundColor: TEAL, borderRadius: 4, borderSkipped: false },
-      { label: 'Jan 2026', data: jan26, backgroundColor: 'rgba(78,201,176,0.25)', borderRadius: 4, borderSkipped: false }
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { position: 'top', labels: { usePointStyle: true, pointStyle: 'rect', padding: 16 } },
-      tooltip: { callbacks: { label: ctx => `  ${ctx.dataset.label}: ${ctx.parsed.y} vehicles` } }
-    },
-    scales: {
-      x: { grid: { display: false } },
-      y: { grid: { color: '#1e2430' } }
-    }
-  }
-});
-
-// ── QUARTERLY BY PARTNER (top 10) ─────────────────────────────────────────
-const top10 = ['Bow','Millers','Chucks Y','Goyettes','Cornells','Bishops','Browns','Tolpas','Wilberts Lksd','Chucks D'];
-const q1 = [856,489,600,517,420,557,638,433,501,375];
-const q2 = [862,660,604,488,549,556,569,440,471,375];
-const q3 = [969,672,611,507,466,522,649,485,516,376];
-const q4 = [890,695,605,526,463,512,577,577,430,352];
-
-new Chart(document.getElementById('quarterlyPartner'), {
-  type: 'bar',
-  data: {
-    labels: top10,
-    datasets: [
-      { label: 'Q1', data: q1, backgroundColor: BLUE, borderRadius: 3, borderSkipped: false },
-      { label: 'Q2', data: q2, backgroundColor: TEAL, borderRadius: 3, borderSkipped: false },
-      { label: 'Q3', data: q3, backgroundColor: ACCENT, borderRadius: 3, borderSkipped: false },
-      { label: 'Q4', data: q4, backgroundColor: ORANGE, borderRadius: 3, borderSkipped: false }
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { position: 'top', labels: { usePointStyle: true, pointStyle: 'rect', padding: 12, font: { size: 11 } } }
-    },
-    scales: {
-      x: { grid: { display: false }, ticks: { font: { size: 11 } } },
-      y: { grid: { color: '#1e2430' } },
-      xAxis: { stacked: false }
-    }
-  }
-});
-
-// ── MOM CHANGE ─────────────────────────────────────────────────────────────
-const momChanges = feb26.map((v,i) => v - jan26[i]);
-const momColors = momChanges.map(v => v > 0 ? TEAL : v < 0 ? ORANGE : '#8892a4');
-
-new Chart(document.getElementById('momChart'), {
-  type: 'bar',
-  data: {
-    labels: partners,
-    datasets: [{
-      label: 'MoM Change',
-      data: momChanges,
-      backgroundColor: momColors,
-      borderRadius: 4,
-      borderSkipped: false
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { display: false },
-      tooltip: { callbacks: { label: ctx => `  ${ctx.parsed.y > 0 ? '+' : ''}${ctx.parsed.y} vehicles` } }
-    },
-    scales: {
-      x: { grid: { display: false } },
-      y: { grid: { color: '#1e2430' } }
-    }
-  }
-});
+const partners=['Alliance','Bishops','Bow','Browns','C&H','Chucks Y','Chucks D','Cornells','Dings','EL&M','Goyettes','Lentini R','Lentini PM','Millers','Northside','Saw Mill','Tolpas','Wilberts Inc.','Wilberts Lksd','Wilberts HV','Wilberts OH'];
+const jan26=[124,195,288,157,40,204,110,175,59,118,178,101,122,238,177,100,201,65,157,78,53];
+const feb26=[103,165,270,175,40,219,118,168,50,120,178,96,115,241,194,100,165,62,154,81,57];
+const mar26=[131,184,339,197,40,223,154,181,77,131,178,111,127,246,216,100,180,32,172,101,34];
+const WD={jan:21,feb:20,mar:22};
+const janDA=jan26.map(v=>+(v/WD.jan).toFixed(2));
+const febDA=feb26.map(v=>+(v/WD.feb).toFixed(2));
+const marDA=mar26.map(v=>+(v/WD.mar).toFixed(2));
+const trailing12=[5.82,8.47,14.36,9.22,1.98,9.79,5.89,7.94,2.98,5.58,8.15,4.80,5.70,10.92,6.88,4.74,8.13,3.73,7.57,3.51,2.94];
+const baysMar=[5,3,7,5,2.5,6,3,3,2.5,3,6,2,4,7,6,6,5,1,5,2,2];
 
 // ── GAINERS / LOSERS ──────────────────────────────────────────────────────
-const momPartnerData = [
-  { name:'Alliance',       jan:124, feb:103 },
-  { name:'Bishops',        jan:195, feb:165 },
-  { name:'Bow',            jan:288, feb:270 },
-  { name:'Browns',         jan:157, feb:175 },
-  { name:'C&H',            jan:40,  feb:40  },
-  { name:'Chucks Y',       jan:204, feb:219 },
-  { name:'Chucks D',       jan:110, feb:118 },
-  { name:'Cornells',       jan:175, feb:168 },
-  { name:'Dings',          jan:59,  feb:50  },
-  { name:'EL&M',           jan:118, feb:120 },
-  { name:'Goyettes',       jan:178, feb:178 },
-  { name:'Lentini R',      jan:101, feb:96  },
-  { name:'Lentini PM',     jan:122, feb:115 },
-  { name:'Millers',        jan:238, feb:241 },
-  { name:'Northside',      jan:177, feb:194 },
-  { name:'Saw Mill',       jan:100, feb:100 },
-  { name:'Tolpas',         jan:201, feb:165 },
-  { name:'Wilberts Inc.',  jan:65,  feb:62  },
-  { name:'Wilberts Lksd',  jan:157, feb:154 },
-  { name:'Wilberts HV',    jan:78,  feb:81  },
-  { name:'Wilberts OH',    jan:53,  feb:57  },
-].map(d => ({ ...d, delta: d.feb - d.jan, pct: ((d.feb - d.jan) / d.jan * 100).toFixed(1) }));
-
-const gainers = momPartnerData.filter(d => d.delta > 0).sort((a,b) => b.delta - a.delta);
-const losers  = momPartnerData.filter(d => d.delta < 0).sort((a,b) => a.delta - b.delta);
-const flats   = momPartnerData.filter(d => d.delta === 0);
-
-const maxDelta = Math.max(...gainers.map(d => d.delta), 1);
-const maxLoss  = Math.max(...losers.map(d => Math.abs(d.delta)), 1);
-
-function renderWLList(containerId, items, isGain) {
-  const el = document.getElementById(containerId);
-  items.forEach(d => {
-    const barW = isGain
-      ? (d.delta / maxDelta * 100).toFixed(0)
-      : (Math.abs(d.delta) / maxLoss * 100).toFixed(0);
-    const color = isGain ? 'var(--up)' : 'var(--down)';
-    const sign = d.delta > 0 ? '+' : '';
-    const div = document.createElement('div');
-    div.innerHTML = `
-      <div class="mom-wl-row">
-        <span class="mom-wl-name">${d.name}</span>
-        <span class="mom-wl-nums">${d.jan} → ${d.feb}</span>
-        <span class="mom-wl-change" style="color:${color}">${sign}${d.delta}</span>
-      </div>
-      <div class="wl-bar" style="width:${barW}%;background:${color};opacity:0.35"></div>`;
+const momData=partners.map((name,i)=>({name,feb:feb26[i],mar:mar26[i],delta:mar26[i]-feb26[i]}));
+const gainers=momData.filter(d=>d.delta>0).sort((a,b)=>b.delta-a.delta);
+const losers=momData.filter(d=>d.delta<0).sort((a,b)=>a.delta-b.delta);
+const flats=momData.filter(d=>d.delta===0);
+const maxG=Math.max(...gainers.map(d=>d.delta),1);
+const maxL=Math.max(...losers.map(d=>Math.abs(d.delta)),1);
+function renderWL(id,items,isGain){
+  const el=document.getElementById(id);
+  items.forEach(d=>{
+    const bw=isGain?(d.delta/maxG*100).toFixed(0):(Math.abs(d.delta)/maxL*100).toFixed(0);
+    const color=isGain?'var(--up)':'var(--down)';
+    const sign=d.delta>0?'+':'';
+    const div=document.createElement('div');
+    div.innerHTML=`<div class="mom-wl-row"><span class="mom-wl-name">${d.name}</span><span class="mom-wl-nums">${d.feb} → ${d.mar}</span><span class="mom-wl-change" style="color:${color}">${sign}${d.delta}</span></div><div class="wl-bar" style="width:${bw}%;background:${color};opacity:0.35"></div>`;
     el.appendChild(div);
   });
 }
-
-renderWLList('gainers', gainers, true);
-renderWLList('losers', losers, false);
-
-const flatEl = document.getElementById('flatters');
-flats.forEach(d => {
-  const div = document.createElement('div');
-  div.innerHTML = `<div class="mom-wl-row">
-    <span class="mom-wl-name">${d.name}</span>
-    <span class="mom-wl-change" style="color:var(--muted)">— ${d.feb}</span>
-  </div>`;
-  flatEl.appendChild(div);
+renderWL('gainers',gainers,true);
+renderWL('losers',losers,false);
+flats.forEach(d=>{
+  const div=document.createElement('div');
+  div.innerHTML=`<div class="mom-wl-row"><span class="mom-wl-name">${d.name}</span><span class="mom-wl-change" style="color:var(--muted)">— ${d.mar}</span></div>`;
+  document.getElementById('flatters').appendChild(div);
 });
 
+// ── GROUP DAILY AVG TREND ──────────────────────────────────────────────────
+const trendLabels=['Jan 24','Feb 24','Mar 24','Apr 24','May 24','Jun 24','Jul 24','Aug 24','Sep 24','Oct 24','Nov 24','Dec 24','Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26'];
+const groupDA=[103.14,104.81,103.76,106.00,109.18,107.50,106.52,107.55,113.75,113.57,111.84,109.50,127.09,130.65,134.76,134.32,132.62,138.62,135.91,132.10,143.00,139.78,140.89,146.20,140.00,143.55,143.36];
+new Chart(document.getElementById('dailyAvgTrend'),{type:'line',data:{labels:trendLabels,datasets:[{data:groupDA,borderColor:ACCENT,backgroundColor:'rgba(232,197,71,0.07)',borderWidth:2,pointRadius:ctx=>ctx.dataIndex>=24?5:2,pointBackgroundColor:ctx=>ctx.dataIndex>=24?ACCENT:TEAL,fill:true,tension:0.35}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`  ${ctx.parsed.y.toFixed(1)} veh/day`}}},scales:{x:{grid:{color:'#1e2430'},ticks:{maxRotation:45,minRotation:45}},y:{grid:{color:'#1e2430'},min:90,title:{display:true,text:'Veh / Day',color:'#8892a4'}}}}});
 
-const effData = [
-  { name: 'Cornells', eff: 2.800, bays: 3 },
-  { name: 'Bishops', eff: 2.750, bays: 4 },
-  { name: 'Lentini R', eff: 2.400, bays: 2 },
-  { name: 'EL&M', eff: 2.105, bays: 3 },
-  { name: 'Wilberts HV', eff: 2.025, bays: 2 },
-  { name: 'Chucks D', eff: 1.967, bays: 3 },
-  { name: 'Bow', eff: 1.929, bays: 7 },
-  { name: 'Chucks Y', eff: 1.825, bays: 6 },
-  { name: 'Browns', eff: 1.750, bays: 5 },
-  { name: 'Northside', eff: 1.617, bays: 6 },
-  { name: 'Tolpas', eff: 1.650, bays: 5 },
-  { name: 'Goyettes', eff: 1.483, bays: 6 },
-  { name: 'Lentini PM', eff: 1.438, bays: 4 },
-  { name: 'Wilberts OH', eff: 1.425, bays: 2 },
-  { name: 'Wilberts Inc.', eff: 1.550, bays: 2 },
-  { name: 'Wilberts Lksd', eff: 1.540, bays: 5 },
-  { name: 'Millers', eff: 1.721, bays: 7 },
-  { name: 'Dings', eff: 1.250, bays: 2 },
-  { name: 'C&H', eff: 0.800, bays: 2.5 },
-  { name: 'Saw Mill', eff: 0.833, bays: 6 },
-  { name: 'Alliance', eff: 1.030, bays: 5 },
-].sort((a,b) => b.eff - a.eff);
+// ── PARTNER DAILY AVG 3-MONTH BAR ─────────────────────────────────────────
+new Chart(document.getElementById('partnerDailyBar'),{type:'bar',data:{labels:partners,datasets:[{label:'Jan 2026',data:janDA,backgroundColor:'rgba(91,158,245,0.4)',borderRadius:3,borderSkipped:false},{label:'Feb 2026',data:febDA,backgroundColor:'rgba(78,201,176,0.4)',borderRadius:3,borderSkipped:false},{label:'Mar 2026',data:marDA,backgroundColor:TEAL,borderRadius:3,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'rect',padding:14}},tooltip:{callbacks:{label:ctx=>`  ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)} veh/day`}}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'#1e2430'},title:{display:true,text:'Veh / Day',color:'#8892a4'}}}}});
 
-const maxEff = Math.max(...effData.map(d => d.eff));
-const effTable = document.getElementById('effTable');
-effTable.innerHTML = `<thead><tr>
-  <th>Partner</th>
-  <th class="right">Bays</th>
-  <th>Efficiency</th>
-  <th class="right">Score</th>
-</tr></thead>`;
-const tbody = document.createElement('tbody');
-effData.forEach(d => {
-  const pct = (d.eff / maxEff * 100).toFixed(0);
-  const color = d.eff >= 2.0 ? TEAL : d.eff >= 1.5 ? BLUE : ORANGE;
-  const tr = document.createElement('tr');
-  tr.innerHTML = `
-    <td>${d.name}</td>
-    <td class="right" style="color:var(--muted)">${d.bays}</td>
-    <td>
-      <div class="efficiency-meter">
-        <div class="eff-bar-wrap"><div class="eff-bar" style="width:${pct}%;background:${color}"></div></div>
-        <div class="eff-val">${d.eff.toFixed(3)}</div>
+// ── DAILY AVG DETAIL CARDS ────────────────────────────────────────────────
+const daContainer=document.getElementById('daCards');
+partners.forEach((name,i)=>{
+  const jan=janDA[i],feb=febDA[i],mar=marDA[i],trail=trailing12[i];
+  const diff=mar-trail;
+  const dc=diff>0.2?'var(--up)':diff<-0.2?'var(--down)':'var(--muted)';
+  const di=diff>0.2?'▲':diff<-0.2?'▼':'—';
+  const ds=(diff>0?'+':'')+diff.toFixed(2);
+  const div=document.createElement('div');
+  div.className='da-card';
+  div.innerHTML=`<div class="da-name">${name}</div>
+    <div class="da-row">
+      <div class="da-months">
+        <div class="da-m"><span class="da-m-lbl">Jan</span><span class="da-m-val" style="color:rgba(91,158,245,0.8)">${jan.toFixed(1)}</span></div>
+        <div class="da-m"><span class="da-m-lbl">Feb</span><span class="da-m-val" style="color:rgba(78,201,176,0.8)">${feb.toFixed(1)}</span></div>
+        <div class="da-m"><span class="da-m-lbl">Mar</span><span class="da-m-val" style="color:var(--text)">${mar.toFixed(1)}</span></div>
       </div>
-    </td>
-    <td class="right" style="color:${color};font-weight:600">${d.eff >= 2.0 ? '★ High' : d.eff >= 1.5 ? 'Good' : 'Low'}</td>`;
-  tbody.appendChild(tr);
+      <div class="da-trail-block">
+        <div class="da-trail-lbl">12-mo trail</div>
+        <div class="da-trail-val">${trail.toFixed(2)}</div>
+        <div class="da-trail-delta" style="color:${dc}">${di} ${ds}</div>
+      </div>
+    </div>`;
+  daContainer.appendChild(div);
 });
-effTable.appendChild(tbody);
 
-// ── FULL SCORECARD TABLE ───────────────────────────────────────────────────
-const allPartnerData = [
-  { name:'Bow',            q1:856,  q2:862,  q3:969,  q4:890,  jan:288, feb:270 },
-  { name:'Millers',        q1:489,  q2:660,  q3:672,  q4:695,  jan:238, feb:241 },
-  { name:'Chucks Y',       q1:600,  q2:604,  q3:611,  q4:605,  jan:204, feb:219 },
-  { name:'Goyettes',       q1:517,  q2:488,  q3:507,  q4:526,  jan:178, feb:178 },
-  { name:'Cornells',       q1:420,  q2:549,  q3:466,  q4:463,  jan:175, feb:168 },
-  { name:'Bishops',        q1:557,  q2:556,  q3:522,  q4:512,  jan:195, feb:165 },
-  { name:'Tolpas',         q1:433,  q2:440,  q3:485,  q4:577,  jan:201, feb:165 },
-  { name:'Browns',         q1:638,  q2:569,  q3:649,  q4:577,  jan:157, feb:175 },
-  { name:'Northside',      q1:278,  q2:258,  q3:322,  q4:581,  jan:177, feb:194 },
-  { name:'Wilberts Lksd',  q1:501,  q2:471,  q3:516,  q4:430,  jan:157, feb:154 },
-  { name:'Lentini PM',     q1:381,  q2:397,  q3:374,  q4:308,  jan:122, feb:115 },
-  { name:'EL&M',           q1:357,  q2:352,  q3:345,  q4:334,  jan:118, feb:120 },
-  { name:'Chucks D',       q1:375,  q2:375,  q3:376,  q4:352,  jan:110, feb:118 },
-  { name:'Alliance',       q1:294,  q2:418,  q3:379,  q4:311,  jan:124, feb:103 },
-  { name:'Lentini R',      q1:328,  q2:317,  q3:302,  q4:288,  jan:101, feb:96  },
-  { name:'Saw Mill',       q1:280,  q2:300,  q3:300,  q4:300,  jan:100, feb:100 },
-  { name:'Wilberts Inc.',  q1:168,  q2:272,  q3:263,  q4:241,  jan:65,  feb:62  },
-  { name:'Wilberts HV',    q1:242,  q2:220,  q3:177,  q4:225,  jan:78,  feb:81  },
-  { name:'Wilberts OH',    q1:166,  q2:188,  q3:217,  q4:189,  jan:53,  feb:57  },
-  { name:'Dings',          q1:224,  q2:220,  q3:194,  q4:151,  jan:59,  feb:50  },
-  { name:'C&H',            q1:135,  q2:135,  q3:125,  q4:120,  jan:40,  feb:40  },
+// ── DAILY RANKED (horizontal bar) ─────────────────────────────────────────
+const ranked=partners.map((n,i)=>({n,v:marDA[i]})).sort((a,b)=>b.v-a.v);
+new Chart(document.getElementById('dailyRanked'),{type:'bar',data:{labels:ranked.map(d=>d.n),datasets:[{data:ranked.map(d=>d.v),backgroundColor:ranked.map(d=>d.v>=10?ACCENT:d.v>=6?TEAL:BLUE),borderRadius:4,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`  ${ctx.parsed.x.toFixed(2)} veh/day`}}},scales:{x:{grid:{color:'#1e2430'},title:{display:true,text:'Veh / Day',color:'#8892a4'}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
+
+// ── MAR vs TRAILING (horizontal grouped) ─────────────────────────────────
+const vtSorted=partners.map((n,i)=>({n,mar:marDA[i],trail:trailing12[i]})).sort((a,b)=>b.mar-a.mar);
+new Chart(document.getElementById('dailyVsTrailing'),{type:'bar',data:{labels:vtSorted.map(d=>d.n),datasets:[{label:'Mar 2026',data:vtSorted.map(d=>d.mar),backgroundColor:TEAL,borderRadius:3,borderSkipped:false},{label:'12-Mo Trailing',data:vtSorted.map(d=>d.trail),backgroundColor:'rgba(232,197,71,0.35)',borderRadius:3,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'rect',padding:12}},tooltip:{callbacks:{label:ctx=>`  ${ctx.dataset.label}: ${ctx.parsed.x.toFixed(2)} veh/day`}}},scales:{x:{grid:{color:'#1e2430'},title:{display:true,text:'Veh / Day',color:'#8892a4'}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
+
+// ── GROUP MONTHLY TREND ───────────────────────────────────────────────────
+const trendVehicles=[2269,2201,2179,2332,2402,2150,2237,2366,2275,2612,2125,2190,2796,2613,2830,2955,2785,2911,2990,2774,3003,3215,2536,2924,2940,2871,3154];
+new Chart(document.getElementById('trendChart'),{type:'line',data:{labels:trendLabels,datasets:[{data:trendVehicles,borderColor:TEAL,backgroundColor:'rgba(78,201,176,0.08)',borderWidth:2,pointRadius:ctx=>ctx.dataIndex>=24?5:2,pointBackgroundColor:ctx=>ctx.dataIndex>=24?ORANGE:TEAL,fill:true,tension:0.35}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`  ${ctx.parsed.y.toLocaleString()} vehicles`}}},scales:{x:{grid:{color:'#1e2430'},ticks:{maxRotation:45,minRotation:45}},y:{grid:{color:'#1e2430'},min:1800}}}});
+
+// ── QUARTERLY 2025 ────────────────────────────────────────────────────────
+new Chart(document.getElementById('quarterChart'),{type:'bar',data:{labels:['Q1 2025','Q2 2025','Q3 2025','Q4 2025'],datasets:[{data:[8239,8367,8538,8751],backgroundColor:[BLUE,TEAL,ACCENT,ORANGE],borderRadius:6,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`  ${ctx.parsed.y.toLocaleString()} vehicles`}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#1e2430'},min:7500}}}});
+
+// ── PARTNER BAR MAR vs FEB ────────────────────────────────────────────────
+new Chart(document.getElementById('partnerBar'),{type:'bar',data:{labels:partners,datasets:[{label:'Mar 2026',data:mar26,backgroundColor:TEAL,borderRadius:4,borderSkipped:false},{label:'Feb 2026',data:feb26,backgroundColor:'rgba(78,201,176,0.25)',borderRadius:4,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'rect',padding:16}},tooltip:{callbacks:{label:ctx=>`  ${ctx.dataset.label}: ${ctx.parsed.y} vehicles`}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#1e2430'}}}}});
+
+// ── QUARTERLY BY PARTNER ──────────────────────────────────────────────────
+new Chart(document.getElementById('quarterlyPartner'),{type:'bar',data:{labels:['Bow','Millers','Chucks Y','Goyettes','Cornells','Bishops','Browns','Tolpas','Wilberts Lksd','Chucks D'],datasets:[{label:'Q1',data:[856,489,600,517,420,557,638,433,501,375],backgroundColor:BLUE,borderRadius:3,borderSkipped:false},{label:'Q2',data:[862,660,604,488,549,556,569,440,471,375],backgroundColor:TEAL,borderRadius:3,borderSkipped:false},{label:'Q3',data:[969,672,611,507,466,522,649,485,516,376],backgroundColor:ACCENT,borderRadius:3,borderSkipped:false},{label:'Q4',data:[890,695,605,526,463,512,577,577,430,352],backgroundColor:ORANGE,borderRadius:3,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'rect',padding:12,font:{size:11}}}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#1e2430'}}}}});
+
+// ── MOM CHANGE CHART ──────────────────────────────────────────────────────
+const momDeltas=mar26.map((v,i)=>v-feb26[i]);
+new Chart(document.getElementById('momChart'),{type:'bar',data:{labels:partners,datasets:[{data:momDeltas,backgroundColor:momDeltas.map(v=>v>0?TEAL:v<0?ORANGE:'#8892a4'),borderRadius:4,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`  ${ctx.parsed.y>0?'+':''}${ctx.parsed.y} vehicles`}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#1e2430'}}}}});
+
+// ── EFFICIENCY TABLE ──────────────────────────────────────────────────────
+const effData=partners.map((name,i)=>({name,bays:baysMar[i],eff:mar26[i]/(WD.mar*baysMar[i])})).sort((a,b)=>b.eff-a.eff);
+const maxEff=Math.max(...effData.map(d=>d.eff));
+const effTable=document.getElementById('effTable');
+effTable.innerHTML=`<thead><tr><th>Partner</th><th class="right">Bays</th><th>Efficiency</th><th class="right">Rating</th></tr></thead>`;
+const etbody=document.createElement('tbody');
+effData.forEach(d=>{
+  const pct=(d.eff/maxEff*100).toFixed(0);
+  const color=d.eff>=2.0?TEAL:d.eff>=1.5?BLUE:ORANGE;
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${d.name}</td><td class="right" style="color:var(--muted)">${d.bays}</td><td><div class="efficiency-meter"><div class="eff-bar-wrap"><div class="eff-bar" style="width:${pct}%;background:${color}"></div></div><div class="eff-val">${d.eff.toFixed(3)}</div></div></td><td class="right" style="color:${color};font-weight:600">${d.eff>=2.0?'★ High':d.eff>=1.5?'Good':'Low'}</td>`;
+  etbody.appendChild(tr);
+});
+effTable.appendChild(etbody);
+
+// ── FULL SCORECARD ────────────────────────────────────────────────────────
+const allPartnerData=[
+  {name:'Bow',           q1:856,q2:862,q3:969,q4:890, jan:288,feb:270,mar:339},
+  {name:'Millers',       q1:489,q2:660,q3:672,q4:695, jan:238,feb:241,mar:246},
+  {name:'Chucks Y',      q1:600,q2:604,q3:611,q4:605, jan:204,feb:219,mar:223},
+  {name:'Goyettes',      q1:517,q2:488,q3:507,q4:526, jan:178,feb:178,mar:178},
+  {name:'Cornells',      q1:420,q2:549,q3:466,q4:463, jan:175,feb:168,mar:181},
+  {name:'Bishops',       q1:557,q2:556,q3:522,q4:512, jan:195,feb:165,mar:184},
+  {name:'Browns',        q1:638,q2:569,q3:649,q4:577, jan:157,feb:175,mar:197},
+  {name:'Tolpas',        q1:433,q2:440,q3:485,q4:577, jan:201,feb:165,mar:180},
+  {name:'Northside',     q1:278,q2:258,q3:322,q4:581, jan:177,feb:194,mar:216},
+  {name:'Wilberts Lksd', q1:501,q2:471,q3:516,q4:430, jan:157,feb:154,mar:172},
+  {name:'Lentini PM',    q1:381,q2:397,q3:374,q4:308, jan:122,feb:115,mar:127},
+  {name:'EL&M',          q1:357,q2:352,q3:345,q4:334, jan:118,feb:120,mar:131},
+  {name:'Chucks D',      q1:375,q2:375,q3:376,q4:352, jan:110,feb:118,mar:154},
+  {name:'Alliance',      q1:294,q2:418,q3:379,q4:311, jan:124,feb:103,mar:131},
+  {name:'Lentini R',     q1:328,q2:317,q3:302,q4:288, jan:101,feb:96, mar:111},
+  {name:'Saw Mill',      q1:280,q2:300,q3:300,q4:300, jan:100,feb:100,mar:100},
+  {name:'Wilberts HV',   q1:242,q2:220,q3:177,q4:225, jan:78, feb:81, mar:101},
+  {name:'Dings',         q1:224,q2:220,q3:194,q4:151, jan:59, feb:50, mar:77 },
+  {name:'Wilberts OH',   q1:166,q2:188,q3:217,q4:189, jan:53, feb:57, mar:34 },
+  {name:'Wilberts Inc.', q1:168,q2:272,q3:263,q4:241, jan:65, feb:62, mar:32 },
+  {name:'C&H',           q1:135,q2:135,q3:125,q4:120, jan:40, feb:40, mar:40 },
 ];
-
-const ft = document.getElementById('fullTable');
-ft.innerHTML = `<thead><tr>
-  <th>Partner</th>
-  <th class="right">Q1 2025</th>
-  <th class="right">Q2 2025</th>
-  <th class="right">Q3 2025</th>
-  <th class="right">Q4 2025</th>
-  <th class="right">2025 Total</th>
-  <th class="right">Jan 2026</th>
-  <th class="right">Feb 2026</th>
-  <th class="right">MoM</th>
-</tr></thead>`;
-const ftbody = document.createElement('tbody');
-allPartnerData.forEach(d => {
-  const total = d.q1+d.q2+d.q3+d.q4;
-  const mom = d.feb - d.jan;
-  const momStr = mom > 0 ? `<span class="badge-up">▲ +${mom}</span>` : mom < 0 ? `<span class="badge-down">▼ ${mom}</span>` : `<span class="badge-flat">— 0</span>`;
-  const tr = document.createElement('tr');
-  tr.innerHTML = `
-    <td style="font-weight:500">${d.name}</td>
-    <td class="right">${d.q1.toLocaleString()}</td>
-    <td class="right">${d.q2.toLocaleString()}</td>
-    <td class="right">${d.q3.toLocaleString()}</td>
-    <td class="right">${d.q4.toLocaleString()}</td>
-    <td class="right" style="font-weight:600;color:var(--accent)">${total.toLocaleString()}</td>
-    <td class="right">${d.jan}</td>
-    <td class="right">${d.feb}</td>
-    <td class="right">${momStr}</td>`;
+const ft=document.getElementById('fullTable');
+ft.innerHTML=`<thead><tr><th>Partner</th><th class="right">Q1 25</th><th class="right">Q2 25</th><th class="right">Q3 25</th><th class="right">Q4 25</th><th class="right">2025 Total</th><th class="right">Jan 26</th><th class="right">Feb 26</th><th class="right">Mar 26</th><th class="right">Mar DA</th><th class="right">MoM</th></tr></thead>`;
+const ftbody=document.createElement('tbody');
+allPartnerData.forEach(d=>{
+  const total=d.q1+d.q2+d.q3+d.q4;
+  const mom=d.mar-d.feb;
+  const momStr=mom>0?`<span class="badge-up">▲ +${mom}</span>`:mom<0?`<span class="badge-down">▼ ${mom}</span>`:`<span class="badge-flat">— 0</span>`;
+  const da=(d.mar/WD.mar).toFixed(2);
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td style="font-weight:500">${d.name}</td><td class="right">${d.q1.toLocaleString()}</td><td class="right">${d.q2.toLocaleString()}</td><td class="right">${d.q3.toLocaleString()}</td><td class="right">${d.q4.toLocaleString()}</td><td class="right" style="font-weight:600;color:var(--accent)">${total.toLocaleString()}</td><td class="right">${d.jan}</td><td class="right">${d.feb}</td><td class="right" style="font-weight:600">${d.mar}</td><td class="right" style="color:var(--accent2)">${da}</td><td class="right">${momStr}</td>`;
   ftbody.appendChild(tr);
 });
-
-// Totals row
-const totals = allPartnerData.reduce((acc,d) => {
-  acc.q1+=d.q1; acc.q2+=d.q2; acc.q3+=d.q3; acc.q4+=d.q4; acc.jan+=d.jan; acc.feb+=d.feb; return acc;
-}, {q1:0,q2:0,q3:0,q4:0,jan:0,feb:0});
-const totTotal = totals.q1+totals.q2+totals.q3+totals.q4;
-const totMom = totals.feb - totals.jan;
-const totTr = document.createElement('tr');
-totTr.style.borderTop = '2px solid var(--border)';
-totTr.innerHTML = `
-  <td style="font-weight:700;color:var(--accent)">GROUP TOTAL</td>
-  <td class="right" style="font-weight:700">${totals.q1.toLocaleString()}</td>
-  <td class="right" style="font-weight:700">${totals.q2.toLocaleString()}</td>
-  <td class="right" style="font-weight:700">${totals.q3.toLocaleString()}</td>
-  <td class="right" style="font-weight:700">${totals.q4.toLocaleString()}</td>
-  <td class="right" style="font-weight:700;color:var(--accent)">${totTotal.toLocaleString()}</td>
-  <td class="right" style="font-weight:700">${totals.jan.toLocaleString()}</td>
-  <td class="right" style="font-weight:700">${totals.feb.toLocaleString()}</td>
-  <td class="right"><span class="badge-down">▼ ${totMom}</span></td>`;
+const tot=allPartnerData.reduce((a,d)=>({q1:a.q1+d.q1,q2:a.q2+d.q2,q3:a.q3+d.q3,q4:a.q4+d.q4,jan:a.jan+d.jan,feb:a.feb+d.feb,mar:a.mar+d.mar}),{q1:0,q2:0,q3:0,q4:0,jan:0,feb:0,mar:0});
+const totTr=document.createElement('tr');
+totTr.style.borderTop='2px solid var(--border)';
+totTr.innerHTML=`<td style="font-weight:700;color:var(--accent)">GROUP TOTAL</td><td class="right" style="font-weight:700">${tot.q1.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.q2.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.q3.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.q4.toLocaleString()}</td><td class="right" style="font-weight:700;color:var(--accent)">${(tot.q1+tot.q2+tot.q3+tot.q4).toLocaleString()}</td><td class="right" style="font-weight:700">${tot.jan.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.feb.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.mar.toLocaleString()}</td><td class="right" style="color:var(--accent2);font-weight:700">${(tot.mar/WD.mar).toFixed(2)}</td><td class="right"><span class="badge-up">▲ +${tot.mar-tot.feb}</span></td>`;
 ftbody.appendChild(totTr);
 ft.appendChild(ftbody);
 </script>
