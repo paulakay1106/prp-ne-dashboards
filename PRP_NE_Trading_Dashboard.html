@@ -92,7 +92,7 @@
 <div class="header">
   <div class="header-left">
     <h1>PRP-NE Trading Data</h1>
-    <div class="subtitle">EZ Runner Report &nbsp;·&nbsp; Jan – Mar 2026 &nbsp;·&nbsp; Site Performance Analysis</div>
+    <div class="subtitle">EZ Runner Report &nbsp;·&nbsp; Feb 2025 – Mar 2026 &nbsp;·&nbsp; Site Performance Analysis</div>
   </div>
   <div class="header-right">
     <div class="month-block">
@@ -103,11 +103,11 @@
       <div class="kpi avg"><div class="value">922</div><div class="label">Parts / Day</div></div>
     </div>
     <div class="month-block">
-      <span class="month-label">Jan 2026</span>
-      <div class="kpi sold"><div class="value">19,956</div><div class="label">Parts Sold</div></div>
+      <span class="month-label">Mar 2025</span>
+      <div class="kpi sold"><div class="value">19,366</div><div class="label">Parts Sold</div></div>
       <div class="kpi-divider"></div>
-      <div class="kpi purch"><div class="value">19,956</div><div class="label">Parts Purchased</div></div>
-      <div class="kpi avg"><div class="value">950</div><div class="label">Parts / Day</div></div>
+      <div class="kpi purch"><div class="value">19,366</div><div class="label">Parts Purchased</div></div>
+      <div class="kpi avg"><div class="value">881</div><div class="label">Parts / Day</div></div>
     </div>
     <div class="month-block">
       <span class="month-label">Feb 2026</span>
@@ -126,7 +126,8 @@
     <div class="mom-block">
       <div class="mom-pill up">▲ 18.1% <span class="mom-label">Sold MoM (Feb→Mar '26)</span></div>
       <div class="mom-pill up">▲ 18.1% <span class="mom-label">Purch MoM (Feb→Mar '26)</span></div>
-      <div class="mom-pill down">▼ 5.6% <span class="mom-label">Sold MoM (Jan→Feb '26)</span></div>
+      <div class="mom-pill up">▲ 14.6% <span class="mom-label">Sold YoY (Mar '25→'26)</span></div>
+      <div class="mom-pill up">▲ 14.9% <span class="mom-label">Purch YoY (Mar '25→'26)</span></div>
       <div class="mom-pill up">▲ 2.1% <span class="mom-label">Sold YoY (Feb '25→'26)</span></div>
     </div>
   </div>
@@ -138,10 +139,10 @@
   <div class="legend-item"><span class="legend-dot dot-purch-mar"></span> Mar '26 Purchased</div>
   <div class="legend-item"><span class="legend-dot dot-sold-feb"></span> Feb '26 Sold</div>
   <div class="legend-item"><span class="legend-dot dot-purch-feb"></span> Feb '26 Purchased</div>
-  <div class="legend-item"><span class="legend-dot dot-sold-jan"></span> Jan '26 Sold</div>
-  <div class="legend-item"><span class="legend-dot dot-purch-jan"></span> Jan '26 Purchased</div>
   <div class="legend-item"><span class="legend-dot" style="background:rgba(0,194,255,0.28);border:1px solid rgba(0,194,255,0.5);"></span> Feb '25 Sold</div>
   <div class="legend-item"><span class="legend-dot" style="background:rgba(255,107,43,0.28);border:1px solid rgba(255,107,43,0.5);"></span> Feb '25 Purchased</div>
+  <div class="legend-item"><span class="legend-dot" style="background:rgba(0,194,255,0.22);border:1px solid rgba(0,194,255,0.45);"></span> Mar '25 Sold</div>
+  <div class="legend-item"><span class="legend-dot" style="background:rgba(255,107,43,0.22);border:1px solid rgba(255,107,43,0.45);"></span> Mar '25 Purchased</div>
   <div class="legend-item"><span class="legend-dot dot-up"></span> Increase</div>
   <div class="legend-item"><span class="legend-dot dot-down"></span> Decrease</div>
 </div>
@@ -258,12 +259,42 @@
   </div>
 </div>
 
-<!-- SECTION 9: DAILY AVERAGES -->
-<div class="section-header">Daily Averages — Parts Traded Per Day</div>
+<!-- SECTION 9a: YoY MAR 2025 vs MAR 2026 -->
+<div class="section-header">Year-over-Year — March 2025 vs March 2026</div>
 <div class="grid">
   <div class="panel">
-    <div class="panel-title">Daily Average Trend — All Months</div>
-    <div class="panel-subtitle">Total parts traded per working day · Sold &amp; Purchased</div>
+    <div class="panel-title">Parts Sold — Mar 2025 vs Mar 2026</div>
+    <div class="panel-subtitle">2025 (dim) vs 2026 (bright) · Sorted by 2026 volume</div>
+    <div style="height:560px;"><canvas id="chart18"></canvas></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">Parts Purchased — Mar 2025 vs Mar 2026</div>
+    <div class="panel-subtitle">2025 (dim) vs 2026 (bright) · Sorted by 2026 volume</div>
+    <div style="height:560px;"><canvas id="chart19"></canvas></div>
+  </div>
+</div>
+
+<!-- SECTION 9b: YoY MAR NET CHANGE -->
+<div class="section-header">Year-over-Year — Net Change Mar 2026 vs Mar 2025</div>
+<div class="grid">
+  <div class="panel">
+    <div class="panel-title">Net Change in Sold — Mar 2026 vs Mar 2025</div>
+    <div class="panel-subtitle">Green = more in 2026 · Red = less in 2026</div>
+    <div style="height:520px;"><canvas id="chart20"></canvas></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">Net Change in Purchased — Mar 2026 vs Mar 2025</div>
+    <div class="panel-subtitle">Green = more in 2026 · Red = less in 2026</div>
+    <div style="height:520px;"><canvas id="chart21"></canvas></div>
+  </div>
+</div>
+
+<!-- SECTION 10: DAILY AVERAGES -->
+<div class="section-header">Daily Averages — Parts Traded Per Working Day</div>
+<div class="grid">
+  <div class="panel">
+    <div class="panel-title">Daily Average — Feb &amp; Mar Year-over-Year</div>
+    <div class="panel-subtitle">2025 (dim) vs 2026 (bright) · Parts per working day · January excluded</div>
     <div style="height:280px;"><canvas id="chart15"></canvas></div>
   </div>
   <div class="panel">
@@ -649,26 +680,148 @@ new Chart(document.getElementById('chart14'), {
   }
 });
 
-// ── CHART 15: Daily Average Trend — all 4 months (combo bar + line) ───────────
+// ── MAR 2025 DATA ─────────────────────────────────────────────────────────────
+const mar25 = [
+  { site: "Alliance Auto Parts",        sold: 655,  purch: 2561 },
+  { site: "Bishop's Auto Parts Inc.",   sold: 2288, purch: 870  },
+  { site: "Bow Auto Parts",             sold: 1666, purch: 1112 },
+  { site: "Brown's Auto Salvage",       sold: 1786, purch: 1874 },
+  { site: "C&H Salvage",                sold: 404,  purch: 248  },
+  { site: "Chuck's - Douglassville",    sold: 460,  purch: 1586 },
+  { site: "Chuck's - York",             sold: 603,  purch: 1501 },
+  { site: "Cornell's Auto Parts",       sold: 2601, purch: 1059 },
+  { site: "Ding's Auto Parts",          sold: 526,  purch: 309  },
+  { site: "EL&M Auto Parts",            sold: 922,  purch: 1122 },
+  { site: "Goyette's",                  sold: 1507, purch: 1164 },
+  { site: "Lentini - Port Murray",      sold: 799,  purch: 658  },
+  { site: "Lentini - Ringoes",          sold: 693,  purch: 1122 },
+  { site: "Miller's Auto Recycling",    sold: 727,  purch: 735  },
+  { site: "Northside Salvage Yard",     sold: 382,  purch: 187  },
+  { site: "Saw Mill Auto Wreckers",     sold: 306,  purch: 182  },
+  { site: "Tolpa's Auto Parts",         sold: 970,  purch: 1138 },
+  { site: "Wilbert's - Hudson Valley",  sold: 259,  purch: 297  },
+  { site: "Wilbert's - OH Akron",       sold: 243,  purch: 59   },
+  { site: "Wilbert's - Ontario",        sold: 932,  purch: 0    },
+  { site: "Wilbert's - Webster",        sold: 569,  purch: 1581 },
+];
+
+const SOLD_25M  = 'rgba(0,194,255,0.28)';
+const PURCH_25M = 'rgba(255,107,43,0.28)';
+
+// Merge mar26 with mar25
+const yoyMar = [...mar].map(d => {
+  const y = mar25.find(f => f.site === d.site) || { sold: 0, purch: 0 };
+  return { ...d, sold25: y.sold, purch25: y.purch };
+});
+
+// ── CHART 18: YoY Sold Mar25 vs Mar26 ────────────────────────────────────────
+const s18 = [...yoyMar].sort((a,b) => b.sold - a.sold);
+new Chart(document.getElementById('chart18'), {
+  type:'bar', data:{
+    labels: s18.map(d => abbrev(d.site)),
+    datasets:[
+      { label:"Mar '25 Sold", data:s18.map(d=>d.sold25), backgroundColor:SOLD_25M,  borderColor:'rgba(0,194,255,0.5)',  borderWidth:1, borderRadius:3 },
+      { label:"Mar '26 Sold", data:s18.map(d=>d.sold),   backgroundColor:SOLD_MAR,  borderColor:SOLD_B,                borderWidth:1, borderRadius:3 },
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{ legend:LEG, datalabels:dlHoriz, tooltip:{...TT, callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.x.toLocaleString()}`}} },
+    scales:{...SC, y:{...SC.y, ticks:yTicks}}
+  }
+});
+
+// ── CHART 19: YoY Purchased Mar25 vs Mar26 ───────────────────────────────────
+const s19 = [...yoyMar].sort((a,b) => b.purch - a.purch);
+new Chart(document.getElementById('chart19'), {
+  type:'bar', data:{
+    labels: s19.map(d => abbrev(d.site)),
+    datasets:[
+      { label:"Mar '25 Purchased", data:s19.map(d=>d.purch25), backgroundColor:PURCH_25M, borderColor:'rgba(255,107,43,0.5)', borderWidth:1, borderRadius:3 },
+      { label:"Mar '26 Purchased", data:s19.map(d=>d.purch),   backgroundColor:PURCH_MAR, borderColor:PURCH_B,                borderWidth:1, borderRadius:3 },
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{ legend:LEG, datalabels:dlHoriz, tooltip:{...TT, callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.x.toLocaleString()}`}} },
+    scales:{...SC, y:{...SC.y, ticks:yTicks}}
+  }
+});
+
+// ── CHART 20: YoY Net Change Sold Mar ────────────────────────────────────────
+const s20 = [...yoyMar].map(d=>({site:d.site, delta:d.sold-d.sold25})).sort((a,b)=>b.delta-a.delta);
+new Chart(document.getElementById('chart20'), {
+  type:'bar', data:{
+    labels: s20.map(d => abbrev(d.site)),
+    datasets:[{ label:'Sold YoY Change', data:s20.map(d=>d.delta),
+      backgroundColor: s20.map(d=>d.delta>=0?'rgba(61,220,132,0.75)':'rgba(255,92,92,0.75)'),
+      borderColor:     s20.map(d=>d.delta>=0?'rgba(61,220,132,1)'   :'rgba(255,92,92,1)'),
+      borderWidth:1, borderRadius:3 }]
+  },
+  options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{ legend:{display:false}, datalabels:dlDiverge, tooltip:{...TT, callbacks:{label:ctx=>` YoY Change: ${ctx.parsed.x>0?'+':''}${ctx.parsed.x.toLocaleString()}`}} },
+    scales:{...SC, x:{...SC.x, ticks:{...SC.x.ticks, callback:v=>(v>0?'+':'')+v.toLocaleString()}}, y:{...SC.y, ticks:yTicks}}
+  }
+});
+
+// ── CHART 21: YoY Net Change Purchased Mar ───────────────────────────────────
+const s21 = [...yoyMar].map(d=>({site:d.site, delta:d.purch-d.purch25})).sort((a,b)=>b.delta-a.delta);
+new Chart(document.getElementById('chart21'), {
+  type:'bar', data:{
+    labels: s21.map(d => abbrev(d.site)),
+    datasets:[{ label:'Purchase YoY Change', data:s21.map(d=>d.delta),
+      backgroundColor: s21.map(d=>d.delta>=0?'rgba(61,220,132,0.75)':'rgba(255,92,92,0.75)'),
+      borderColor:     s21.map(d=>d.delta>=0?'rgba(61,220,132,1)'   :'rgba(255,92,92,1)'),
+      borderWidth:1, borderRadius:3 }]
+  },
+  options:{ responsive:true, maintainAspectRatio:false, indexAxis:'y',
+    plugins:{ legend:{display:false}, datalabels:dlDiverge, tooltip:{...TT, callbacks:{label:ctx=>` YoY Change: ${ctx.parsed.x>0?'+':''}${ctx.parsed.x.toLocaleString()}`}} },
+    scales:{...SC, x:{...SC.x, ticks:{...SC.x.ticks, callback:v=>(v>0?'+':'')+v.toLocaleString()}}, y:{...SC.y, ticks:yTicks}}
+  }
+});
+
+// ── CHART 15: Daily Average YoY Comparison — Feb & Mar (grouped) ─────────────
 new Chart(document.getElementById('chart15'), {
   type: 'bar',
   data: {
-    labels: ["Feb '25\n(20 days)", "Jan '26\n(21 days)", "Feb '26\n(20 days)", "Mar '26\n(22 days)"],
+    labels: ["February\n(20 working days)", "March\n(22 working days)"],
     datasets: [
-      { type:'bar', label:'Sold / Day',      data:[922.4,950.3,941.8,1011.1], backgroundColor:SOLD_MAR,  borderColor:SOLD_B,  borderWidth:1, borderRadius:4, yAxisID:'y',
-        datalabels:{display:true,anchor:'end',align:'start',rotation:-90,color:'#0d0f14',font:{family:"'DM Sans',sans-serif",size:9,weight:'700'},formatter:v=>v.toFixed(1),clamp:true} },
-      { type:'bar', label:'Purchased / Day', data:[922.4,950.3,941.8,1011.1], backgroundColor:PURCH_MAR, borderColor:PURCH_B, borderWidth:1, borderRadius:4, yAxisID:'y',
-        datalabels:{display:true,anchor:'end',align:'start',rotation:-90,color:'0d0f14',font:{family:"'DM Sans',sans-serif",size:9,weight:'700'},formatter:v=>v.toFixed(1),clamp:true} },
-      { type:'line', label:'Overall Avg / Day', data:[922.4,950.3,941.8,1011.1],
-        borderColor:'rgba(240,180,41,0.9)', backgroundColor:'rgba(240,180,41,0.08)',
-        borderWidth:2.5, pointBackgroundColor:'rgba(240,180,41,1)', pointRadius:6,
-        tension:0.3, fill:false, yAxisID:'y',
-        datalabels:{display:true,anchor:'end',align:'top',color:'#f0b429',font:{family:"'DM Sans',sans-serif",size:11,weight:'700'},formatter:v=>v.toFixed(1)} }
+      {
+        label: "2025 Sold / Day",
+        data: [922.4, 880.3],
+        backgroundColor: SOLD_25, borderColor: 'rgba(0,194,255,0.55)', borderWidth: 1, borderRadius: 4,
+        datalabels: { display:true, anchor:'end', align:'start', rotation:-90, color:'#e8ecf0', font:{family:"'DM Sans',sans-serif",size:10,weight:'700'}, formatter:v=>v.toFixed(1), clamp:true }
+      },
+      {
+        label: "2026 Sold / Day",
+        data: [941.8, 1011.1],
+        backgroundColor: SOLD_MAR, borderColor: SOLD_B, borderWidth: 1, borderRadius: 4,
+        datalabels: { display:true, anchor:'end', align:'start', rotation:-90, color:'#0d0f14', font:{family:"'DM Sans',sans-serif",size:10,weight:'700'}, formatter:v=>v.toFixed(1), clamp:true }
+      },
+      {
+        label: "2025 Purchased / Day",
+        data: [922.4, 880.3],
+        backgroundColor: PURCH_25, borderColor: 'rgba(255,107,43,0.55)', borderWidth: 1, borderRadius: 4,
+        datalabels: { display:true, anchor:'end', align:'start', rotation:-90, color:'#e8ecf0', font:{family:"'DM Sans',sans-serif",size:10,weight:'700'}, formatter:v=>v.toFixed(1), clamp:true }
+      },
+      {
+        label: "2026 Purchased / Day",
+        data: [941.8, 1011.1],
+        backgroundColor: PURCH_MAR, borderColor: PURCH_B, borderWidth: 1, borderRadius: 4,
+        datalabels: { display:true, anchor:'end', align:'start', rotation:-90, color:'#0d0f14', font:{family:"'DM Sans',sans-serif",size:10,weight:'700'}, formatter:v=>v.toFixed(1), clamp:true }
+      },
     ]
   },
-  options:{ responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:LEG, datalabels:{}, tooltip:{...TT,callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)} parts/day`}} },
-    scales:{ ...SC, y:{...SC.y, title:{display:true,text:'Parts per Working Day',color:'#6b7688',font:{size:10}}, min:850} }
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: LEG,
+      datalabels: {},
+      tooltip: { ...TT, callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)} parts/day` } }
+    },
+    scales: {
+      ...SC,
+      x: { ...SC.x, ticks: { ...SC.x.ticks, font: { family:"'DM Sans',sans-serif", size: 12 } } },
+      y: { ...SC.y, title: { display:true, text:'Parts per Working Day', color:'#6b7688', font:{size:10} }, min: 800 }
+    }
   }
 });
 
