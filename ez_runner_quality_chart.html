@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EZ Runner — Parts Quality Ranking (March 2026)</title>
+<title>EZ Runner — Parts Quality Ranking (April 2026)</title>
 <style>
   :root {
     --bg: #0d0f14;
     --surface: #161922;
     --border: #252a38;
-    --text: #f4f5f9;
-    --muted: #7a8396;
-    --accent: #00d68f;
-    --gold: #ffc947;
-    --bar-best: #00d68f;
-    --bar-mid: #ffc947;
-    --bar-low: #ff5757;
-    --bar-return: #5b8dee;
+    --text: #ffffff;
+    --muted: #a8b3c8;
+    --accent: #00ffaa;
+    --gold: #ffd95e;
+    --bar-best: #00ffaa;
+    --bar-mid: #ffd95e;
+    --bar-low: #ff6b6b;
+    --bar-return: #7eb8ff;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -133,7 +133,7 @@
   }
 
   .daily-card {
-    background: #1c2030;
+    background: #252d42;
     border-radius: 8px;
     padding: 14px 16px;
   }
@@ -203,7 +203,7 @@
   .bar-track {
     flex: 1;
     height: 22px;
-    background: #1c2030;
+    background: #252d42;
     border-radius: 4px;
     overflow: hidden;
   }
@@ -231,9 +231,9 @@
     border-radius: 20px;
   }
 
-  .badge-best span { background: rgba(0,214,143,0.15); color: var(--accent); }
-  .badge-mid  span { background: rgba(255,201,71,0.12); color: var(--gold); }
-  .badge-low  span { background: rgba(255,87,87,0.12);  color: #ff5757; }
+  .badge-best span { background: rgba(0,255,170,0.18); color: #00ffaa; }
+  .badge-mid  span { background: rgba(255,217,94,0.18); color: #ffd95e; }
+  .badge-low  span { background: rgba(255,107,107,0.18); color: #ff6b6b; }
 
   .avg-line-row {
     display: flex;
@@ -385,7 +385,7 @@
 </div>
 
 
-<div class="eyebrow">PRP-NE (#10) · March 2026 · Quality Performance Report</div>
+<div class="eyebrow">PRP-NE (#10) · April 2026 · Quality Performance Report</div>
 <h1>EZ Runner <span>Parts Quality</span> Ranking</h1>
 <div class="subtitle">Ranked by Graded % of Sold Parts — lower % = better quality</div>
 
@@ -399,54 +399,54 @@
 <div class="kpi-row">
   <div class="kpi">
     <div class="kpi-label">Total Parts Sold</div>
-    <div class="kpi-value">22,245</div>
-    <div class="kpi-sub">Mar 2026</div>
+    <div class="kpi-value">20,911</div>
+    <div class="kpi-sub">Apr 2026</div>
   </div>
   <div class="kpi">
     <div class="kpi-label">Total Graded Parts</div>
-    <div class="kpi-value gold">666</div>
-    <div class="kpi-sub">2.99% overall grade rate</div>
+    <div class="kpi-value gold">599</div>
+    <div class="kpi-sub">2.86% overall grade rate</div>
   </div>
   <div class="kpi">
     <div class="kpi-label">Best Quality</div>
-    <div class="kpi-value green">1.33%</div>
-    <div class="kpi-sub">Brown's Auto Salvage</div>
+    <div class="kpi-value green">0.83%</div>
+    <div class="kpi-sub">Wilbert's - Hudson Valley</div>
   </div>
   <div class="kpi">
     <div class="kpi-label">Return Rate (Overall)</div>
-    <div class="kpi-value blue">15.01%</div>
-    <div class="kpi-sub">3,340 returned of 22,245</div>
+    <div class="kpi-value blue">14.14%</div>
+    <div class="kpi-sub">2,957 returned of 20,911</div>
   </div>
 </div>
 
-<!-- DAILY AVERAGES -->
+<!-- DAILY AVERAGES — working days TBD -->
 <div class="daily-section">
-  <div class="daily-title">Daily Averages &nbsp;·&nbsp; Based on 22 Working Days</div>
+  <div class="daily-title">Daily Averages &nbsp;·&nbsp; Based on <span id="wd-label">23</span> Working Days</div>
   <div class="daily-grid">
     <div class="daily-card">
       <div class="daily-card-label">Parts Sold / Day</div>
-      <div class="daily-card-value" style="color:var(--text);">1,011</div>
-      <div class="daily-card-sub">22,245 total</div>
+      <div class="daily-card-value" style="color:var(--text);" id="avg-sold">909</div>
+      <div class="daily-card-sub">20,911 total</div>
     </div>
     <div class="daily-card">
       <div class="daily-card-label">Graded Parts / Day</div>
-      <div class="daily-card-value" style="color:var(--gold);">30.3</div>
-      <div class="daily-card-sub">666 total</div>
+      <div class="daily-card-value" style="color:var(--gold);" id="avg-graded">26.0</div>
+      <div class="daily-card-sub">599 total</div>
     </div>
     <div class="daily-card">
       <div class="daily-card-label">Returns to Stock / Day</div>
-      <div class="daily-card-value" style="color:var(--bar-return);">151.8</div>
-      <div class="daily-card-sub">3,340 total</div>
+      <div class="daily-card-value" style="color:var(--bar-return);" id="avg-returns">128.6</div>
+      <div class="daily-card-sub">2,957 total</div>
     </div>
     <div class="daily-card">
       <div class="daily-card-label">Purchases / Day</div>
-      <div class="daily-card-value" style="color:var(--text);">1,011</div>
-      <div class="daily-card-sub">22,245 total</div>
+      <div class="daily-card-value" style="color:var(--text);" id="avg-purch">909</div>
+      <div class="daily-card-sub">20,911 total</div>
     </div>
     <div class="daily-card">
       <div class="daily-card-label">Returned to Vendor / Day</div>
-      <div class="daily-card-value" style="color:var(--bar-return);">151.8</div>
-      <div class="daily-card-sub">3,340 total</div>
+      <div class="daily-card-value" style="color:var(--bar-return);" id="avg-vendor">128.6</div>
+      <div class="daily-card-sub">2,957 total</div>
     </div>
   </div>
 </div>
@@ -459,24 +459,24 @@
     <!-- SILVER -->
     <div class="podium-item">
       <div class="medal-circle medal-silver">🥈</div>
-      <div class="podium-name">Wilbert's – Hudson Valley</div>
-      <div class="podium-pct silver-txt">1.41%</div>
+      <div class="podium-name">Chuck's – York</div>
+      <div class="podium-pct silver-txt">1.19%</div>
       <div class="podium-block block-silver">2</div>
     </div>
 
     <!-- GOLD -->
     <div class="podium-item">
       <div class="medal-circle medal-gold">🥇</div>
-      <div class="podium-name">Brown's Auto Salvage</div>
-      <div class="podium-pct gold-txt">1.33%</div>
+      <div class="podium-name">Wilbert's – Hudson Valley</div>
+      <div class="podium-pct gold-txt">0.83%</div>
       <div class="podium-block block-gold">1</div>
     </div>
 
     <!-- BRONZE -->
     <div class="podium-item">
       <div class="medal-circle medal-bronze">🥉</div>
-      <div class="podium-name">EL&amp;M Auto Parts</div>
-      <div class="podium-pct bronze-txt">1.46%</div>
+      <div class="podium-name">Wilbert's – Webster</div>
+      <div class="podium-pct bronze-txt">1.87%</div>
       <div class="podium-block block-bronze">3</div>
     </div>
 
@@ -505,39 +505,49 @@
 <div class="insight-card">
   <div class="insight-icon">🏆</div>
   <div class="insight-headline">Top Performers</div>
-  <div class="insight-body"><strong>Brown's Auto Salvage, Wilbert's - Hudson Valley, and EL&amp;M Auto Parts</strong> lead the network this month with grade rates all under 1.5%.</div>
+  <div class="insight-body"><strong>Wilbert's - Hudson Valley, Chuck's - York, and Wilbert's - Webster</strong> lead the network this month with grade rates all under 2%.</div>
 </div>
 
-<footer>EZ Runner Sales · PRP-NE · Mar 1–31, 2026 · Updated data · Grading Tier: Failure to Meet Minimum Packaging Standards + subtiers</footer>
+<footer>EZ Runner Sales · PRP-NE · Apr 1–30, 2026 · Grading Tier: Failure to Meet Minimum Packaging Standards + subtiers</footer>
 
 <script>
+// Daily averages — update working days here if needed
+const workingDays = 22;
+document.getElementById('wd-label').textContent = workingDays;
+document.getElementById('avg-sold').textContent    = (20911 / workingDays).toFixed(0);
+document.getElementById('avg-graded').textContent  = (599   / workingDays).toFixed(1);
+document.getElementById('avg-returns').textContent = (2957  / workingDays).toFixed(1);
+document.getElementById('avg-purch').textContent   = (20911 / workingDays).toFixed(0);
+document.getElementById('avg-vendor').textContent  = (2957  / workingDays).toFixed(1);
+
+// ── QUALITY DATA ──────────────────────────────────────────────
 const data = [
-  { name: "Brown's Auto Salvage",      pct: 0.013339, returns:  9.0156 },
-  { name: "Wilbert's - Hudson Valley", pct: 0.014085, returns: 10.5634 },
-  { name: "EL&M Auto Parts",           pct: 0.014639, returns:  7.8683 },
-  { name: "Bow Auto Parts",            pct: 0.020398, returns: 14.6766 },
-  { name: "Chuck's - Douglassville",   pct: 0.020968, returns: 15.4839 },
-  { name: "Wilbert's - Webster",       pct: 0.023052, returns: 18.9901 },
-  { name: "Bishop's Auto Parts Inc.",  pct: 0.023059, returns: 15.5294 },
-  { name: "Chuck's - York",            pct: 0.023960, returns: 13.6192 },
-  { name: "Ding's Auto Parts",         pct: 0.024691, returns: 12.8748 },
-  { name: "Wilbert's - Ontario",       pct: 0.027593, returns: 11.7983 },
-  { name: "Tolpa's Auto Parts",        pct: 0.031718, returns: 21.2335 },
-  { name: "C&H Salvage",               pct: 0.035714, returns: 13.7363 },
-  { name: "Wilbert's - OH Akron",      pct: 0.035971, returns:  8.9928 },
-  { name: "Alliance Auto Parts",       pct: 0.036120, returns: 22.4974 },
-  { name: "Lentini - Port Murray",     pct: 0.037083, returns: 13.8443 },
-  { name: "Cornell's Auto Parts",      pct: 0.037420, returns: 13.8988 },
-  { name: "Miller's Auto Recycling",   pct: 0.037486, returns: 18.8534 },
-  { name: "Lentini - Ringoes",         pct: 0.038141, returns: 13.2300 },
-  { name: "Northside Salvage Yard",    pct: 0.047619, returns: 15.4195 },
-  { name: "Goyette's",                 pct: 0.054959, returns: 22.0467 },
-  { name: "Saw Mill Auto Wreckers",    pct: 0.077562, returns: 25.4848 },
+  { name: "Wilbert's - Hudson Valley", pct: 0.008333, returns:  11.6667 },
+  { name: "Chuck's - York",            pct: 0.011921, returns:  11.1258 },
+  { name: "Wilbert's - Webster",       pct: 0.018680, returns:  14.1968 },
+  { name: "Brown's Auto Salvage",      pct: 0.019661, returns:   8.0284 },
+  { name: "Ding's Auto Parts",         pct: 0.019856, returns:   9.9278 },
+  { name: "Bishop's Auto Parts Inc.",  pct: 0.020492, returns:  12.3862 },
+  { name: "Bow Auto Parts",            pct: 0.021595, returns:  15.0055 },
+  { name: "C&H Salvage",               pct: 0.024768, returns:  11.7647 },
+  { name: "Tolpa's Auto Parts",        pct: 0.024801, returns:  19.3977 },
+  { name: "Wilbert's - Ontario",       pct: 0.025355, returns:  13.0832 },
+  { name: "Chuck's - Douglassville",   pct: 0.026749, returns:  16.4609 },
+  { name: "Northside Salvage Yard",    pct: 0.027027, returns:  15.9459 },
+  { name: "EL&M Auto Parts",           pct: 0.029532, returns:   9.2668 },
+  { name: "Cornell's Auto Parts",      pct: 0.033161, returns:  13.1540 },
+  { name: "Lentini - Ringoes",         pct: 0.033505, returns:  10.0515 },
+  { name: "Lentini - Port Murray",     pct: 0.033784, returns:  11.0360 },
+  { name: "Miller's Auto Recycling",   pct: 0.035556, returns:  17.1111 },
+  { name: "Saw Mill Auto Wreckers",    pct: 0.044199, returns:  27.6243 },
+  { name: "Wilbert's - OH Akron",      pct: 0.046218, returns:  14.2857 },
+  { name: "Goyette's",                 pct: 0.049790, returns:  23.5624 },
+  { name: "Alliance Auto Parts",       pct: 0.051333, returns:  20.8292 },
 ];
 
 // ── QUALITY CHART ─────────────────────────────────────────────
 const qualityAvg = data.reduce((s,d) => s + d.pct, 0) / data.length;
-const maxQ = 0.09;
+const maxQ = 0.07;
 
 function qColor(p) {
   return p < 0.030 ? 'var(--bar-best)' : p < 0.040 ? 'var(--bar-mid)' : 'var(--bar-low)';
@@ -614,32 +624,33 @@ sortedR.forEach((d, i) => {
   </div>`;
 });
 document.getElementById('chart-returns').innerHTML = rHtml;
+
 // ── RETURN % OF PURCHASES CHART ───────────────────────────────
 const purchaseData = [
-  { name: "Northside Salvage Yard",    retPurch:  7.2776 },
-  { name: "C&H Salvage",               retPurch: 11.4894 },
-  { name: "Alliance Auto Parts",       retPurch: 12.4011 },
-  { name: "Brown's Auto Salvage",      retPurch: 12.6775 },
-  { name: "Bishop's Auto Parts Inc.",  retPurch: 12.7451 },
-  { name: "Bow Auto Parts",            retPurch: 13.3486 },
-  { name: "Wilbert's - Hudson Valley", retPurch: 13.5246 },
-  { name: "EL&M Auto Parts",           retPurch: 13.7353 },
-  { name: "Goyette's",                 retPurch: 13.9676 },
-  { name: "Saw Mill Auto Wreckers",    retPurch: 14.3396 },
-  { name: "Wilbert's - Webster",       retPurch: 14.7963 },
-  { name: "Tolpa's Auto Parts",        retPurch: 15.0235 },
-  { name: "Cornell's Auto Parts",      retPurch: 15.2908 },
-  { name: "Lentini - Port Murray",     retPurch: 15.9656 },
-  { name: "Miller's Auto Recycling",   retPurch: 16.5217 },
-  { name: "Lentini - Ringoes",         retPurch: 16.6853 },
-  { name: "Ding's Auto Parts",         retPurch: 17.0029 },
-  { name: "Chuck's - York",            retPurch: 19.1502 },
-  { name: "Chuck's - Douglassville",   retPurch: 19.5442 },
-  { name: "Wilbert's - OH Akron",      retPurch: 24.1135 },
+  { name: "Wilbert's - OH Akron",      retPurch:  5.7143 },
+  { name: "C&H Salvage",               retPurch:  7.0370 },
+  { name: "Saw Mill Auto Wreckers",    retPurch:  9.4340 },
+  { name: "Brown's Auto Salvage",      retPurch: 10.7726 },
+  { name: "Bishop's Auto Parts Inc.",  retPurch: 10.8871 },
+  { name: "Northside Salvage Yard",    retPurch: 11.4973 },
+  { name: "Alliance Auto Parts",       retPurch: 11.5102 },
+  { name: "Tolpa's Auto Parts",        retPurch: 12.4359 },
+  { name: "Goyette's",                 retPurch: 14.0449 },
+  { name: "Lentini - Ringoes",         retPurch: 14.8684 },
+  { name: "Wilbert's - Webster",       retPurch: 14.8810 },
+  { name: "Cornell's Auto Parts",      retPurch: 15.3061 },
+  { name: "Miller's Auto Recycling",   retPurch: 15.7113 },
+  { name: "Lentini - Port Murray",     retPurch: 15.7773 },
+  { name: "Chuck's - Douglassville",   retPurch: 15.9851 },
+  { name: "EL&M Auto Parts",           retPurch: 16.0515 },
+  { name: "Ding's Auto Parts",         retPurch: 16.3564 },
+  { name: "Chuck's - York",            retPurch: 16.8867 },
+  { name: "Bow Auto Parts",            retPurch: 17.3323 },
+  { name: "Wilbert's - Hudson Valley", retPurch: 17.3913 },
 ];
 
-const avgP = purchaseData.reduce((s, d) => s + d.retPurch, 0) / purchaseData.length;
-const maxP = 30;
+const avgP = purchaseData.reduce((s,d) => s + d.retPurch, 0) / purchaseData.length;
+const maxP = 25;
 const pAvgLeft = (avgP / maxP * 100).toFixed(1);
 
 function pColor(r) {

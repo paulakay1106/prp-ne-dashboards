@@ -7,19 +7,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:        #0f1320;
-    --card:      #161d2e;
-    --card2:     #1c2438;
-    --border:    #1e2d4a;
-    --teal:      #00d4aa;
-    --gold:      #f5a623;
-    --silver:    #a8b2bc;
-    --bronze:    #cd7f32;
-    --blue:      #3d7de8;
-    --red:       #ff4757;
-    --amber:     #ffa502;
-    --sub:       #5a7090;
-    --text:      #c8d8ee;
+    --bg:        #0d1117;
+    --card:      #161e2e;
+    --card2:     #1a2438;
+    --border:    #2a3f5f;
+    --teal:      #00e5b8;
+    --gold:      #f7b731;
+    --silver:    #c8d4df;
+    --bronze:    #e09b4a;
+    --blue:      #5b9cf6;
+    --red:       #ff6b7a;
+    --amber:     #ffbe3d;
+    --sub:       #8fadc8;
+    --text:      #e2edf8;
     --white:     #ffffff;
   }
 
@@ -71,7 +71,7 @@
   /* ── SECTION LABELS ── */
   .section-label {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px; font-weight: 700; letter-spacing: 3px;
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
     color: var(--sub); text-transform: uppercase;
     margin-bottom: 12px; margin-top: 36px;
     display: flex; align-items: center; gap: 10px;
@@ -106,7 +106,7 @@
 
   .kpi-label {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
+    font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
     color: var(--sub); text-transform: uppercase; margin-bottom: 8px;
   }
   .kpi-value {
@@ -118,8 +118,8 @@
   .kpi.gold  .kpi-value { color: var(--gold); }
   .kpi.blue  .kpi-value { color: var(--blue); }
   .kpi.amber .kpi-value { color: var(--amber); }
-  .kpi-sub { font-size: 11px; color: var(--sub); font-style: italic; }
-  .kpi-sub .up { color: var(--teal); font-style: normal; font-weight: 600; }
+  .kpi-sub { font-size: 12px; color: var(--sub); font-style: italic; }
+  .kpi-sub .up { color: var(--teal); font-style: normal; font-weight: 700; }
 
   /* ── PODIUM ── */
   .podium-wrap {
@@ -159,21 +159,21 @@
   .rank-table { width: 100%; border-collapse: collapse; }
   .rank-table th {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
     color: var(--sub); text-transform: uppercase;
     padding: 10px 14px; text-align: left;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 2px solid var(--border);
     background: var(--card);
   }
   .rank-table th.r { text-align: right; }
   .rank-table td {
     padding: 11px 14px;
-    border-bottom: 1px solid rgba(30,45,74,0.5);
+    border-bottom: 1px solid var(--border);
     font-size: 13px;
   }
   .rank-table tr:nth-child(odd) td  { background: var(--card); }
   .rank-table tr:nth-child(even) td { background: var(--card2); }
-  .rank-table tr:hover td { background: #1e2d4a; transition: background 0.15s; }
+  .rank-table tr:hover td { background: #1e3255; transition: background 0.15s; }
 
   .rank-num {
     font-family: 'Barlow Condensed', sans-serif;
@@ -191,7 +191,7 @@
   .amt.net { color: var(--teal); }
   .amt.gross { color: var(--sub); font-weight: 400; }
 
-  .inv-num { color: var(--sub); text-align: center; font-size: 13px; }
+  .inv-num { color: var(--text); text-align: center; font-size: 13px; font-weight: 600; }
 
   .bar-cell { width: 200px; }
   .bar-wrap { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
@@ -205,21 +205,21 @@
     background: #1a3060 !important;
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700; font-size: 14px; color: var(--white);
-    border-top: 1px solid var(--blue);
+    border-top: 2px solid var(--blue);
   }
 
   /* ── ANNUAL TABLE ── */
   .annual-table { width: 100%; border-collapse: collapse; }
   .annual-table th {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
     color: var(--sub); text-transform: uppercase;
     padding: 10px 14px; text-align: right;
-    border-bottom: 1px solid var(--border); background: var(--card);
+    border-bottom: 2px solid var(--border); background: var(--card);
   }
   .annual-table th:first-child { text-align: left; }
   .annual-table td {
-    padding: 11px 14px; border-bottom: 1px solid rgba(30,45,74,0.5);
+    padding: 11px 14px; border-bottom: 1px solid var(--border);
     font-size: 13px; text-align: right;
   }
   .annual-table td:first-child { text-align: left; }
@@ -237,7 +237,7 @@
   .yoy-dn  { color: var(--red); font-weight: 700; }
   .yoy-na  { color: var(--sub); }
   .net-val { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; }
-  .dim-val { color: var(--sub); }
+  .dim-val { color: var(--text); font-weight: 500; }
 
   .ann-bar-wrap { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
   .ann-bar { height: 6px; border-radius: 3px; min-width: 4px; }
@@ -249,15 +249,15 @@
   .monthly-table { width: 100%; border-collapse: collapse; min-width: 900px; }
   .monthly-table th {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
     color: var(--sub); text-transform: uppercase;
-    padding: 8px 10px; text-align: center;
-    border-bottom: 1px solid var(--border); background: var(--card);
+    padding: 10px 10px; text-align: center;
+    border-bottom: 2px solid var(--border); background: var(--card);
   }
   .monthly-table th:first-child { text-align: left; }
   .monthly-table td {
-    padding: 10px 10px; border-bottom: 1px solid rgba(30,45,74,0.4);
-    font-size: 12px; text-align: center; color: var(--sub);
+    padding: 10px 10px; border-bottom: 1px solid var(--border);
+    font-size: 13px; text-align: center; color: var(--text);
     font-family: 'Barlow Condensed', sans-serif;
   }
   .monthly-table td:first-child { text-align: left; }
@@ -266,14 +266,14 @@
   .m-yr {
     font-size: 14px; font-weight: 800;
   }
-  .m-2024 { color: #4a90d9; }
+  .m-2024 { color: #6aabf7; }
   .m-2025 { color: var(--teal); }
   .m-2026 { color: var(--gold); }
-  .m-val { font-weight: 600; }
-  .m-2024 .m-val { color: #4a90d9; }
+  .m-val { font-weight: 700; }
+  .m-2024 .m-val { color: #6aabf7; }
   .m-2025 .m-val { color: var(--teal); }
   .m-2026 .m-val { color: var(--gold); }
-  .m-empty { color: #2a3550; }
+  .m-empty { color: #3a4f6a; }
   .m-total { font-weight: 800; }
 
   /* ── CHART BARS ── */
@@ -284,7 +284,7 @@
   }
   .chart-title {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    font-size: 12px; font-weight: 700; letter-spacing: 2px;
     color: var(--sub); text-transform: uppercase; margin-bottom: 18px;
   }
 
@@ -297,11 +297,11 @@
   }
   .bar-track { flex: 1; height: 22px; background: var(--border); border-radius: 4px; overflow: hidden; position: relative; }
   .bar-fill-h { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px;
-    font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; color: rgba(0,0,0,0.5);
+    font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; color: rgba(0,0,0,0.6);
     transition: width 1.2s cubic-bezier(.4,0,.2,1);
   }
   .bar-track-val {
-    font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700;
+    font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700;
     flex-shrink: 0; width: 85px; text-align: right;
   }
 
@@ -316,7 +316,7 @@
   .footer {
     margin-top: 48px; padding-top: 16px;
     border-top: 1px solid var(--border);
-    font-size: 11px; color: var(--sub); font-style: italic;
+    font-size: 12px; color: var(--sub); font-style: italic;
     text-align: center;
   }
 
@@ -338,7 +338,53 @@
   }
 </style>
 </head>
-<body>
+<body><style>
+.topnav {
+  background: #1c1f2e;
+  border-bottom: 1px solid #2a2f48;
+  padding: 10px 44px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+.topnav a {
+  font-family: Barlow Condensed, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7399;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.topnav a:hover { color: #fff; border-color: #2a2f48; background: #22263a; }
+.topnav a.active { color: #00e5a0; border-color: #00e5a0; }
+.topnav .sep { color: #2a2f48; font-size: 0.8rem; }
+</style>
+<div class="topnav">
+  <a href="index.html">🏠 Hub</a>
+  <span class="sep">|</span>
+  <a href="national_trading_dashboard.html">National Trading</a>
+  <span class="sep">|</span>
+  <a href="PRP_NE_Trading_Dashboard.html">PRP-NE Trading</a>
+  <span class="sep">|</span>
+  <a href="coop_sales_dashboard.html" class="active">Co-op Sales</a>
+  <span class="sep">|</span>
+  <a href="ez_runner_quality_chart.html">EZ Runner</a>
+  <span class="sep">|</span>
+  <a href="part_grading_dashboard_feb2026.html">Part Grading</a>
+  <span class="sep">|</span>
+  <a href="production_dashboard.html">Production</a>
+</div>
+
 <div class="page">
 
   <!-- HEADER -->
@@ -359,13 +405,13 @@
     </div>
     <div class="kpi gold">
       <div class="kpi-label">2026 YTD Gross</div>
-      <div class="kpi-value">$1,168,614</div>
-      <div class="kpi-sub"><span class="up">▲ 52.6%</span> vs same period 2025</div>
+      <div class="kpi-value">$1,631,890</div>
+      <div class="kpi-sub"><span class="up">▲ 65.9%</span> vs same period 2025</div>
     </div>
     <div class="kpi blue">
       <div class="kpi-label">Record Month</div>
-      <div class="kpi-value">Mar 2026</div>
-      <div class="kpi-sub">$466,282 gross sales &mdash; all-time high</div>
+      <div class="kpi-value">Apr 2026</div>
+      <div class="kpi-sub">$463,276 gross &mdash; $21,058/day on 22 working days</div>
     </div>
     <div class="kpi amber">
       <div class="kpi-label">2025 Units Sold</div>
@@ -380,26 +426,26 @@
 
     <div class="kpi teal" style="animation-delay:0.05s">
       <div class="kpi-label">2026 YTD Daily Gross</div>
-      <div class="kpi-value" style="font-size:28px;">$12,985</div>
-      <div class="kpi-sub"><span class="up">▲ 41.3%</span> vs $9,192/day in 2025</div>
+      <div class="kpi-value" style="font-size:28px;">$13,599</div>
+      <div class="kpi-sub"><span class="up">▲ 47.9%</span> vs $9,192/day in 2025</div>
     </div>
 
     <div class="kpi gold" style="animation-delay:0.12s">
       <div class="kpi-label">Best Day Average</div>
-      <div class="kpi-value" style="font-size:28px;">$15,041</div>
-      <div class="kpi-sub">Mar 2026 &mdash; highest ever daily rate</div>
+      <div class="kpi-value" style="font-size:28px;">$21,058</div>
+      <div class="kpi-sub">Apr 2026 &mdash; 22 working days &mdash; highest ever</div>
     </div>
 
     <div class="kpi blue" style="animation-delay:0.19s">
-      <div class="kpi-label">2026 Daily Units</div>
-      <div class="kpi-value" style="font-size:28px;">3.66</div>
-      <div class="kpi-sub"><span class="up">▲ 41.3%</span> vs 2.59 units/day in 2025</div>
+      <div class="kpi-label">2026 YTD Daily Units</div>
+      <div class="kpi-value" style="font-size:28px;">3.83</div>
+      <div class="kpi-sub"><span class="up">▲ 47.9%</span> vs 2.59 units/day in 2025</div>
     </div>
 
     <div class="kpi amber" style="animation-delay:0.26s">
       <div class="kpi-label">2026 Full-Year Pace</div>
-      <div class="kpi-value" style="font-size:28px;">$4.74M</div>
-      <div class="kpi-sub">Projected at current daily rate of $12,985</div>
+      <div class="kpi-value" style="font-size:28px;">$4.96M</div>
+      <div class="kpi-sub">Projected at current daily rate of $13,599</div>
     </div>
 
   </div>
@@ -416,12 +462,12 @@
   </div>
 
   <!-- CUSTOMER BAR CHART -->
-  <div class="section-label">Gross Sales by Customer — March 2026 (Best → Lowest)</div>
+  <div class="section-label">Gross Sales by Customer — April 2026 (Best → Lowest)</div>
   <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:24px 24px 20px;">
     <div id="custBarChart"></div>
     <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
       <span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--sub);text-transform:uppercase;">Total — All Customers</span>
-      <span style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--teal);">$466,282</span>
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--teal);">$463,276</span>
     </div>
   </div>
 
@@ -470,22 +516,23 @@ const fmtU = n => n == null ? '—' : n.toLocaleString();
 
 // ── Customer data ─────────────────────────────────────────────
 const customers = [
-  {rank:1,  name:"Wilberts Inc",              gross:67373, inv:39},
-  {rank:2,  name:"Browns Auto Salvage",        gross:62334, inv:43},
-  {rank:3,  name:"Cornells Auto Parts",        gross:60382, inv:31},
-  {rank:4,  name:"Goyettes Auto Recycling",    gross:42656, inv:18},
-  {rank:5,  name:"Chucks - York",              gross:40533, inv:17},
-  {rank:6,  name:"Bow Auto Parts",             gross:39268, inv:41},
-  {rank:7,  name:"Lentini - Ringoes",          gross:27743, inv:12},
-  {rank:8,  name:"Lentini - Port Murray",      gross:26443, inv:10},
-  {rank:9,  name:"Tolpas Auto Parts",          gross:23853, inv:12},
-  {rank:10, name:"EL&M Auto Parts",            gross:21292, inv:8},
-  {rank:11, name:"Bishops Auto Parts",         gross:17330, inv:15},
-  {rank:12, name:"Chucks - Douglasville",      gross:12422, inv:6},
-  {rank:13, name:"C&H Salvage Corp",           gross:10273, inv:3},
-  {rank:14, name:"Wilbert's Hudson Valley",    gross:7524,  inv:4},
-  {rank:15, name:"Alliance Auto Parts",        gross:6856,  inv:3},
-  {rank:16, name:"Dings Auto Parts",           gross:0,     inv:1},
+  {rank:1,  name:"Browns Auto Salvage",        gross:81304, inv:44},
+  {rank:2,  name:"Wilberts Inc",               gross:77195, inv:36},
+  {rank:3,  name:"Chucks - York",              gross:46032, inv:21},
+  {rank:4,  name:"Cornells Auto Parts",        gross:40783, inv:26},
+  {rank:5,  name:"Bow Auto Parts",             gross:35199, inv:25},
+  {rank:6,  name:"Lentini - Ringoes",          gross:34717, inv:18},
+  {rank:7,  name:"Bishops Auto Parts",         gross:33404, inv:11},
+  {rank:8,  name:"Tolpas Auto Parts",          gross:33331, inv:14},
+  {rank:9,  name:"Chucks - Douglasville",      gross:20430, inv:10},
+  {rank:10, name:"EL&M Auto Parts",            gross:19415, inv:14},
+  {rank:11, name:"Lentini - Port Murray",      gross:14210, inv:9},
+  {rank:12, name:"Goyettes Auto Recycling",    gross:10493, inv:11},
+  {rank:13, name:"Dings Auto Parts",           gross:9965,  inv:4},
+  {rank:14, name:"Alliance Auto Parts",        gross:3399,  inv:3},
+  {rank:15, name:"Wilberts Ohio - Akron",      gross:3399,  inv:1},
+  {rank:16, name:"C&H Salvage Corp",           gross:0,     inv:2},
+  {rank:17, name:"Wilbert's Hudson Valley",    gross:0,     inv:4},
 ];
 const maxGross = customers[0].gross;
 const rankColors = {1:'var(--gold)',2:'var(--silver)',3:'var(--bronze)'};
@@ -513,7 +560,7 @@ customers.forEach(c => {
 const monthly = {
   2024: [261037,171017,115599,120397,183651,196091,124889,138857,182628,212988,248063,249665],
   2025: [310087,216423,239509,217580,298955,322485,304189,246112,299091,351661,252077,296732],
-  2026: [335854,366478,466282,null,null,null,null,null,null,null,null,null],
+  2026: [335854,366478,466282,463276,null,null,null,null,null,null,null,null],
 };
 const mLabels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const mBody = document.getElementById('monthBody');
@@ -539,7 +586,7 @@ const annualData = [
   {yr:'2023', gross:1557815,  ytd:false},
   {yr:'2024', gross:2204882,  ytd:false},
   {yr:'2025', gross:3354901,  ytd:false},
-  {yr:'2026*', gross:1168614, ytd:true},
+  {yr:'2026*', gross:1631890, ytd:true},
 ];
 const maxAnn = Math.max(...annualData.map(a=>a.gross));
 const annChart = document.getElementById('annualChart');
@@ -570,7 +617,7 @@ const allUnits = [
   {label:'Apr\'25', v:63, yr:2025},{label:'May\'25', v:84, yr:2025},{label:'Jun\'25', v:93, yr:2025},
   {label:'Jul\'25', v:83, yr:2025},{label:'Aug\'25', v:67, yr:2025},{label:'Sep\'25', v:83, yr:2025},
   {label:'Oct\'25', v:97, yr:2025},{label:'Nov\'25', v:70, yr:2025},{label:'Dec\'25', v:83, yr:2025},
-  {label:'Jan\'26', v:93, yr:2026},{label:'Feb\'26', v:105, yr:2026},{label:'Mar\'26', v:131, yr:2026},
+  {label:'Jan\'26', v:93, yr:2026},{label:'Feb\'26', v:105, yr:2026},{label:'Mar\'26', v:131, yr:2026},{label:'Apr\'26', v:130, yr:2026},
 ];
 const uColors = {2023:'#4a5568', 2024:'#4a90d9', 2025:'#00d4aa', 2026:'#f5a623'};
 const maxUnits = 131;
@@ -596,7 +643,7 @@ const dailyAvgData = [
   ['Jan', 8421,  10003, 10834],
   ['Feb', 5897,  7729,  13088],
   ['Mar', 3729,  7726,  15041],
-  ['Apr', 4013,  7253,  null],
+  ['Apr', 4013,  7253,  21058],
   ['May', 5924,  9644,  null],
   ['Jun', 6536,  10750, null],
   ['Jul', 4029,  9813,  null],
@@ -606,7 +653,7 @@ const dailyAvgData = [
   ['Nov', 8269,  8403,  null],
   ['Dec', 8054,  9572,  null],
 ];
-const maxDaily = 15041;
+const maxDaily = 21058;
 const dColors = {0:'#4a90d9', 1:'#00d4aa', 2:'#f5a623'};
 const dLabels = ['2024','2025','2026'];
 const dailyAvgChart = document.getElementById('dailyAvgChart');
