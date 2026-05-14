@@ -272,8 +272,8 @@ Chart.defaults.color = '#5a6180';
 const TTP  = {backgroundColor:'#181c28',borderColor:'#404878',borderWidth:1,titleColor:'#f0f4ff',bodyColor:'#e0e6f8',padding:12,cornerRadius:4};
 const TTP2 = {backgroundColor:'#181c28',borderColor:'#404878',borderWidth:1,titleColor:'#f0f4ff',bodyColor:'#e0e6f8',padding:11,cornerRadius:4};
 const GRID = {color:'rgba(64,72,120,0.7)',drawBorder:false};
-const TICKS= {color:'#b0b8d8',font:{size:12,family:"'Barlow Condensed',sans-serif"}};
-const DL_TOP = {anchor:'end',align:'top',offset:3,color:'rgba(240,244,255,0.95)',font:{size:10,family:"'Barlow Condensed',sans-serif",weight:'700'},formatter:v=>v>=1000?(v/1000).toFixed(1)+'k':v};
+const TICKS= {color:'#4a5270',font:{size:12,family:"'Barlow Condensed',sans-serif"}};
+const DL_TOP = {anchor:'end',align:'top',offset:3,color:'#0d1224',font:{size:10,family:"'Barlow Condensed',sans-serif",weight:'700'},formatter:v=>v>=1000?(v/1000).toFixed(1)+'k':v};
 const DL_OFF = {display:false};
 
 // ════════════════════════
@@ -296,7 +296,7 @@ new Chart(document.getElementById('soldVsPurchChart'),{type:'bar',data:{labels:L
   {label:'NA Sold',data:NA_SOLD,backgroundColor:mkC('rgba(0,240,168,0.6)','rgba(0,240,168,1)'),borderRadius:0,borderSkipped:false,barPercentage:0.88,categoryPercentage:0.92,datalabels:DL_OFF},
   {label:'NA Purchased',data:NA_PURCH,backgroundColor:mkC('rgba(252,211,77,0.6)','rgba(252,211,77,1)'),borderRadius:3,borderSkipped:false,barPercentage:0.88,categoryPercentage:0.92,datalabels:DL_TOP}
 ]},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{
-  legend:{labels:{color:'#e0e6f8',font:{size:12,family:"'Barlow Condensed',sans-serif"},boxWidth:12,padding:16}},
+  legend:{labels:{color:'#0d1224',font:{size:12,family:"'Barlow Condensed',sans-serif"},boxWidth:12,padding:16}},
   tooltip:{...TTP,callbacks:{label:c=>`  ${c.dataset.label}: ${c.raw.toLocaleString()}`,footer:items=>`  Total: ${items.reduce((s,i)=>s+i.raw,0).toLocaleString()}`}}
 },scales:{x:{stacked:true,grid:{display:false},ticks:{...TICKS,maxRotation:45}},y:{stacked:true,grid:GRID,ticks:{...TICKS,callback:v=>(v/1000).toFixed(0)+'k'},min:0}}}});
 
@@ -304,7 +304,7 @@ new Chart(document.getElementById('neVsNatChart'),{type:'bar',data:{labels:LABEL
   {label:'National Total',data:NAT_TOTAL,backgroundColor:mkC('rgba(196,181,253,0.6)','rgba(196,181,253,1)'),borderRadius:0,borderSkipped:false,barPercentage:0.88,categoryPercentage:0.92,datalabels:DL_OFF},
   {label:'Autoly Total',data:PRP_NE,backgroundColor:mkC('rgba(96,200,255,0.6)','rgba(96,200,255,1)'),borderRadius:3,borderSkipped:false,barPercentage:0.88,categoryPercentage:0.92,datalabels:DL_TOP}
 ]},options:{responsive:true,interaction:{mode:'index',intersect:false},plugins:{
-  legend:{labels:{color:'#e0e6f8',font:{size:12,family:"'Barlow Condensed',sans-serif"},boxWidth:12,padding:16}},
+  legend:{labels:{color:'#0d1224',font:{size:12,family:"'Barlow Condensed',sans-serif"},boxWidth:12,padding:16}},
   tooltip:{...TTP,callbacks:{label:c=>`  ${c.dataset.label}: ${c.raw.toLocaleString()}`,footer:items=>`  Total: ${items.reduce((s,i)=>s+i.raw,0).toLocaleString()}`}}
 },scales:{x:{stacked:true,grid:{display:false},ticks:{...TICKS,maxRotation:45}},y:{stacked:true,grid:GRID,ticks:{...TICKS,callback:v=>(v/1000).toFixed(0)+'k'},min:0}}}});
 
@@ -334,8 +334,8 @@ const RANK_DATA = [
   {name:'C&H',                sold:15,  purch:15},
 ];
 
-const DL_RANK = {anchor:'end',align:'end',offset:3,color:'rgba(240,244,255,0.95)',font:{size:11,family:"'Barlow Condensed',sans-serif",weight:'700'},formatter:v=>v>0?v.toLocaleString():''};
-const Y_TICKS = {color:'#e0e6f8',font:{size:12,family:"'Barlow Condensed',sans-serif",weight:'600'}};
+const DL_RANK = {anchor:'end',align:'end',offset:3,color:'#0d1224',font:{size:11,family:"'Barlow Condensed',sans-serif",weight:'700'},formatter:v=>v>0?v.toLocaleString():''};
+const Y_TICKS = {color:'#0d1224',font:{size:12,family:"'Barlow Condensed',sans-serif",weight:'600'}};
 
 // Chart 1 — ranked by sold
 const bySold = [...RANK_DATA].sort((a,b)=>b.sold-a.sold);
@@ -343,9 +343,9 @@ new Chart(document.getElementById('rankSoldChart'),{type:'bar',data:{labels:bySo
   {label:'Sold',      data:bySold.map(d=>d.sold), backgroundColor:'rgba(0,240,168,0.85)', borderRadius:3,borderSkipped:false,barPercentage:0.55,categoryPercentage:0.85,datalabels:DL_RANK},
   {label:'Purchased', data:bySold.map(d=>d.purch),backgroundColor:'rgba(252,211,77,0.75)',borderRadius:3,borderSkipped:false,barPercentage:0.55,categoryPercentage:0.85,datalabels:DL_RANK}
 ]},options:{indexAxis:'y',responsive:true,plugins:{
-  legend:{labels:{color:'#e0e6f8',font:{size:12,family:"'Barlow Condensed',sans-serif"},boxWidth:11,padding:12}},
+  legend:{labels:{color:'#0d1224',font:{size:12,family:"'Barlow Condensed',sans-serif"},boxWidth:11,padding:12}},
   tooltip:{...TTP2,callbacks:{label:c=>`  ${c.dataset.label}: ${c.raw.toLocaleString()}`}}
-},scales:{x:{grid:{color:'rgba(64,72,120,0.6)'},ticks:{color:'#b0b8d8',font:{size:11}},min:0},y:{grid:{display:false},ticks:Y_TICKS}}}});
+},scales:{x:{grid:{color:'rgba(180,188,210,0.8)'},ticks:{color:'#4a5270',font:{size:11}},min:0},y:{grid:{display:false},ticks:Y_TICKS}}}});
 
 // Chart 2 — ranked by purchased
 const byPurch = [...RANK_DATA].sort((a,b)=>b.purch-a.purch);
@@ -353,9 +353,9 @@ new Chart(document.getElementById('rankPurchChart'),{type:'bar',data:{labels:byP
   {label:'Purchased', data:byPurch.map(d=>d.purch),backgroundColor:'rgba(252,211,77,0.88)',borderRadius:3,borderSkipped:false,barPercentage:0.55,categoryPercentage:0.85,datalabels:DL_RANK},
   {label:'Sold',      data:byPurch.map(d=>d.sold), backgroundColor:'rgba(0,240,168,0.65)', borderRadius:3,borderSkipped:false,barPercentage:0.55,categoryPercentage:0.85,datalabels:DL_RANK}
 ]},options:{indexAxis:'y',responsive:true,plugins:{
-  legend:{labels:{color:'#e0e6f8',font:{size:12,family:"'Barlow Condensed',sans-serif"},boxWidth:11,padding:12}},
+  legend:{labels:{color:'#0d1224',font:{size:12,family:"'Barlow Condensed',sans-serif"},boxWidth:11,padding:12}},
   tooltip:{...TTP2,callbacks:{label:c=>`  ${c.dataset.label}: ${c.raw.toLocaleString()}`}}
-},scales:{x:{grid:{color:'rgba(64,72,120,0.6)'},ticks:{color:'#b0b8d8',font:{size:11}},min:0},y:{grid:{display:false},ticks:Y_TICKS}}}});
+},scales:{x:{grid:{color:'rgba(180,188,210,0.8)'},ticks:{color:'#4a5270',font:{size:11}},min:0},y:{grid:{display:false},ticks:Y_TICKS}}}});
 
 // Chart 3 — combined, sorted by total
 const byTotal = [...RANK_DATA].sort((a,b)=>(b.sold+b.purch)-(a.sold+a.purch));
@@ -363,9 +363,9 @@ new Chart(document.getElementById('rankBothChart'),{type:'bar',data:{labels:byTo
   {label:'Sold',      data:byTotal.map(d=>d.sold), backgroundColor:'rgba(0,240,168,0.85)', borderRadius:3,borderSkipped:false,barPercentage:0.7,categoryPercentage:0.85,datalabels:DL_RANK},
   {label:'Purchased', data:byTotal.map(d=>d.purch),backgroundColor:'rgba(252,211,77,0.82)',borderRadius:3,borderSkipped:false,barPercentage:0.7,categoryPercentage:0.85,datalabels:DL_RANK}
 ]},options:{indexAxis:'y',responsive:true,plugins:{
-  legend:{labels:{color:'#e0e6f8',font:{size:12,family:"'Barlow Condensed',sans-serif"},boxWidth:11,padding:14}},
+  legend:{labels:{color:'#0d1224',font:{size:12,family:"'Barlow Condensed',sans-serif"},boxWidth:11,padding:14}},
   tooltip:{...TTP2,callbacks:{label:c=>`  ${c.dataset.label}: ${c.raw.toLocaleString()}`,footer:items=>`  Total: ${items.reduce((s,i)=>s+i.raw,0).toLocaleString()}`}}
-},scales:{x:{grid:{color:'rgba(64,72,120,0.6)'},ticks:{color:'#b0b8d8',font:{size:11}},min:0,max:1400},y:{grid:{display:false},ticks:{...Y_TICKS,font:{size:12,family:"'Barlow Condensed',sans-serif",weight:'600'}}}}}});;
+},scales:{x:{grid:{color:'rgba(180,188,210,0.8)'},ticks:{color:'#4a5270',font:{size:11}},min:0,max:1400},y:{grid:{display:false},ticks:{...Y_TICKS,font:{size:12,family:"'Barlow Condensed',sans-serif",weight:'600'}}}}}});;
 </script>
 </body>
 </html>
