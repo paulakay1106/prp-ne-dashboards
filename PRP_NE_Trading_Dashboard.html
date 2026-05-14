@@ -25,46 +25,46 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   body{background:#f0f2f8;font-weight:500; background:#f0f2f8; color:#0d1224; font-family:'DM Sans',sans-serif; min-height:100vh; }
 
-  .header { background:linear-gradient(135deg,#0e1220 0%,#151d35 100%); border-bottom:2px solid #dde2ef; padding:28px 40px 24px; display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:18px; }
+  .header { background:linear-gradient(135deg,#eef1f8 0%,#e4e8f4 100%); border-bottom:2px solid #dde2ef; padding:28px 40px 24px; display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:18px; }
   .header-left h1 { font-family:'Bebas Neue',sans-serif; font-size:2.8rem; letter-spacing:3px; color:#0d1224; line-height:1; }
-  .header-left .subtitle { font-size:0.84rem; color:#a0afc0; letter-spacing:2px; text-transform:uppercase; margin-top:6px; font-weight:500; }
+  .header-left .subtitle { font-size:0.84rem; color:#2a3050; letter-spacing:2px; text-transform:uppercase; margin-top:6px; font-weight:500; }
 
   .header-right { display:flex; gap:0; align-items:stretch; }
   .month-block { display:flex; gap:16px; align-items:center; padding:0 20px; border-right:1px solid #dde2ef; }
   .month-block:last-of-type { border-right:none; }
-  .month-label { font-family:'Bebas Neue',sans-serif; font-size:0.85rem; letter-spacing:2px; color:#8896aa; writing-mode:vertical-rl; transform:rotate(180deg); text-transform:uppercase; }
+  .month-label { font-family:'Bebas Neue',sans-serif; font-size:0.85rem; letter-spacing:2px; color:#4a5270; writing-mode:vertical-rl; transform:rotate(180deg); text-transform:uppercase; }
 
   .kpi { text-align:right; }
   .kpi .value { font-family:'Bebas Neue',sans-serif; font-size:1.55rem; letter-spacing:1px; line-height:1; }
   .kpi.sold .value  { color:#29d4ff; }
   .kpi.purch .value { color:#ff7a3d; }
   .kpi.avg .value   { color:#f5c842; }
-  .kpi .label { font-size:0.68rem; letter-spacing:1.5px; text-transform:uppercase; color:#8896aa; margin-top:3px; font-weight:600; }
+  .kpi .label { font-size:0.68rem; letter-spacing:1.5px; text-transform:uppercase; color:#4a5270; margin-top:3px; font-weight:600; }
   .kpi-divider { width:1px; height:32px; background:#dde2ef; }
 
   .mom-block { display:flex; flex-direction:column; gap:6px; padding:0 0 0 20px; justify-content:center; }
   .mom-pill { display:flex; align-items:center; gap:5px; font-size:0.74rem; font-weight:700; padding:4px 10px; border-radius:20px; white-space:nowrap; }
   .mom-pill.up   { background:rgba(78,234,160,0.18); color:#4eeaa0; border:1px solid rgba(78,234,160,0.3); }
   .mom-pill.down { background:rgba(255,96,96,0.18);  color:#ff6060; border:1px solid rgba(255,96,96,0.3); }
-  .mom-pill .mom-label { font-size:0.63rem; font-weight:500; color:#8896aa; margin-left:2px; }
+  .mom-pill .mom-label { font-size:0.63rem; font-weight:500; color:#4a5270; margin-left:2px; }
 
-  .legend { display:flex; gap:16px; padding:12px 40px; background:var(--panel2); border-bottom:2px solid #dde2ef; align-items:center; flex-wrap:wrap; }
-  .legend-label { font-size:0.74rem; letter-spacing:1.5px; text-transform:uppercase; color:#8896aa; margin-right:6px; font-weight:600; }
-  .legend-item  { display:flex; align-items:center; gap:7px; font-size:0.79rem; font-weight:600; color:#d0dae8; }
+  .legend { display:flex; gap:16px; padding:12px 40px; background:#f0f2f8; border-bottom:2px solid #dde2ef; align-items:center; flex-wrap:wrap; }
+  .legend-label { font-size:0.74rem; letter-spacing:1.5px; text-transform:uppercase; color:#4a5270; margin-right:6px; font-weight:600; }
+  .legend-item  { display:flex; align-items:center; gap:7px; font-size:0.79rem; font-weight:600; color:#0d1224; }
   .legend-dot   { width:12px; height:12px; border-radius:3px; flex-shrink:0; }
   .dot-up   { background:rgba(78,234,160,0.85); }
   .dot-down { background:rgba(255,96,96,0.85); }
 
-  .section-header { background:#111520; border-top:2px solid #dde2ef; border-bottom:2px solid #dde2ef; padding:11px 28px; font-family:'Bebas Neue',sans-serif; font-size:0.95rem; letter-spacing:3px; color:#f5c842; text-transform:uppercase; }
+  .section-header { background:#e4e8f4; border-top:2px solid #dde2ef; border-bottom:2px solid #dde2ef; padding:11px 28px; font-family:'Bebas Neue',sans-serif; font-size:0.95rem; letter-spacing:3px; color:#0d1224; text-transform:uppercase; }
 
   .grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; background:#dde2ef; }
-  .panel { background:var(--panel); padding:24px 28px 20px; }
+  .panel { background:#ffffff; padding:24px 28px 20px; }
   .panel.full-width { grid-column:1 / -1; }
-  .chart1-outer { background:var(--panel); grid-column:1 / -1; display:flex; justify-content:center; padding:24px 28px 20px; }
+  .chart1-outer { background:#ffffff; grid-column:1 / -1; display:flex; justify-content:center; padding:24px 28px 20px; }
   .chart1-inner { width:55%; }
 
-  .panel-title { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:2.5px; color:#f0f4f8; margin-bottom:4px; }
-  .panel-subtitle { font-size:0.74rem; color:#8896aa; letter-spacing:1px; text-transform:uppercase; margin-bottom:16px; font-weight:600; }
+  .panel-title { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; letter-spacing:2.5px; color:#0d1224; margin-bottom:4px; }
+  .panel-subtitle { font-size:0.74rem; color:#4a5270; letter-spacing:1px; text-transform:uppercase; margin-bottom:16px; font-weight:600; }
 
   @media (max-width:960px) { .grid { grid-template-columns:1fr; } .panel.full-width,.chart1-outer { grid-column:1; } .chart1-inner { width:100%; } .header { flex-direction:column; align-items:flex-start; } }
 </style>
@@ -460,13 +460,13 @@ function abbrev(n) {
   return n.replace("Bishop's Auto Parts Inc.","Bishop's Auto Parts").replace("Brown's Auto Salvage","Brown's Salvage").replace("Chuck's - Douglassville","Chuck's - Douglasvl.").replace("Miller's Auto Recycling","Miller's Recycling").replace("Northside Salvage Yard","Northside Salvage").replace("Saw Mill Auto Wreckers","Saw Mill Wreckers").replace("Wilbert's - Hudson Valley","Wilbert's - Hud. Val.").replace("Wilbert's - OH Akron","Wilbert's - Akron");
 }
 
-const TT  = { backgroundColor:'#1e2638', titleColor:'#f0f4f8', bodyColor:'#c8d4e0', borderColor:'#3a4560', borderWidth:1, padding:12, titleFont:{size:13,weight:'700'}, bodyFont:{size:12} };
+const TT  = { backgroundColor:'#ffffff', titleColor:'#0d1224', bodyColor:'#2a3050', borderColor:'#dde2ef', borderWidth:1, padding:12, titleFont:{size:13,weight:'700'}, bodyFont:{size:12} };
 const SC  = {
-  x: { grid:{color:'rgba(255,255,255,0.08)'}, ticks:{color:'#c0cfe0',font:{family:"'DM Sans',sans-serif",size:11,weight:'600'}}, border:{color:'#2a3045'} },
-  y: { grid:{color:'rgba(255,255,255,0.08)'}, ticks:{color:'#c0cfe0',font:{family:"'DM Sans',sans-serif",size:11,weight:'600'}}, border:{color:'#2a3045'} }
+  x: { grid:{color:'rgba(255,255,255,0.08)'}, ticks:{color:'#0d1224',font:{family:"'DM Sans',sans-serif",size:11,weight:'600'}}, border:{color:'#2a3045'} },
+  y: { grid:{color:'rgba(255,255,255,0.08)'}, ticks:{color:'#2a3050',font:{family:"'DM Sans',sans-serif",size:11,weight:'600'}}, border:{color:'#2a3045'} }
 };
-const LEG = { display:true, position:'top', align:'end', labels:{color:'#d0dae8',font:{family:"'DM Sans',sans-serif",size:12,weight:'600'},boxWidth:12,boxHeight:12,padding:16} };
-const yTk = { color:'#c0cfe0', font:{family:"'DM Sans',sans-serif",size:11,weight:'600'} };
+const LEG = { display:true, position:'top', align:'end', labels:{color:'#0d1224',font:{family:"'DM Sans',sans-serif",size:12,weight:'600'},boxWidth:12,boxHeight:12,padding:16} };
+const yTk = { color:'#2a3050', font:{family:"'DM Sans',sans-serif",size:11,weight:'600'} };
 const dlV = { display:true, anchor:'end', align:'start', rotation:-90, color:'#ffffff', font:{family:"'DM Sans',sans-serif",size:10,weight:'700'}, formatter:v=>v>0?v.toLocaleString():'', clamp:true };
 const dlH = { display:true, anchor:'end', align:'start', color:'#ffffff', font:{family:"'DM Sans',sans-serif",size:10,weight:'700'}, formatter:v=>v>0?v.toLocaleString():'', clamp:true };
 const dlD = { display:true, anchor:'end', align:ctx=>ctx.dataset.data[ctx.dataIndex]>=0?'start':'end', color:'#ffffff', font:{family:"'DM Sans',sans-serif",size:9,weight:'700'}, formatter:v=>v!==0?(v>0?'+':'')+v.toLocaleString():'', clamp:true };
@@ -601,7 +601,7 @@ new Chart(document.getElementById('chart15'),{
   },
   options:{ responsive:true, maintainAspectRatio:false,
     plugins:{ legend:LEG, datalabels:{}, tooltip:{...TT,callbacks:{label:ctx=>ctx.parsed.y!=null?` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)} parts/day`:''}} },
-    scales:{ ...SC, x:{...SC.x,ticks:{...SC.x.ticks,font:{family:"'DM Sans',sans-serif",size:12}}}, y:{...SC.y,title:{display:true,text:'Parts per Working Day',color:'#6b7688',font:{size:10}},min:800} }
+    scales:{ ...SC, x:{...SC.x,ticks:{...SC.x.ticks,font:{family:"'DM Sans',sans-serif",size:12}}}, y:{...SC.y,title:{display:true,text:'Parts per Working Day',color:'#4a5270',font:{size:10}},min:800} }
   }
 });
 
