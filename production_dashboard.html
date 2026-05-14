@@ -9,8 +9,8 @@
 <style>
   :root {
     --bg: #f0f2f8;
-    --surface: #161a23;
-    --surface2: #1e2430;
+    --surface: #ffffff;
+    --surface2: #eef0f6;
     --border: #dde2ef;
     --accent: #e8c547;
     --accent2: #4ec9b0;
@@ -638,7 +638,7 @@ const ORANGE = '#f07b53';
 const BLUE = '#5b9ef5';
 const PURPLE = '#b07fe8';
 
-Chart.defaults.color = '#8892a4';
+Chart.defaults.color = '#0d1224';
 Chart.defaults.font.family = "'DM Sans', sans-serif";
 Chart.defaults.font.size = 12;
 
@@ -668,8 +668,8 @@ new Chart(document.getElementById('trendChart'), {
       tooltip: { callbacks: { label: ctx => `  ${ctx.parsed.y.toLocaleString()} vehicles` } }
     },
     scales: {
-      x: { grid: { color: '#1e2430' }, ticks: { maxRotation: 45, minRotation: 45 } },
-      y: { grid: { color: '#1e2430' }, min: 1800 }
+      x: { grid: { color: 'rgba(180,188,210,0.8)' }, ticks: { maxRotation: 45, minRotation: 45 } },
+      y: { grid: { color: 'rgba(180,188,210,0.8)' }, min: 1800 }
     }
   }
 });
@@ -695,7 +695,7 @@ new Chart(document.getElementById('quarterChart'), {
     },
     scales: {
       x: { grid: { display: false } },
-      y: { grid: { color: '#1e2430' }, min: 7500 }
+      y: { grid: { color: 'rgba(180,188,210,0.8)' }, min: 7500 }
     }
   }
 });
@@ -722,7 +722,7 @@ new Chart(document.getElementById('partnerBar'), {
     },
     scales: {
       x: { grid: { display: false } },
-      y: { grid: { color: '#1e2430' } }
+      y: { grid: { color: 'rgba(180,188,210,0.8)' } }
     }
   }
 });
@@ -752,7 +752,7 @@ new Chart(document.getElementById('quarterlyPartner'), {
     },
     scales: {
       x: { grid: { display: false }, ticks: { font: { size: 11 } } },
-      y: { grid: { color: '#1e2430' } },
+      y: { grid: { color: 'rgba(180,188,210,0.8)' } },
       xAxis: { stacked: false }
     }
   }
@@ -782,7 +782,7 @@ new Chart(document.getElementById('momChart'), {
     },
     scales: {
       x: { grid: { display: false } },
-      y: { grid: { color: '#1e2430' } }
+      y: { grid: { color: 'rgba(180,188,210,0.8)' } }
     }
   }
 });
