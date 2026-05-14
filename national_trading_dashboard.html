@@ -9,17 +9,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <style>
   :root {
-    --bg:#0f1117;--bg2:#181c28;--bg3:#1e2338;--border:#404878;
+    --bg: #f0f2f8;--bg2: #ffffff;--bg3: #eef0f6;--border: #dde2ef;
     --green:#00f0a8;--yellow:#fcd34d;--blue:#60c8ff;--red:#ff5c7a;--purple:#c4b5fd;
-    --orange:#fb923c;--muted:#b0b8d8;--text:#f0f4ff;--subtext:#e0e6f8;
+    --orange:#fb923c;--muted: #4a5270;--text: #0d1224;--subtext: #2a3050;
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  body{background:#f0f2f8;color:#0d1224;font-family:'Barlow',sans-serif;font-size:15px;line-height:1.6;}
+  body{background:#f0f2f8;font-weight:500;background:#f0f2f8;color:#0d1224;font-family:'Barlow',sans-serif;font-size:15px;line-height:1.6;}
 
   /* HEADER */
   .header{padding:24px 44px 22px;border-bottom:2px solid #dde2ef;}
   .eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#5a6180;margin-bottom:6px;}
-  h1{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:3rem;line-height:1;letter-spacing:-.5px;color:#fff;}
+  h1{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:3rem;line-height:1;letter-spacing:-.5px;color:#0d1224;}
   h1 span{color:var(--green);}
   .header-sub{font-size:.92rem;color:#2a3050;margin-top:8px;font-style:italic;}
   .header-legend{display:flex;gap:22px;margin-top:14px;flex-wrap:wrap;}
@@ -32,7 +32,7 @@
   .kpi:last-child{border-right:none;}
   .kpi-lbl{font-family:'Barlow Condensed',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#5a6180;margin-bottom:5px;}
   .kpi-val{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:2.4rem;line-height:1;letter-spacing:-.5px;}
-  .kpi-val.green{color:var(--green);}.kpi-val.yellow{color:var(--yellow);}.kpi-val.blue{color:var(--blue);}.kpi-val.white{color:#fff;}
+  .kpi-val.green{color:var(--green);}.kpi-val.yellow{color:var(--yellow);}.kpi-val.blue{color:var(--blue);}.kpi-val.white{color:#0d1224;}
   .kpi-foot{display:flex;align-items:center;gap:7px;margin-top:6px;font-size:.85rem;color:#2a3050;flex-wrap:wrap;}
   .kpi-daily{margin-top:10px;padding-top:10px;border-top:1px solid #dde2ef;font-family:'Barlow Condensed',sans-serif;font-size:.86rem;color:#5a6180;}
   .kpi-daily span{color:#0d1224;font-weight:700;}
@@ -50,7 +50,7 @@
   .daily-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
   .dcard{background:#ffffff;border:1px solid #dde2ef;border-radius:6px;padding:18px 22px;}
   .dcard.latest{border:2px solid var(--green);}
-  .dcard-month{font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
+  .dcard-month{font-family:'Barlow Condensed',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#0d1224;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
   .wdays{font-size:.75rem;background:#f0f2f8;border:1px solid #dde2ef;padding:3px 9px;border-radius:3px;color:#2a3050;letter-spacing:.07em;}
   .dcard-rows{display:flex;flex-direction:column;gap:11px;}
   .drow{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;}
@@ -64,7 +64,7 @@
   .icard.g{border-top-color:var(--green);}.icard.y{border-top-color:var(--yellow);}.icard.b{border-top-color:var(--blue);}
   .icard-eye{font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#5a6180;margin-bottom:8px;}
   .icard-body{font-size:.92rem;color:#2a3050;line-height:1.65;}
-  .icard-body strong{color:#fff;font-weight:700;}
+  .icard-body strong{color:#0d1224;font-weight:700;}
 
   .callouts{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:4px;}
   .ccard{background:#ffffff;border:1px solid #dde2ef;border-left:4px solid;border-radius:0 6px 6px 0;padding:16px 18px;}
@@ -72,7 +72,7 @@
   .ccard.y{border-left-color:var(--yellow);}.ccard.p{border-left-color:var(--purple);}
   .ccard-eye{font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#5a6180;margin-bottom:8px;}
   .ccard-body{font-size:.9rem;color:#2a3050;line-height:1.6;}
-  .ccard-body strong{color:#fff;font-weight:700;}
+  .ccard-body strong{color:#0d1224;font-weight:700;}
 
   /* PANELS */
   .panel{background:#ffffff;border:1px solid #dde2ef;border-radius:6px;padding:22px 26px 18px;margin-bottom:16px;}
@@ -89,36 +89,11 @@
 </head>
 <body>
 <style>
-.topnav {
-  background: #ffffff;
-  border-bottom: 1px solid #dde2ef;
-  padding: 10px 44px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-}
-.topnav a {
-  font-family: DM Mono, Barlow Condensed, monospace;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #0d1224;
-  text-decoration: none;
-  padding: 5px 10px;
-  border-radius: 3px;
-  border: 1px solid transparent;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-.topnav a:hover { color: #0d1224; border-color: #dde2ef; background: #f0f2f8; }
-.topnav a.active { color: #0a6e4b; border-color: rgba(10,110,75,0.3); background: rgba(10,110,75,0.07); }
-.topnav .sep { color: #dde2ef; font-size: 0.8rem; }
+.topnav{background:#ffffff;border-bottom:1px solid #dde2ef;padding:10px 44px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;position:sticky;top:0;z-index:999;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
+.topnav a{font-family:'DM Mono',monospace;font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#0d1224;text-decoration:none;padding:5px 10px;border-radius:3px;border:1px solid transparent;transition:all 0.15s;white-space:nowrap;}
+.topnav a:hover{color:#0d1224;border-color:#dde2ef;background:#f0f2f8;}
+.topnav a.active{color:#0a6e4b;border-color:rgba(10,110,75,0.3);background:rgba(10,110,75,0.07);}
+.topnav .sep{color:#dde2ef;font-size:0.8rem;}
 </style>
 <div class="topnav">
   <a href="index.html">🏠 Hub</a>
@@ -191,7 +166,7 @@
       <div class="dcard-rows">
         <div class="drow"><div><div class="drow-lbl">NA Sold / day</div><div class="drow-sub">2,432 total</div></div><div class="drow-val" style="color:var(--green)">121.6</div></div>
         <div class="drow"><div><div class="drow-lbl">NA Purchased / day</div><div class="drow-sub">4,994 total</div></div><div class="drow-val" style="color:var(--yellow)">249.7</div></div>
-        <div class="drow"><div><div class="drow-lbl">National Total / day</div><div class="drow-sub">7,426 total</div></div><div class="drow-val" style="color:#fff">371.3</div></div>
+        <div class="drow"><div><div class="drow-lbl">National Total / day</div><div class="drow-sub">7,426 total</div></div><div class="drow-val" style="color:#0d1224">371.3</div></div>
         <div class="drow"><div><div class="drow-lbl">Autoly / day</div><div class="drow-sub">18,835 total</div></div><div class="drow-val" style="color:var(--blue)">941.8</div></div>
       </div>
     </div>
@@ -200,7 +175,7 @@
       <div class="dcard-rows">
         <div class="drow"><div><div class="drow-lbl">NA Sold / day</div><div class="drow-sub">2,764 total</div></div><div class="drow-val" style="color:var(--green)">125.6</div></div>
         <div class="drow"><div><div class="drow-lbl">NA Purchased / day</div><div class="drow-sub">6,107 total</div></div><div class="drow-val" style="color:var(--yellow)">277.6</div></div>
-        <div class="drow"><div><div class="drow-lbl">National Total / day</div><div class="drow-sub">8,871 total</div></div><div class="drow-val" style="color:#fff">403.2</div></div>
+        <div class="drow"><div><div class="drow-lbl">National Total / day</div><div class="drow-sub">8,871 total</div></div><div class="drow-val" style="color:#0d1224">403.2</div></div>
         <div class="drow"><div><div class="drow-lbl">Autoly / day</div><div class="drow-sub">22,245 total</div></div><div class="drow-val" style="color:var(--blue)">1,011.1</div></div>
       </div>
     </div>
@@ -209,7 +184,7 @@
       <div class="dcard-rows">
         <div class="drow"><div><div class="drow-lbl">NA Sold / day</div><div class="drow-sub">2,736 total</div></div><div class="drow-val" style="color:var(--green)">124.4</div></div>
         <div class="drow"><div><div class="drow-lbl">NA Purchased / day</div><div class="drow-sub">5,459 total</div></div><div class="drow-val" style="color:var(--yellow)">248.1</div></div>
-        <div class="drow"><div><div class="drow-lbl">National Total / day</div><div class="drow-sub">8,195 total</div></div><div class="drow-val" style="color:#fff">372.5</div></div>
+        <div class="drow"><div><div class="drow-lbl">National Total / day</div><div class="drow-sub">8,195 total</div></div><div class="drow-val" style="color:#0d1224">372.5</div></div>
         <div class="drow"><div><div class="drow-lbl">Autoly / day</div><div class="drow-sub">20,911 total</div></div><div class="drow-val" style="color:var(--blue)">950.5</div></div>
       </div>
     </div>

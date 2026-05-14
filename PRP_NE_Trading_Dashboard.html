@@ -9,24 +9,24 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap');
   :root {
-    --bg: #0a0c10;
+    --bg: #f0f2f8;
     --panel: #161922;
     --panel2: #1c2030;
-    --border: #2a3045;
+    --border: #dde2ef;
     --sold: #29d4ff;
     --purch: #ff7a3d;
-    --text: #f0f4f8;
-    --muted: #8896aa;
+    --text: #0d1224;
+    --muted: #4a5270;
     --bright: #ffffff;
     --accent: #f5c842;
     --up: #4eeaa0;
     --down: #ff6060;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:#f0f2f8; color:#0d1224; font-family:'DM Sans',sans-serif; min-height:100vh; }
+  body{background:#f0f2f8;font-weight:500; background:#f0f2f8; color:#0d1224; font-family:'DM Sans',sans-serif; min-height:100vh; }
 
   .header { background:linear-gradient(135deg,#0e1220 0%,#151d35 100%); border-bottom:2px solid #dde2ef; padding:28px 40px 24px; display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:18px; }
-  .header-left h1 { font-family:'Bebas Neue',sans-serif; font-size:2.8rem; letter-spacing:3px; color:#fff; line-height:1; }
+  .header-left h1 { font-family:'Bebas Neue',sans-serif; font-size:2.8rem; letter-spacing:3px; color:#0d1224; line-height:1; }
   .header-left .subtitle { font-size:0.84rem; color:#a0afc0; letter-spacing:2px; text-transform:uppercase; margin-top:6px; font-weight:500; }
 
   .header-right { display:flex; gap:0; align-items:stretch; }
@@ -71,36 +71,11 @@
 </head>
 <body>
 <style>
-.topnav {
-  background: #ffffff;
-  border-bottom: 1px solid #dde2ef;
-  padding: 10px 44px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-}
-.topnav a {
-  font-family: DM Mono, Barlow Condensed, monospace;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #0d1224;
-  text-decoration: none;
-  padding: 5px 10px;
-  border-radius: 3px;
-  border: 1px solid transparent;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-.topnav a:hover { color: #0d1224; border-color: #dde2ef; background: #f0f2f8; }
-.topnav a.active { color: #0a6e4b; border-color: rgba(10,110,75,0.3); background: rgba(10,110,75,0.07); }
-.topnav .sep { color: #dde2ef; font-size: 0.8rem; }
+.topnav{background:#ffffff;border-bottom:1px solid #dde2ef;padding:10px 44px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;position:sticky;top:0;z-index:999;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
+.topnav a{font-family:'DM Mono',monospace;font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#0d1224;text-decoration:none;padding:5px 10px;border-radius:3px;border:1px solid transparent;transition:all 0.15s;white-space:nowrap;}
+.topnav a:hover{color:#0d1224;border-color:#dde2ef;background:#f0f2f8;}
+.topnav a.active{color:#0a6e4b;border-color:rgba(10,110,75,0.3);background:rgba(10,110,75,0.07);}
+.topnav .sep{color:#dde2ef;font-size:0.8rem;}
 </style>
 <div class="topnav">
   <a href="index.html">🏠 Hub</a>
