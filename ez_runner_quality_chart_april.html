@@ -6,17 +6,17 @@
 <title>EZ Runner — Parts Quality Ranking (April 2026)</title>
 <style>
   :root {
-    --bg: #0d0f14;
-    --surface: #161922;
-    --border: #252a38;
-    --text: #ffffff;
-    --muted: #a8b3c8;
-    --accent: #00ffaa;
-    --gold: #ffd95e;
-    --bar-best: #00ffaa;
-    --bar-mid: #ffd95e;
-    --bar-low: #ff6b6b;
-    --bar-return: #7eb8ff;
+    --bg: #f0f2f7;
+    --surface: #ffffff;
+    --border: #d0d6e4;
+    --text: #111827;
+    --muted: #4b5563;
+    --accent: #0a9e6e;
+    --gold: #b8860b;
+    --bar-best: #0a9e6e;
+    --bar-mid: #d4860a;
+    --bar-low: #dc2626;
+    --bar-return: #1d6fcc;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -47,7 +47,7 @@
     margin-bottom: 4px;
   }
 
-  h1 span { color: var(--accent); }
+  h1 span { color: #0a7a55; }
 
   .subtitle {
     font-size: 13px;
@@ -133,7 +133,7 @@
   }
 
   .daily-card {
-    background: #252d42;
+    background: #e8ecf4;
     border-radius: 8px;
     padding: 14px 16px;
   }
@@ -203,7 +203,7 @@
   .bar-track {
     flex: 1;
     height: 22px;
-    background: #252d42;
+    background: #e8ecf4;
     border-radius: 4px;
     overflow: hidden;
   }
@@ -231,9 +231,9 @@
     border-radius: 20px;
   }
 
-  .badge-best span { background: rgba(0,255,170,0.18); color: #00ffaa; }
-  .badge-mid  span { background: rgba(255,217,94,0.18); color: #ffd95e; }
-  .badge-low  span { background: rgba(255,107,107,0.18); color: #ff6b6b; }
+  .badge-best span { background: rgba(0,255,170,0.18); color: #0a9e6e; }
+  .badge-mid  span { background: rgba(255,217,94,0.18); color: #b8860b; }
+  .badge-low  span { background: rgba(255,107,107,0.18); color: #dc2626; }
 
   .avg-line-row {
     display: flex;
@@ -310,11 +310,90 @@
     justify-content: center;
     font-size: 28px;
     font-weight: 900;
-    color: rgba(255,255,255,0.18);
+    color: rgba(0,0,0,0.25);
   }
   .block-gold   { background: linear-gradient(180deg,#c8960c,#7a5a00); height: 96px; }
   .block-silver { background: linear-gradient(180deg,#7a7a7a,#3e3e3e); height: 72px; }
   .block-bronze { background: linear-gradient(180deg,#8b4f1a,#4a2a08); height: 54px; }
+
+  /* ── COMPARISON CHARTS ── */
+  .comp-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 700px) { .comp-row { grid-template-columns: 1fr; } }
+
+  .comp-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 7px;
+  }
+  .comp-site-name {
+    width: 145px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text);
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .comp-bars {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .comp-track {
+    height: 10px;
+    background: #e8ecf4;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .comp-fill { height: 100%; border-radius: 3px; }
+  .comp-label {
+    width: 44px;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .comp-legend {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .comp-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .comp-legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .section-divider {
+    margin: 10px 0 20px;
+    border: none;
+    border-top: 1px solid var(--border);
+  }
+  .section-label {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
 
   .insight-card {
     background: var(--surface);
@@ -455,6 +534,86 @@
   <div id="chart-purchases"></div>
 </div>
 
+<!-- ── MONTH-OVER-MONTH COMPARISONS ── -->
+<hr class="section-divider">
+<div class="section-label">📅 Month-over-Month — March vs April 2026</div>
+
+<div class="comp-row">
+  <!-- MoM Graded % -->
+  <div class="chart-section">
+    <div class="chart-title">Graded % of Sold Parts — Mar vs Apr 2026</div>
+    <div class="comp-legend">
+      <div class="comp-legend-item"><div class="comp-legend-dot" style="background:#1d6fcc"></div> March 2026</div>
+      <div class="comp-legend-item"><div class="comp-legend-dot" style="background:#0a9e6e"></div> April 2026</div>
+    </div>
+    <div id="mom-quality"></div>
+  </div>
+  <!-- MoM Return % of Sales -->
+  <div class="chart-section">
+    <div class="chart-title">Return % of Sales — Mar vs Apr 2026</div>
+    <div class="comp-legend">
+      <div class="comp-legend-item"><div class="comp-legend-dot" style="background:#1d6fcc"></div> March 2026</div>
+      <div class="comp-legend-item"><div class="comp-legend-dot" style="background:#d4860a"></div> April 2026</div>
+    </div>
+    <div id="mom-returns"></div>
+  </div>
+</div>
+
+<div class="comp-row">
+  <!-- MoM Return % of Purchases -->
+  <div class="chart-section">
+    <div class="chart-title">Return % of Purchases — Mar vs Apr 2026</div>
+    <div class="comp-legend">
+      <div class="comp-legend-item"><div class="comp-legend-dot" style="background:#1d6fcc"></div> March 2026</div>
+      <div class="comp-legend-item"><div class="comp-legend-dot" style="background:#6d28d9"></div> April 2026</div>
+    </div>
+    <div id="mom-purchases"></div>
+  </div>
+  <!-- MoM KPI delta summary -->
+  <div class="chart-section">
+    <div class="chart-title">Key Metrics — Mar vs Apr 2026 Summary</div>
+    <div id="mom-summary"></div>
+  </div>
+</div>
+
+<!-- ── YEAR-OVER-YEAR COMPARISONS ── -->
+<hr class="section-divider">
+<div class="section-label">📊 Year-over-Year — April 2025 vs April 2026</div>
+
+<div class="comp-row">
+  <div class="chart-section">
+    <div class="chart-title">Graded % of Sold Parts — Apr 2025 vs Apr 2026</div>
+    <div class="comp-legend">
+      <div class="comp-legend-item"><div class="comp-legend-dot" style="background:#1d6fcc"></div> April 2025</div>
+      <div class="comp-legend-item"><div class="comp-legend-dot" style="background:#0a9e6e"></div> April 2026</div>
+    </div>
+    <div id="yoy-quality"></div>
+  </div>
+  <div class="chart-section">
+    <div class="chart-title">Return % of Sales — Apr 2025 vs Apr 2026</div>
+    <div class="comp-legend">
+      <div class="comp-legend-item"><div class="comp-legend-dot" style="background:#1d6fcc"></div> April 2025</div>
+      <div class="comp-legend-item"><div class="comp-legend-dot" style="background:#d4860a"></div> April 2026</div>
+    </div>
+    <div id="yoy-returns"></div>
+  </div>
+</div>
+
+<div class="comp-row">
+  <div class="chart-section">
+    <div class="chart-title">Return % of Purchases — Apr 2025 vs Apr 2026</div>
+    <div class="comp-legend">
+      <div class="comp-legend-item"><div class="comp-legend-dot" style="background:#1d6fcc"></div> April 2025</div>
+      <div class="comp-legend-item"><div class="comp-legend-dot" style="background:#6d28d9"></div> April 2026</div>
+    </div>
+    <div id="yoy-purchases"></div>
+  </div>
+  <div class="chart-section">
+    <div class="chart-title">Key Metrics — Apr 2025 vs Apr 2026 Summary</div>
+    <div id="yoy-summary"></div>
+  </div>
+</div>
+
 <!-- TOP PERFORMERS INSIGHT -->
 <div class="insight-card">
   <div class="insight-icon">🏆</div>
@@ -522,8 +681,8 @@ data.forEach((d, i) => {
       <div style="width:22px"></div>
       <div style="width:178px;font-size:11px;color:var(--muted);text-align:right;">── Network Avg</div>
       <div style="flex:1;position:relative;height:14px;">
-        <div style="position:absolute;top:6px;left:0;right:0;height:1px;background:repeating-linear-gradient(90deg,#ffc947 0,#ffc947 6px,transparent 6px,transparent 12px);"></div>
-        <div style="position:absolute;left:${qAvgLeft}%;top:0;width:2px;height:14px;background:var(--gold);border-radius:2px;"></div>
+        <div style="position:absolute;top:6px;left:0;right:0;height:1px;background:repeating-linear-gradient(90deg,#b8860b 0,#ffc947 6px,transparent 6px,transparent 12px);"></div>
+        <div style="position:absolute;left:${qAvgLeft}%;top:0;width:2px;height:14px;background:#b8860b;border-radius:2px;"></div>
       </div>
       <div style="width:52px;font-size:11px;color:var(--gold);text-align:right;font-weight:700;">${(qualityAvg*100).toFixed(2)}%</div>
       <div style="width:50px;"></div>
@@ -548,8 +707,8 @@ const rAvgLeft = (avgR / maxR * 100).toFixed(1);
 
 function rColor(r) {
   if (r < avgR) return 'var(--bar-return)';
-  if (r < avgR * 1.4) return '#a78bfa';
-  return '#f97066';
+  if (r < avgR * 1.4) return '#6d28d9';
+  return '#dc2626';
 }
 
 let rHtml = '', rAvgDone = false;
@@ -560,10 +719,10 @@ sortedR.forEach((d, i) => {
       <div style="width:22px"></div>
       <div style="width:178px;font-size:11px;color:var(--muted);text-align:right;">── Network Avg</div>
       <div style="flex:1;position:relative;height:14px;">
-        <div style="position:absolute;top:6px;left:0;right:0;height:1px;background:repeating-linear-gradient(90deg,#a78bfa 0,#a78bfa 6px,transparent 6px,transparent 12px);"></div>
-        <div style="position:absolute;left:${rAvgLeft}%;top:0;width:2px;height:14px;background:#a78bfa;border-radius:2px;"></div>
+        <div style="position:absolute;top:6px;left:0;right:0;height:1px;background:repeating-linear-gradient(90deg,#6d28d9 0,#6d28d9 6px,transparent 6px,transparent 12px);"></div>
+        <div style="position:absolute;left:${rAvgLeft}%;top:0;width:2px;height:14px;background:#6d28d9;border-radius:2px;"></div>
       </div>
-      <div style="width:52px;font-size:11px;color:#a78bfa;text-align:right;font-weight:700;">${avgR.toFixed(1)}%</div>
+      <div style="width:52px;font-size:11px;color:#6d28d9;text-align:right;font-weight:700;">${avgR.toFixed(1)}%</div>
       <div style="width:50px;"></div>
     </div>`;
   }
@@ -608,9 +767,9 @@ const maxP = 25;
 const pAvgLeft = (avgP / maxP * 100).toFixed(1);
 
 function pColor(r) {
-  if (r < avgP) return '#34d4a0';
-  if (r < avgP * 1.3) return '#a78bfa';
-  return '#f97066';
+  if (r < avgP) return '#0a9e6e';
+  if (r < avgP * 1.3) return '#6d28d9';
+  return '#dc2626';
 }
 
 let pHtml = '', pAvgDone = false;
@@ -621,10 +780,10 @@ purchaseData.forEach((d, i) => {
       <div style="width:22px"></div>
       <div style="width:178px;font-size:11px;color:var(--muted);text-align:right;">── Network Avg</div>
       <div style="flex:1;position:relative;height:14px;">
-        <div style="position:absolute;top:6px;left:0;right:0;height:1px;background:repeating-linear-gradient(90deg,#a78bfa 0,#a78bfa 6px,transparent 6px,transparent 12px);"></div>
-        <div style="position:absolute;left:${pAvgLeft}%;top:0;width:2px;height:14px;background:#a78bfa;border-radius:2px;"></div>
+        <div style="position:absolute;top:6px;left:0;right:0;height:1px;background:repeating-linear-gradient(90deg,#6d28d9 0,#6d28d9 6px,transparent 6px,transparent 12px);"></div>
+        <div style="position:absolute;left:${pAvgLeft}%;top:0;width:2px;height:14px;background:#6d28d9;border-radius:2px;"></div>
       </div>
-      <div style="width:52px;font-size:11px;color:#a78bfa;text-align:right;font-weight:700;">${avgP.toFixed(1)}%</div>
+      <div style="width:52px;font-size:11px;color:#6d28d9;text-align:right;font-weight:700;">${avgP.toFixed(1)}%</div>
       <div style="width:50px;"></div>
     </div>`;
   }
@@ -639,6 +798,203 @@ purchaseData.forEach((d, i) => {
   </div>`;
 });
 document.getElementById('chart-purchases').innerHTML = pHtml;
+
+// ── MONTH-OVER-MONTH DATA ─────────────────────────────────────
+// March 2026 data (updated figures)
+const marchQuality = {
+  "Brown's Auto Salvage":      1.3339, "Wilbert's - Hudson Valley": 1.4085,
+  "EL&M Auto Parts":           1.4639, "Bow Auto Parts":            2.0398,
+  "Chuck's - Douglassville":   2.0968, "Wilbert's - Webster":       2.3052,
+  "Bishop's Auto Parts Inc.":  2.3059, "Chuck's - York":            2.3960,
+  "Ding's Auto Parts":         2.4691, "Wilbert's - Ontario":       2.7593,
+  "Tolpa's Auto Parts":        3.1718, "C&H Salvage":               3.5714,
+  "Wilbert's - OH Akron":      3.5971, "Alliance Auto Parts":       3.6120,
+  "Lentini - Port Murray":     3.7083, "Cornell's Auto Parts":      3.7420,
+  "Miller's Auto Recycling":   3.7486, "Lentini - Ringoes":         3.8141,
+  "Northside Salvage Yard":    4.7619, "Goyette's":                 5.4959,
+  "Saw Mill Auto Wreckers":    7.7562,
+};
+const marchReturns = {
+  "EL&M Auto Parts": 7.87, "Brown's Auto Salvage": 9.02, "Wilbert's - OH Akron": 8.99,
+  "Wilbert's - Hudson Valley": 10.56, "Wilbert's - Ontario": 11.80, "Chuck's - York": 13.62,
+  "C&H Salvage": 13.74, "Lentini - Ringoes": 13.23, "Cornell's Auto Parts": 13.90,
+  "Lentini - Port Murray": 13.84, "Bow Auto Parts": 14.68, "Ding's Auto Parts": 12.87,
+  "Bishop's Auto Parts Inc.": 15.53, "Chuck's - Douglassville": 15.48,
+  "Northside Salvage Yard": 15.42, "Wilbert's - Webster": 18.99,
+  "Miller's Auto Recycling": 18.85, "Tolpa's Auto Parts": 21.23,
+  "Alliance Auto Parts": 22.50, "Goyette's": 22.05, "Saw Mill Auto Wreckers": 25.48,
+};
+const marchPurchases = {
+  "Northside Salvage Yard": 7.28, "C&H Salvage": 11.49, "Alliance Auto Parts": 12.40,
+  "Brown's Auto Salvage": 12.68, "Bishop's Auto Parts Inc.": 12.75, "Bow Auto Parts": 13.35,
+  "Wilbert's - Hudson Valley": 13.52, "EL&M Auto Parts": 13.74, "Goyette's": 13.97,
+  "Saw Mill Auto Wreckers": 14.34, "Wilbert's - Webster": 14.80, "Tolpa's Auto Parts": 15.02,
+  "Cornell's Auto Parts": 15.29, "Lentini - Port Murray": 15.97, "Miller's Auto Recycling": 16.52,
+  "Lentini - Ringoes": 16.69, "Ding's Auto Parts": 17.00, "Chuck's - York": 19.15,
+  "Chuck's - Douglassville": 19.54, "Wilbert's - OH Akron": 24.11,
+};
+
+// April data maps (from main data arrays above)
+const aprilQuality  = Object.fromEntries(data.map(d => [d.name, +(d.pct*100).toFixed(4)]));
+const aprilReturns  = Object.fromEntries(data.map(d => [d.name, d.returns]));
+const aprilPurchases = Object.fromEntries(purchaseData.map(d => [d.name, d.retPurch]));
+
+// Get common sites between March and April
+function commonSites(marObj, aprObj) {
+  return Object.keys(marObj).filter(k => aprObj[k] !== undefined)
+    .sort((a,b) => aprilQuality[a]||0 - aprilQuality[b]||0);
+}
+
+function buildCompChart(containerId, marData, aprData, marColor, aprColor, maxVal) {
+  const sites = commonSites(marData, aprData);
+  const sortedSites = [...sites].sort((a,b) => (aprData[a]||0) - (aprData[b]||0));
+  let html = '';
+  sortedSites.forEach(name => {
+    const mar = marData[name] || 0;
+    const apr = aprData[name] || 0;
+    const wMar = (mar / maxVal * 100).toFixed(1);
+    const wApr = (apr / maxVal * 100).toFixed(1);
+    const delta = (apr - mar).toFixed(2);
+    const deltaColor = delta < 0 ? '#0a9e6e' : '#ff6b6b';
+    const deltaSign = delta < 0 ? '▼' : '▲';
+    html += `<div class="comp-bar-row">
+      <div class="comp-site-name" title="${name}">${name}</div>
+      <div class="comp-bars">
+        <div class="comp-track"><div class="comp-fill" style="width:${wMar}%;background:${marColor};opacity:0.45;"></div></div>
+        <div class="comp-track"><div class="comp-fill" style="width:${wApr}%;background:${aprColor};"></div></div>
+      </div>
+      <div class="comp-label" style="color:${deltaColor};font-size:9px;">${deltaSign}${Math.abs(delta)}</div>
+    </div>`;
+  });
+  document.getElementById(containerId).innerHTML = html;
+}
+
+buildCompChart('mom-quality',   marchQuality,   aprilQuality,  '#1d6fcc', '#0a9e6e', 9);
+buildCompChart('mom-returns',   marchReturns,   aprilReturns,  '#1d6fcc', '#d4860a', 30);
+buildCompChart('mom-purchases', marchPurchases, aprilPurchases,'#1d6fcc', '#6d28d9', 28);
+
+// MoM Summary panel
+const momSummary = [
+  { label: 'Total Parts Sold',    mar: 22245, apr: 20911, fmt: v => v.toLocaleString(), unit: 'parts', lowerBetter: false },
+  { label: 'Total Graded Parts',  mar: 666,   apr: 599,   fmt: v => v.toLocaleString(), unit: 'parts', lowerBetter: true  },
+  { label: 'Overall Grade Rate',  mar: 2.99,  apr: 2.86,  fmt: v => v.toFixed(2)+'%',  unit: '',      lowerBetter: true  },
+  { label: 'Return Rate (Sales)', mar: 15.01, apr: 14.14, fmt: v => v.toFixed(2)+'%',  unit: '',      lowerBetter: true  },
+  { label: 'Working Days',        mar: 22,    apr: 22,    fmt: v => v,                  unit: 'days',  lowerBetter: false },
+  { label: 'Parts Sold / Day',    mar: +(22245/22).toFixed(0), apr: +(20911/22).toFixed(0), fmt: v => v.toLocaleString(), unit: '/day', lowerBetter: false },
+  { label: 'Graded Parts / Day',  mar: +(666/22).toFixed(1),   apr: +(599/22).toFixed(1),  fmt: v => v, unit: '/day', lowerBetter: true },
+];
+
+let sumHtml = '';
+momSummary.forEach(row => {
+  const diff = row.apr - row.mar;
+  const improved = row.lowerBetter ? diff < 0 : diff > 0;
+  const neutral = diff === 0;
+  const color = neutral ? 'var(--muted)' : improved ? '#0a9e6e' : '#ff6b6b';
+  const arrow = neutral ? '━' : diff < 0 ? '▼' : '▲';
+  const sign = diff > 0 ? '+' : '';
+  const diffStr = typeof diff === 'number' && !Number.isInteger(diff) ? `${sign}${diff.toFixed(2)}` : `${sign}${diff}`;
+  sumHtml += `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid #d0d6e4;">
+      <div style="font-size:12px;color:var(--muted);flex:1;">${row.label}</div>
+      <div style="font-size:12px;color:var(--text);width:70px;text-align:right;">${row.fmt(row.mar)}</div>
+      <div style="font-size:11px;color:var(--muted);width:20px;text-align:center;">→</div>
+      <div style="font-size:12px;color:var(--text);width:70px;text-align:right;">${row.fmt(row.apr)}</div>
+      <div style="font-size:11px;font-weight:700;color:${color};width:60px;text-align:right;">${arrow} ${diffStr}</div>
+    </div>`;
+});
+sumHtml += `<div style="display:flex;gap:20px;margin-top:14px;font-size:10px;color:var(--muted);">
+  <span>Column order: <strong style="color:var(--text)">March → April</strong></span>
+  <span style="color:#0a9e6e">▲▼ Green = improvement</span>
+  <span style="color:#dc2626">▲▼ Red = decline</span>
+</div>`;
+document.getElementById('mom-summary').innerHTML = sumHtml;
+// ── YEAR-OVER-YEAR DATA (April 2025) ─────────────────────────
+const apr25Quality = {
+  "C&H Salvage":               0.0000, "Chuck's - Douglassville":   0.0000,
+  "Chuck's - York":            0.0000, "Wilbert's - Webster":       0.1767,
+  "Ding's Auto Parts":         0.1894, "Brown's Auto Salvage":      0.3440,
+  "Wilbert's - Ontario":       0.3452, "Wilbert's - OH Akron":      0.4785,
+  "Northside Salvage Yard":    0.5263, "Bow Auto Parts":            0.5666,
+  "Bishop's Auto Parts Inc.":  0.6126, "Tolpa's Auto Parts":        0.6281,
+  "Wilbert's - Hudson Valley": 0.7273, "Cornell's Auto Parts":      0.7627,
+  "Miller's Auto Recycling":   0.8143, "EL&M Auto Parts":           0.8743,
+  "Alliance Auto Parts":       0.8982, "Goyette's":                 1.1221,
+  "Lentini - Ringoes":         1.1658, "Lentini - Port Murray":     1.2168,
+  "Saw Mill Auto Wreckers":    1.4368,
+};
+const apr25Returns = {
+  "Wilbert's - OH Akron":      6.70,  "EL&M Auto Parts":           7.54,
+  "Lentini - Port Murray":     9.18,  "Ding's Auto Parts":        10.04,
+  "Northside Salvage Yard":   12.11,  "Chuck's - Douglassville":  13.56,
+  "Brown's Auto Salvage":     13.53,  "Wilbert's - Ontario":      13.46,
+  "Bow Auto Parts":           13.39,  "Cornell's Auto Parts":     12.36,
+  "Lentini - Ringoes":        11.53,  "Goyette's":                21.39,
+  "Bishop's Auto Parts Inc.": 14.55,  "C&H Salvage":              16.94,
+  "Chuck's - York":           14.96,  "Tolpa's Auto Parts":       21.48,
+  "Wilbert's - Hudson Valley":20.73,  "Alliance Auto Parts":      18.26,
+  "Miller's Auto Recycling":  17.59,  "Wilbert's - Webster":      18.37,
+  "Saw Mill Auto Wreckers":   26.72,
+};
+const apr25Purchases = {
+  "C&H Salvage":               8.03,  "Northside Salvage Yard":   11.41,
+  "Bishop's Auto Parts Inc.": 10.60,  "Brown's Auto Salvage":     11.32,
+  "Cornell's Auto Parts":     14.95,  "Goyette's":                12.91,
+  "Lentini - Port Murray":    13.21,  "Saw Mill Auto Wreckers":   13.86,
+  "EL&M Auto Parts":          14.99,  "Ding's Auto Parts":        13.47,
+  "Bow Auto Parts":           16.39,  "Lentini - Ringoes":        14.86,
+  "Alliance Auto Parts":      12.08,  "Chuck's - York":           17.17,
+  "Wilbert's - Hudson Valley":15.97,  "Wilbert's - Webster":      16.87,
+  "Miller's Auto Recycling":  20.94,  "Tolpa's Auto Parts":       17.01,
+  "Chuck's - Douglassville":  16.35,  "Wilbert's - OH Akron":     35.85,
+};
+
+buildCompChart('yoy-quality',   apr25Quality,   aprilQuality,  '#1d6fcc', '#0a9e6e', 9);
+buildCompChart('yoy-returns',   apr25Returns,   aprilReturns,  '#1d6fcc', '#d4860a', 30);
+buildCompChart('yoy-purchases', apr25Purchases, aprilPurchases,'#1d6fcc', '#6d28d9', 40);
+
+// YoY Summary
+const yoySummary = [
+  { label: 'Total Parts Sold',    prev: 18348, curr: 20911, fmt: v => v.toLocaleString(), lowerBetter: false },
+  { label: 'Total Graded Parts',  prev: 121,   curr: 599,   fmt: v => v.toLocaleString(), lowerBetter: true  },
+  { label: 'Overall Grade Rate',  prev: 0.6595,curr: 2.86,  fmt: v => v.toFixed(2)+'%',  lowerBetter: true  },
+  { label: 'Return Rate (Sales)', prev: 14.54, curr: 14.14, fmt: v => v.toFixed(2)+'%',  lowerBetter: true  },
+  { label: 'Parts Sold YoY Δ',   prev: 18348, curr: 20911, fmt: v => v.toLocaleString(), lowerBetter: false },
+];
+
+let yoySumHtml = '';
+yoySummary.forEach(row => {
+  const diff = row.curr - row.prev;
+  const pct = ((diff / row.prev) * 100).toFixed(1);
+  const improved = row.lowerBetter ? diff < 0 : diff > 0;
+  const neutral = diff === 0;
+  const color = neutral ? 'var(--muted)' : improved ? '#0a9e6e' : '#ff6b6b';
+  const arrow = neutral ? '━' : diff < 0 ? '▼' : '▲';
+  const sign = diff > 0 ? '+' : '';
+  yoySumHtml += `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid #d0d6e4;">
+      <div style="font-size:12px;color:var(--muted);flex:1;">${row.label}</div>
+      <div style="font-size:12px;color:var(--text);width:70px;text-align:right;">${row.fmt(row.prev)}</div>
+      <div style="font-size:11px;color:var(--muted);width:20px;text-align:center;">→</div>
+      <div style="font-size:12px;color:var(--text);width:70px;text-align:right;">${row.fmt(row.curr)}</div>
+      <div style="font-size:11px;font-weight:700;color:${color};width:70px;text-align:right;">${arrow} ${sign}${pct}%</div>
+    </div>`;
+});
+yoySumHtml += `
+  <div style="margin-top:14px;padding:12px;background:#e8ecf4;border-radius:8px;">
+    <div style="font-size:10px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">Notable YoY Changes</div>
+    <div style="font-size:11px;color:var(--text);line-height:1.8;">
+      📈 <strong>Parts Sold</strong> up <span style="color:#0a9e6e">+2,563</span> (+14.0%) vs Apr 2025<br>
+      ⚠️ <strong>Grade Rate</strong> higher: 0.66% → 2.86% — network grading more strictly<br>
+      ✅ <strong>Return Rate</strong> nearly flat: 14.54% → 14.14% <span style="color:#0a9e6e">(▼ improved)</span><br>
+      📉 <strong>Wilbert's OH Akron</strong> purchase returns dropped from 35.85% → 5.71% <span style="color:#0a9e6e">(huge improvement)</span>
+    </div>
+  </div>
+  <div style="display:flex;gap:20px;margin-top:12px;font-size:10px;color:var(--muted);">
+    <span>Column order: <strong style="color:var(--text)">Apr 2025 → Apr 2026</strong></span>
+    <span style="color:#0a9e6e">Green = improvement</span>
+    <span style="color:#dc2626">Red = decline</span>
+  </div>`;
+document.getElementById('yoy-summary').innerHTML = yoySumHtml;
 </script>
 </body>
 </html>
