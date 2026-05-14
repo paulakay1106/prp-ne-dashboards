@@ -9,17 +9,17 @@
 <style>
   :root {
     --bg: #f0f2f8;
-    --surface: #12151d;
-    --surface2: #1c2030;
-    --surface3: #232840;
+    --surface: #ffffff;
+    --surface2: #ffffff;
+    --surface3: #eef0f6;
     --border: #dde2ef;
-    --border-bright: #3d4566;
+    --border-bright: #dde2ef;
     --accent: #fbbf24;
     --accent3: #22d3ee;
     --accent4: #a78bfa;
     --text: #0d1224;
-    --text-muted: #8892aa;
-    --text-dim: #b0bac8;
+    --text-muted: #4a5270;
+    --text-dim: #2a3050;
     --yard: #22d3ee;
     --carrier: #f87171;
     --green: #4ade80;
@@ -65,13 +65,13 @@
   }
   .header-title span { color: var(--accent3); }
   .header-sub {
-    font-size: 14px; color: var(--text-dim); margin-top: 6px;
+    font-size: 14px; color: #2a3050; margin-top: 6px;
     font-family: 'Rajdhani', sans-serif; letter-spacing: 0.06em;
   }
   .header-badge {
     background: var(--surface2); border: 2px solid var(--border-bright);
     padding: 14px 22px; font-family: 'Rajdhani', sans-serif;
-    font-size: 12px; letter-spacing: 0.1em; color: var(--text-dim);
+    font-size: 12px; letter-spacing: 0.1em; color: #2a3050;
     border-radius: 8px; text-transform: uppercase; text-align: center;
   }
   .header-badge strong {
@@ -125,7 +125,7 @@
   }
   .card-title {
     font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
-    color: var(--text-dim); font-family: 'Rajdhani', sans-serif; font-weight: 700;
+    color: #2a3050; font-family: 'Rajdhani', sans-serif; font-weight: 700;
     margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
     border-bottom: 1px solid var(--border-bright); padding-bottom: 12px;
   }
@@ -148,7 +148,7 @@
   .tier-table { width: 100%; border-collapse: collapse; }
   .tier-table th {
     font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--text-dim); text-align: left;
+    text-transform: uppercase; color: #2a3050; text-align: left;
     padding: 0 0 12px; border-bottom: 2px solid var(--border-bright);
   }
   .tier-table th:not(:first-child) { text-align: right; }
@@ -172,7 +172,7 @@
   .site-table { width: 100%; border-collapse: collapse; }
   .site-table th {
     font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--text-dim); text-align: left;
+    text-transform: uppercase; color: #2a3050; text-align: left;
     padding: 0 0 12px; border-bottom: 2px solid var(--border-bright);
   }
   .site-table th:not(:first-child) { text-align: right; }
@@ -204,7 +204,7 @@
   .split-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
   .split-num { font-size: 36px; font-weight: 900; color: var(--yard); font-family: 'Barlow Condensed', sans-serif; }
   .split-block.carrier-block .split-num { color: var(--carrier); }
-  .split-pct { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+  .split-pct { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: #2a3050; margin-top: 4px; }
 
   /* ── Insight chips ── */
   .insight-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
@@ -212,7 +212,7 @@
     background: var(--surface2); border: 1px solid var(--border-bright);
     border-radius: 20px; padding: 6px 14px;
     font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 600;
-    color: var(--text-dim); display: flex; align-items: center; gap: 6px;
+    color: #2a3050; display: flex; align-items: center; gap: 6px;
     letter-spacing: 0.03em;
   }
   .insight-chip .ic { font-size: 13px; }
@@ -243,7 +243,7 @@
   .filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
   .ftab {
     background: var(--surface2); border: 2px solid var(--border-bright);
-    color: var(--text-dim); font-family: 'Rajdhani', sans-serif;
+    color: #2a3050; font-family: 'Rajdhani', sans-serif;
     font-weight: 700; font-size: 12px; letter-spacing: 0.1em;
     text-transform: uppercase; padding: 7px 16px; border-radius: 6px;
     cursor: pointer; transition: all 0.15s;
@@ -258,7 +258,7 @@
     font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
     padding: 10px 12px; text-align: center;
     border-bottom: 2px solid var(--border-bright);
-    white-space: nowrap; color: var(--text-dim);
+    white-space: nowrap; color: #2a3050;
   }
   .matrix-table th.site-col { text-align: left; min-width: 180px; }
   .matrix-table th.total-col { color: var(--accent); }
@@ -681,7 +681,7 @@ new Chart(document.getElementById('issueStackChart'), {
       x: { stacked: true, grid: { display: false }, ticks: { color: MUTED, font: { size: 9 } } },
       y: { stacked: true, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: MUTED } }
     },
-    plugins: { legend: { position: 'bottom', labels: { color: '#9ca3af', boxWidth: 8, padding: 8, font: { size: 9 } } } }
+    plugins: { legend: { position: 'bottom', labels: { color: '#0d1224', boxWidth: 8, padding: 8, font: { size: 9 } } } }
   }
 });
 
@@ -724,7 +724,7 @@ new Chart(document.getElementById('allSitesGradeChart'), {
       y: { stacked: true, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: MUTED } }
     },
     plugins: {
-      legend: { position: 'bottom', labels: { color: '#9ca3af', boxWidth: 10, padding: 12, font: { size: 10 } } },
+      legend: { position: 'bottom', labels: { color: '#0d1224', boxWidth: 10, padding: 12, font: { size: 10 } } },
       tooltip: { callbacks: { footer: function(items) { return "Total: " + fullSiteData[items[0].dataIndex].total; } } }
     }
   }
