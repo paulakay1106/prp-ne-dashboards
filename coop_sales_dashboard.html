@@ -8,8 +8,8 @@
 <style>
   :root {
     --bg: #f0f2f8;
-    --card:      #161e2e;
-    --card2:     #1a2438;
+    --card:      #ffffff;
+    --card2:     #f0f2f8;
     --border: #dde2ef;
     --teal:      #00e5b8;
     --gold:      #f7b731;
@@ -18,9 +18,9 @@
     --blue:      #5b9cf6;
     --red:       #ff6b7a;
     --amber:     #ffbe3d;
-    --sub:       #8fadc8;
+    --sub:       #4a5270;
     --text: #0d1224;
-    --white:     #ffffff;
+    --white:     #0d1224;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,7 +38,7 @@
   body::before {
     content: '';
     position: fixed; inset: 0;
-    background-image:
+    background-image: /* removed */
       linear-gradient(rgba(0,212,170,0.015) 1px, transparent 1px),
       linear-gradient(90deg, rgba(0,212,170,0.015) 1px, transparent 1px);
     background-size: 40px 40px;
@@ -58,7 +58,7 @@
   .header h1 {
     font-family: 'Barlow Condensed', sans-serif;
     font-size: clamp(36px, 5vw, 58px); font-weight: 800;
-    color: var(--white); line-height: 1; letter-spacing: -1px;
+    color: #0d1224; line-height: 1; letter-spacing: -1px;
     margin-bottom: 6px;
   }
   .header h1 em { color: var(--teal); font-style: normal; }
@@ -173,7 +173,7 @@
   }
   .rank-table tr:nth-child(odd) td  { background: var(--card); }
   .rank-table tr:nth-child(even) td { background: var(--card2); }
-  .rank-table tr:hover td { background: #1e3255; transition: background 0.15s; }
+  .rank-table tr:hover td { background: #ffffff; transition: background 0.15s; }
 
   .rank-num {
     font-family: 'Barlow Condensed', sans-serif;
@@ -184,7 +184,7 @@
   .r3 { color: var(--bronze); }
   .rn { color: var(--sub); }
 
-  .cust-name { font-weight: 500; color: var(--white); }
+  .cust-name { font-weight: 600; color: #0d1224; }
   .cust-name.top3 { font-weight: 700; }
 
   .amt { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; text-align: right; }
@@ -202,9 +202,9 @@
   .bar-rn { background: var(--teal); }
 
   .total-row td {
-    background: #1a3060 !important;
+    background: #ffffff !important;
     font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700; font-size: 14px; color: var(--white);
+    font-weight: 700; font-size: 14px; color: #0d1224;
     border-top: 2px solid var(--blue);
   }
 
