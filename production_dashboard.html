@@ -6,43 +6,44 @@
 <title>Group Production Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <style>
   :root {
-    --bg:#0d0f14; --surface:#161a23; --surface2:#1e2430; --border:#2a3040;
-    --accent:#e8c547; --accent2:#4ec9b0; --accent3:#f07b53;
-    --text:#e8eaf0; --muted:#8892a4; --up:#4ec9b0; --down:#f07b53;
+    --bg:#f4f5f7; --surface:#ffffff; --surface2:#eef0f4; --border:#d0d5de;
+    --accent:#b8960a; --accent2:#1a9e86; --accent3:#d95f2b;
+    --text:#1a1d26; --muted:#3a3f52; --up:#1a9e86; --down:#d95f2b;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.5;padding:24px;}
 
   .header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border);}
   .header-left h1{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:3px;color:var(--accent);line-height:1;}
-  .header-left p{color:var(--muted);font-size:13px;margin-top:4px;letter-spacing:1px;text-transform:uppercase;}
+  .header-left p{color:var(--muted);font-size:13px;margin-top:4px;letter-spacing:1px;text-transform:uppercase;font-weight:700;}
   .header-right{text-align:right;}
-  .header-right .period{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+  .header-right .period{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;}
   .header-right .date{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--accent2);letter-spacing:2px;}
 
   .kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
-  .kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden;}
+  .kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
   .kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);}
   .kpi-card.green::before{background:var(--accent2);}
   .kpi-card.orange::before{background:var(--accent3);}
   .kpi-card.blue::before{background:#5b9ef5;}
   .kpi-card.purple::before{background:#b07fe8;}
-  .kpi-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+  .kpi-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-weight:700;}
   .kpi-value{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:1px;line-height:1;color:var(--text);}
-  .kpi-sub{font-size:12px;margin-top:6px;display:flex;align-items:center;gap:4px;}
+  .kpi-sub{font-size:12px;margin-top:6px;display:flex;align-items:center;gap:4px;font-weight:600;}
   .kpi-sub.up{color:var(--up);}.kpi-sub.down{color:var(--down);}.kpi-sub.neutral{color:var(--muted);}
 
-  .section-label{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;margin-top:8px;display:flex;align-items:center;gap:10px;}
+  .section-label{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;color:var(--text);text-transform:uppercase;margin-bottom:12px;margin-top:8px;display:flex;align-items:center;gap:10px;}
   .section-label::after{content:'';flex:1;height:1px;background:var(--border);}
 
   .mom-comparison-panel{margin-bottom:20px;display:flex;flex-direction:column;gap:12px;}
   .mom-summary-strip{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 28px;display:flex;align-items:center;gap:24px;}
   .mom-summary-block{text-align:center;min-width:140px;}
-  .mom-month-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+  .mom-month-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:700;}
   .mom-month-val{font-family:'Bebas Neue',sans-serif;font-size:52px;letter-spacing:2px;line-height:1;}
-  .mom-month-sub{font-size:11px;color:var(--muted);margin-top:4px;}
+  .mom-month-sub{font-size:11px;color:var(--muted);margin-top:4px;font-weight:600;}
   .mom-arrow-block{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:80px;}
   .mom-arrow-icon{font-size:28px;color:var(--border);}
   .mom-arrow-delta{font-size:15px;font-weight:700;}
@@ -50,9 +51,9 @@
   .up-delta,.up-pct{color:var(--up);}.down-delta,.down-pct{color:var(--down);}
   .mom-stat-divider{width:1px;height:60px;background:var(--border);margin:0 8px;}
   .mom-stat-item{flex:1;text-align:center;padding:0 8px;}
-  .mom-stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;}
+  .mom-stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;font-weight:700;}
   .mom-stat-pair{display:flex;align-items:center;justify-content:center;gap:6px;}
-  .mom-stat-prev{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--muted);opacity:0.6;}
+  .mom-stat-prev{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--muted);opacity:0.85;}
   .mom-stat-curr{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text);}
   .mom-stat-arrow{font-size:14px;}
   .up-arrow{color:var(--up);}.down-arrow{color:var(--down);}
@@ -60,30 +61,30 @@
   .up-note{color:var(--up);}.down-note{color:var(--down);}
 
   .mom-wl-grid{display:grid;grid-template-columns:1fr 1fr 0.4fr;gap:12px;}
-  .mom-wl-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;}
+  .mom-wl-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
   .mom-wl-card.winners{border-top:3px solid var(--up);}
   .mom-wl-card.losers{border-top:3px solid var(--down);}
   .mom-wl-card.flat{border-top:3px solid var(--border);}
-  .mom-wl-title{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:12px;font-weight:600;}
+  .mom-wl-title{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:12px;font-weight:800;}
   .mom-wl-list{display:flex;flex-direction:column;gap:6px;}
   .mom-wl-row{display:flex;align-items:center;justify-content:space-between;font-size:13px;}
   .mom-wl-name{color:var(--text);font-weight:500;}
-  .mom-wl-nums{color:var(--muted);font-size:12px;}
+  .mom-wl-nums{color:var(--muted);font-size:12px;font-weight:600;}
   .mom-wl-change{font-weight:700;font-size:13px;min-width:42px;text-align:right;}
   .wl-bar{height:3px;border-radius:2px;margin-top:3px;}
 
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
 
-  .chart-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;}
+  .chart-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
   .chart-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--accent);margin-bottom:4px;}
-  .chart-subtitle{font-size:12px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.5px;}
+  .chart-subtitle{font-size:12px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:0.5px;font-weight:700;}
 
   .partner-table{width:100%;border-collapse:collapse;font-size:13px;}
-  .partner-table th{text-align:left;padding:8px 10px;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:0.8px;border-bottom:1px solid var(--border);font-weight:500;}
+  .partner-table th{text-align:left;padding:8px 10px;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:0.8px;border-bottom:1px solid var(--border);font-weight:800;}
   .partner-table th.right{text-align:right;}
-  .partner-table td{padding:8px 10px;border-bottom:1px solid rgba(42,48,64,0.5);color:var(--text);}
+  .partner-table td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text);}
   .partner-table td.right{text-align:right;}
-  .partner-table tr:hover td{background:rgba(255,255,255,0.02);}
+  .partner-table tr:hover td{background:rgba(0,0,0,0.02);}
   .partner-table tr:last-child td{border-bottom:none;}
   .badge-up{color:var(--up);font-size:12px;font-weight:600;}
   .badge-down{color:var(--down);font-size:12px;font-weight:600;}
@@ -92,18 +93,18 @@
   .efficiency-meter{display:flex;align-items:center;gap:8px;}
   .eff-bar-wrap{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
   .eff-bar{height:100%;border-radius:3px;}
-  .eff-val{font-size:12px;color:var(--muted);min-width:36px;text-align:right;}
+  .eff-val{font-size:12px;color:var(--muted);min-width:36px;text-align:right;font-weight:600;}
 
   .da-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-  .da-card{background:var(--surface2);border-radius:8px;padding:12px 14px;}
+  .da-card{background:var(--surface2);border-radius:8px;padding:12px 14px;box-shadow:0 1px 3px rgba(0,0,0,0.05);}
   .da-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:5px;}
   .da-row{display:flex;align-items:center;justify-content:space-between;}
   .da-months{display:flex;gap:12px;}
   .da-m{display:flex;flex-direction:column;align-items:center;}
-  .da-m-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;}
+  .da-m-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;font-weight:700;}
   .da-m-val{font-family:'Bebas Neue',sans-serif;font-size:19px;line-height:1.1;}
   .da-trail-block{text-align:right;}
-  .da-trail-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;}
+  .da-trail-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;font-weight:700;}
   .da-trail-val{font-size:13px;color:var(--accent);font-weight:600;}
   .da-trail-delta{font-size:11px;margin-top:1px;}
 
@@ -119,100 +120,100 @@
   </div>
   <div class="header-right">
     <div class="period">Reporting Period</div>
-    <div class="date">April 2026</div>
+    <div class="date">May 2026</div>
   </div>
 </div>
 
 <!-- KPI CARDS -->
 <div class="kpi-grid">
   <div class="kpi-card">
-    <div class="kpi-label">Total Vehicles — Apr 2026</div>
-    <div class="kpi-value">3,263</div>
-    <div class="kpi-sub up">▲ 3.5% vs Mar 2026 (3,154)</div>
+    <div class="kpi-label">Total Vehicles — May 2026</div>
+    <div class="kpi-value">3,054</div>
+    <div class="kpi-sub down">▼ 6.4% vs Apr 2026 (3,263)</div>
   </div>
   <div class="kpi-card green">
     <div class="kpi-label">Avg Vehicles / Day</div>
-    <div class="kpi-value">148.3</div>
-    <div class="kpi-sub up">▲ vs 143.4 last month</div>
+    <div class="kpi-value">152.7</div>
+    <div class="kpi-sub up">▲ vs 148.3 last month</div>
   </div>
   <div class="kpi-card orange">
     <div class="kpi-label">Active Bays</div>
-    <div class="kpi-value">86.5</div>
-    <div class="kpi-sub up">▲ vs 86.0 last month</div>
+    <div class="kpi-value">88.5</div>
+    <div class="kpi-sub up">▲ vs 86.5 last month</div>
   </div>
   <div class="kpi-card blue">
     <div class="kpi-label">Avg Vehicles / Bay / Day</div>
-    <div class="kpi-value">1.715</div>
-    <div class="kpi-sub up">▲ vs 1.667 last month</div>
+    <div class="kpi-value">1.725</div>
+    <div class="kpi-sub up">▲ vs 1.715 last month</div>
   </div>
   <div class="kpi-card purple">
-    <div class="kpi-label">YoY Growth (Apr '25 → '26)</div>
-    <div class="kpi-value">+10.4%</div>
-    <div class="kpi-sub up">▲ 2,955 → 3,263</div>
+    <div class="kpi-label">YoY Growth (May '25 → '26)</div>
+    <div class="kpi-value">+9.7%</div>
+    <div class="kpi-sub up">▲ 2,785 → 3,054</div>
   </div>
 </div>
 
-<!-- MAR → APR MOM COMPARISON -->
-<div class="section-label">March 2026 vs April 2026 — Month-over-Month Detail</div>
+<!-- APR → MAY MOM COMPARISON -->
+<div class="section-label">April 2026 vs May 2026 — Month-over-Month Detail</div>
 <div class="mom-comparison-panel">
   <div class="mom-summary-strip">
     <div class="mom-summary-block">
-      <div class="mom-month-label">March 2026</div>
-      <div class="mom-month-val" style="color:var(--muted)">3,154</div>
-      <div class="mom-month-sub">22 working days · 86.0 bays</div>
+      <div class="mom-month-label">April 2026</div>
+      <div class="mom-month-val" style="color:var(--muted)">3,263</div>
+      <div class="mom-month-sub">22 working days · 86.5 bays</div>
     </div>
     <div class="mom-arrow-block">
       <div class="mom-arrow-icon">→</div>
-      <div class="mom-arrow-delta up-delta">▲ +109 vehicles</div>
-      <div class="mom-arrow-pct up-pct">+3.5%</div>
+      <div class="mom-arrow-delta down-delta">▼ −209 vehicles</div>
+      <div class="mom-arrow-pct down-pct">−6.4%</div>
     </div>
     <div class="mom-summary-block">
-      <div class="mom-month-label">April 2026</div>
-      <div class="mom-month-val" style="color:var(--text)">3,263</div>
-      <div class="mom-month-sub">22 working days · 86.5 bays</div>
+      <div class="mom-month-label">May 2026</div>
+      <div class="mom-month-val" style="color:var(--text)">3,054</div>
+      <div class="mom-month-sub">20 working days · 88.5 bays</div>
     </div>
     <div class="mom-stat-divider"></div>
     <div class="mom-stat-item">
       <div class="mom-stat-label">Avg / Day</div>
       <div class="mom-stat-pair">
-        <span class="mom-stat-prev">143.4</span>
+        <span class="mom-stat-prev">148.3</span>
         <span class="mom-stat-arrow up-arrow">▲</span>
-        <span class="mom-stat-curr">148.3</span>
+        <span class="mom-stat-curr">152.7</span>
       </div>
-      <div class="mom-stat-note up-note">+4.9 / day</div>
+      <div class="mom-stat-note up-note">+4.4 / day</div>
     </div>
     <div class="mom-stat-item">
       <div class="mom-stat-label">Veh / Bay / Day</div>
       <div class="mom-stat-pair">
-        <span class="mom-stat-prev">1.667</span>
+        <span class="mom-stat-prev">1.715</span>
         <span class="mom-stat-arrow up-arrow">▲</span>
-        <span class="mom-stat-curr">1.715</span>
+        <span class="mom-stat-curr">1.725</span>
       </div>
-      <div class="mom-stat-note up-note">+0.048 efficiency</div>
+      <div class="mom-stat-note up-note">+0.010 efficiency</div>
     </div>
     <div class="mom-stat-item">
       <div class="mom-stat-label">Active Bays</div>
       <div class="mom-stat-pair">
-        <span class="mom-stat-prev">86.0</span>
+        <span class="mom-stat-prev">86.5</span>
         <span class="mom-stat-arrow up-arrow">▲</span>
-        <span class="mom-stat-curr">86.5</span>
+        <span class="mom-stat-curr">88.5</span>
       </div>
-      <div class="mom-stat-note up-note">+0.5 bays</div>
+      <div class="mom-stat-note up-note">+2.0 bays</div>
     </div>
     <div class="mom-stat-item">
       <div class="mom-stat-label">Working Days</div>
       <div class="mom-stat-pair">
         <span class="mom-stat-prev">22</span>
-        <span class="mom-stat-arrow" style="color:var(--muted)">—</span>
-        <span class="mom-stat-curr">22</span>
+        <span class="mom-stat-arrow down-arrow">▼</span>
+        <span class="mom-stat-curr">20</span>
       </div>
-      <div class="mom-stat-note" style="color:var(--muted)">same</div>
+      <div class="mom-stat-note down-note">−2 days</div>
     </div>
   </div>
 
   <div class="mom-wl-grid">
-    <div class="mom-wl-card winners"><div class="mom-wl-title">▲ Gainers — Apr vs Mar</div><div class="mom-wl-list" id="gainers"></div></div>
-    <div class="mom-wl-card losers"><div class="mom-wl-title">▼ Decliners — Apr vs Mar</div><div class="mom-wl-list" id="losers"></div></div>
+    <div class="mom-wl-card winners"><div class="mom-wl-title">▲ Gainers — May vs Apr</div><div class="mom-wl-list" id="gainers"></div></div>
+    <div class="mom-wl-card losers"><div class="mom-wl-title">▼ Decliners — May vs Apr</div><div class="mom-wl-list" id="losers"></div></div>
     <div class="mom-wl-card flat"><div class="mom-wl-title">— Unchanged</div><div class="mom-wl-list" id="flatters"></div></div>
   </div>
 </div>
@@ -222,11 +223,11 @@
 <div class="two-col" style="margin-bottom:16px;">
   <div class="chart-card">
     <div class="chart-title">Group Daily Avg — Monthly Trend</div>
-    <div class="chart-subtitle">Vehicles per working day · Jan 2024 – Apr 2026</div>
+    <div class="chart-subtitle">Vehicles per working day · Jan 2024 – May 2026</div>
     <canvas id="dailyAvgTrend" height="210"></canvas>
   </div>
   <div class="chart-card">
-    <div class="chart-title">Partner Daily Avg — Feb / Mar / Apr 2026</div>
+    <div class="chart-title">Partner Daily Avg — Mar / Apr / May 2026</div>
     <div class="chart-subtitle">Vehicles per working day · 3-month comparison</div>
     <canvas id="partnerDailyBar" height="210"></canvas>
   </div>
@@ -234,18 +235,18 @@
 
 <div class="chart-card" style="margin-bottom:16px;">
   <div class="chart-title">Partner Daily Averages — Detail View</div>
-  <div class="chart-subtitle">Feb / Mar / Apr 2026 · with 12-month trailing avg (May 2025 – Apr 2026) · ▲▼ = vs trailing benchmark</div>
+  <div class="chart-subtitle">Mar / Apr / May 2026 · with 12-month trailing avg (Jun 2025 – May 2026) · ▲▼ = vs trailing benchmark</div>
   <div class="da-grid" id="daCards"></div>
 </div>
 
 <div class="two-col" style="margin-bottom:16px;">
   <div class="chart-card">
-    <div class="chart-title">Daily Avg — Apr 2026 Ranked</div>
+    <div class="chart-title">Daily Avg — May 2026 Ranked</div>
     <div class="chart-subtitle">Vehicles per working day · all partners</div>
     <canvas id="dailyRanked" height="260"></canvas>
   </div>
   <div class="chart-card">
-    <div class="chart-title">Apr 2026 Daily Avg vs 12-Month Trailing</div>
+    <div class="chart-title">May 2026 Daily Avg vs 12-Month Trailing</div>
     <div class="chart-subtitle">Teal = this month · Gold = trailing benchmark</div>
     <canvas id="dailyVsTrailing" height="260"></canvas>
   </div>
@@ -256,7 +257,7 @@
 <div class="two-col">
   <div class="chart-card">
     <div class="chart-title">Monthly Vehicles Processed — 2024–2026</div>
-    <div class="chart-subtitle">Group Total · Last 28 Months</div>
+    <div class="chart-subtitle">Group Total · Last 29 Months</div>
     <canvas id="trendChart" height="220"></canvas>
   </div>
   <div class="chart-card">
@@ -267,10 +268,10 @@
 </div>
 
 <!-- PARTNER COMPARISON -->
-<div class="section-label">Partner Comparisons — Apr 2026 vs Mar 2026</div>
+<div class="section-label">Partner Comparisons — May 2026 vs Apr 2026</div>
 <div class="chart-card" style="margin-bottom:16px;">
   <div class="chart-title">Vehicles Processed by Partner — Current vs Prior Month</div>
-  <div class="chart-subtitle">April 2026 vs March 2026</div>
+  <div class="chart-subtitle">May 2026 vs April 2026</div>
   <canvas id="partnerBar" height="160"></canvas>
 </div>
 
@@ -282,7 +283,7 @@
   </div>
   <div class="chart-card">
     <div class="chart-title">Efficiency: Vehicles / Bay / Day</div>
-    <div class="chart-subtitle">April 2026 — All Partners</div>
+    <div class="chart-subtitle">May 2026 — All Partners</div>
     <div style="overflow-y:auto;max-height:280px;"><table class="partner-table" id="effTable"></table></div>
   </div>
 </div>
@@ -290,7 +291,7 @@
 <!-- MOM CHART -->
 <div class="section-label">Month-over-Month Changes — All Partners</div>
 <div class="chart-card" style="margin-bottom:16px;">
-  <div class="chart-title">Month-over-Month Change (Mar → Apr 2026)</div>
+  <div class="chart-title">Month-over-Month Change (Apr → May 2026)</div>
   <div class="chart-subtitle">Absolute vehicle change per partner</div>
   <canvas id="momChart" height="140"></canvas>
 </div>
@@ -299,34 +300,35 @@
 <div class="section-label">Full Partner Scorecard — 2025 Quarterly + 2026 YTD</div>
 <div class="chart-card">
   <div class="chart-title">Partner Performance Summary</div>
-  <div class="chart-subtitle">2025 Quarterly Totals + Jan / Feb / Mar / Apr 2026 with Daily Averages</div>
+  <div class="chart-subtitle">2025 Quarterly Totals + Jan – May 2026 with Daily Averages</div>
   <table class="partner-table" id="fullTable"></table>
 </div>
 
 <div class="footer">
   <span>Source: Production Numbers Report — All Partners</span>
-  <span>Generated May 2026 · Data through April 2026</span>
+  <span>Generated June 2026 · Data through May 2026</span>
 </div>
 
 <script>
-const ACCENT='#e8c547',TEAL='#4ec9b0',ORANGE='#f07b53',BLUE='#5b9ef5',PURPLE='#b07fe8';
-Chart.defaults.color='#8892a4';
+const ACCENT='#b8960a',TEAL='#1a9e86',ORANGE='#d95f2b',BLUE='#5b9ef5',PURPLE='#b07fe8';
+Chart.defaults.color='#5a6278';
 Chart.defaults.font.family="'DM Sans',sans-serif";
+Chart.register(ChartDataLabels);
 Chart.defaults.font.size=12;
 
 const partners=['Alliance','Bishops','Bow','Browns','C&H','Chucks Y','Chucks D','Cornells','Dings','EL&M','Goyettes','Lentini R','Lentini PM','Millers','Northside','Saw Mill','Tolpas','Wilberts Inc.','Wilberts Lksd','Wilberts HV','Wilberts OH'];
-const feb26=[103,165,270,175,40,219,118,168,50,120,178,96,115,241,194,100,165,62,154,81,57];
 const mar26=[131,184,339,197,40,223,154,181,77,131,178,111,127,246,216,100,180,32,172,101,34];
 const apr26=[146,209,341,185,40,201,115,196,80,135,178,111,117,255,220,100,179,74,203,101,77];
-const WD={feb:20,mar:22,apr:22};
-const febDA=feb26.map(v=>+(v/WD.feb).toFixed(2));
+const may26=[140,190,301,156,40,179,110,157,68,125,178,96,103,261,233,100,186,95,173,85,78];
+const WD={mar:22,apr:22,may:20};
 const marDA=mar26.map(v=>+(v/WD.mar).toFixed(2));
 const aprDA=apr26.map(v=>+(v/WD.apr).toFixed(2));
-const trailing12=[5.92,8.48,14.48,9.23,1.96,9.80,5.84,7.91,2.98,5.65,8.18,4.83,5.60,11.13,7.48,4.74,8.28,3.62,7.72,3.57,2.97];
-const baysApr=[6,3,7,5,2.5,6,3,3,2,3,6,2,4,7,6,6,6,3,5,2,2];
+const mayDA=may26.map(v=>+(v/WD.may).toFixed(2));
+const trailing12=[5.91,8.55,14.63,9.14,1.95,9.82,5.81,7.92,2.98,5.72,8.32,4.81,5.49,11.37,8.11,4.76,8.47,3.72,7.79,3.67,3.06];
+const baysMay=[5,4,7,5,2.5,5,3,3,2,3,6,2,4,7,6,6,6,3,5,2,2];
 
-// ── GAINERS / LOSERS (Mar → Apr) ─────────────────────────────────────────
-const momData=partners.map((name,i)=>({name,mar:mar26[i],apr:apr26[i],delta:apr26[i]-mar26[i]}));
+// ── GAINERS / LOSERS (Apr → May) ─────────────────────────────────────────
+const momData=partners.map((name,i)=>({name,apr:apr26[i],may:may26[i],delta:may26[i]-apr26[i]}));
 const gainers=momData.filter(d=>d.delta>0).sort((a,b)=>b.delta-a.delta);
 const losers=momData.filter(d=>d.delta<0).sort((a,b)=>a.delta-b.delta);
 const flats=momData.filter(d=>d.delta===0);
@@ -339,7 +341,7 @@ function renderWL(id,items,isGain){
     const color=isGain?'var(--up)':'var(--down)';
     const sign=d.delta>0?'+':'';
     const div=document.createElement('div');
-    div.innerHTML=`<div class="mom-wl-row"><span class="mom-wl-name">${d.name}</span><span class="mom-wl-nums">${d.mar} → ${d.apr}</span><span class="mom-wl-change" style="color:${color}">${sign}${d.delta}</span></div><div class="wl-bar" style="width:${bw}%;background:${color};opacity:0.35"></div>`;
+    div.innerHTML=`<div class="mom-wl-row"><span class="mom-wl-name">${d.name}</span><span class="mom-wl-nums">${d.apr} → ${d.may}</span><span class="mom-wl-change" style="color:${color}">${sign}${d.delta}</span></div><div class="wl-bar" style="width:${bw}%;background:${color};opacity:0.35"></div>`;
     el.appendChild(div);
   });
 }
@@ -347,23 +349,23 @@ renderWL('gainers',gainers,true);
 renderWL('losers',losers,false);
 flats.forEach(d=>{
   const div=document.createElement('div');
-  div.innerHTML=`<div class="mom-wl-row"><span class="mom-wl-name">${d.name}</span><span class="mom-wl-change" style="color:var(--muted)">— ${d.apr}</span></div>`;
+  div.innerHTML=`<div class="mom-wl-row"><span class="mom-wl-name">${d.name}</span><span class="mom-wl-change" style="color:var(--muted)">— ${d.may}</span></div>`;
   document.getElementById('flatters').appendChild(div);
 });
 
 // ── GROUP DAILY AVG TREND ─────────────────────────────────────────────────
-const trendLabels=['Jan 24','Feb 24','Mar 24','Apr 24','May 24','Jun 24','Jul 24','Aug 24','Sep 24','Oct 24','Nov 24','Dec 24','Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26','Apr 26'];
-const groupDA=[103.14,104.81,103.76,106.00,109.18,107.50,106.52,107.55,113.75,113.57,111.84,109.50,127.09,130.65,134.76,134.32,132.62,138.62,135.91,132.10,143.00,139.78,140.89,146.20,140.00,143.55,143.36,148.32];
-new Chart(document.getElementById('dailyAvgTrend'),{type:'line',data:{labels:trendLabels,datasets:[{data:groupDA,borderColor:ACCENT,backgroundColor:'rgba(232,197,71,0.07)',borderWidth:2,pointRadius:ctx=>ctx.dataIndex>=24?5:2,pointBackgroundColor:ctx=>ctx.dataIndex>=24?ACCENT:TEAL,fill:true,tension:0.35}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`  ${ctx.parsed.y.toFixed(1)} veh/day`}}},scales:{x:{grid:{color:'#1e2430'},ticks:{maxRotation:45,minRotation:45}},y:{grid:{color:'#1e2430'},min:90,title:{display:true,text:'Veh / Day',color:'#8892a4'}}}}});
+const trendLabels=['Jan 24','Feb 24','Mar 24','Apr 24','May 24','Jun 24','Jul 24','Aug 24','Sep 24','Oct 24','Nov 24','Dec 24','Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26','Apr 26','May 26'];
+const groupDA=[103.14,104.81,103.76,106.00,109.18,107.50,106.52,107.55,113.75,113.57,111.84,109.50,127.09,130.65,134.76,134.32,132.62,138.62,135.91,132.10,143.00,139.78,140.89,146.20,140.00,143.55,143.36,148.32,152.70];
+new Chart(document.getElementById('dailyAvgTrend'),{type:'line',data:{labels:trendLabels,datasets:[{data:groupDA,borderColor:ACCENT,backgroundColor:'rgba(184,150,10,0.08)',borderWidth:2,pointRadius:ctx=>ctx.dataIndex>=24?5:2,pointBackgroundColor:ctx=>ctx.dataIndex>=24?'#b8960a':'#1a9e86',fill:true,tension:0.35}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`  ${ctx.parsed.y.toFixed(1)} veh/day`}},datalabels:{display:ctx=>ctx.dataIndex>=24,formatter:(v,ctx)=>v!=null?v.toFixed(1):'',color:'#1a1d26',font:{size:10,weight:'700'},anchor:'end',align:'top'}},scales:{x:{grid:{color:'#e2e5ed'},ticks:{maxRotation:45,minRotation:45}},y:{grid:{color:'#e2e5ed'},min:90,title:{display:true,text:'Veh / Day',color:'#5a6278'}}}}});
 
 // ── PARTNER DAILY AVG 3-MONTH BAR ─────────────────────────────────────────
-new Chart(document.getElementById('partnerDailyBar'),{type:'bar',data:{labels:partners,datasets:[{label:'Feb 2026',data:febDA,backgroundColor:'rgba(91,158,245,0.4)',borderRadius:3,borderSkipped:false},{label:'Mar 2026',data:marDA,backgroundColor:'rgba(78,201,176,0.4)',borderRadius:3,borderSkipped:false},{label:'Apr 2026',data:aprDA,backgroundColor:TEAL,borderRadius:3,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'rect',padding:14}},tooltip:{callbacks:{label:ctx=>`  ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)} veh/day`}}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'#1e2430'},title:{display:true,text:'Veh / Day',color:'#8892a4'}}}}});
+new Chart(document.getElementById('partnerDailyBar'),{type:'bar',data:{labels:partners,datasets:[{label:'Mar 2026',data:marDA,backgroundColor:'rgba(91,158,245,0.4)',borderRadius:3,borderSkipped:false},{label:'Apr 2026',data:aprDA,backgroundColor:'rgba(26,158,134,0.3)',borderRadius:3,borderSkipped:false},{label:'May 2026',data:mayDA,backgroundColor:'#1a9e86',borderRadius:3,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'rect',padding:14}},tooltip:{callbacks:{label:ctx=>`  ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)} veh/day`}},datalabels:{display:(ctx)=>ctx.datasetIndex===2,formatter:(v)=>v!=null?v.toFixed(1):'',color:'#1a1d26',font:{size:9,weight:'700'},anchor:'end',align:'top'}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'#e2e5ed'},title:{display:true,text:'Veh / Day',color:'#5a6278'}}}}});
 
 // ── PARTNER DAILY AVG DETAIL CARDS ───────────────────────────────────────
 const daContainer=document.getElementById('daCards');
 partners.forEach((name,i)=>{
-  const feb=febDA[i],mar=marDA[i],apr=aprDA[i],trail=trailing12[i];
-  const diff=apr-trail;
+  const mar=marDA[i],apr=aprDA[i],may=mayDA[i],trail=trailing12[i];
+  const diff=may-trail;
   const dc=diff>0.2?'var(--up)':diff<-0.2?'var(--down)':'var(--muted)';
   const di=diff>0.2?'▲':diff<-0.2?'▼':'—';
   const ds=(diff>0?'+':'')+diff.toFixed(2);
@@ -372,9 +374,9 @@ partners.forEach((name,i)=>{
   div.innerHTML=`<div class="da-name">${name}</div>
     <div class="da-row">
       <div class="da-months">
-        <div class="da-m"><span class="da-m-lbl">Feb</span><span class="da-m-val" style="color:rgba(91,158,245,0.8)">${feb.toFixed(1)}</span></div>
-        <div class="da-m"><span class="da-m-lbl">Mar</span><span class="da-m-val" style="color:rgba(78,201,176,0.8)">${mar.toFixed(1)}</span></div>
-        <div class="da-m"><span class="da-m-lbl">Apr</span><span class="da-m-val" style="color:var(--text)">${apr.toFixed(1)}</span></div>
+        <div class="da-m"><span class="da-m-lbl">Mar</span><span class="da-m-val" style="color:rgba(91,158,245,0.8)">${mar.toFixed(1)}</span></div>
+        <div class="da-m"><span class="da-m-lbl">Apr</span><span class="da-m-val" style="color:rgba(78,201,176,0.8)">${apr.toFixed(1)}</span></div>
+        <div class="da-m"><span class="da-m-lbl">May</span><span class="da-m-val" style="color:var(--text)">${may.toFixed(1)}</span></div>
       </div>
       <div class="da-trail-block">
         <div class="da-trail-lbl">12-mo trail</div>
@@ -386,32 +388,32 @@ partners.forEach((name,i)=>{
 });
 
 // ── DAILY RANKED ──────────────────────────────────────────────────────────
-const ranked=partners.map((n,i)=>({n,v:aprDA[i]})).sort((a,b)=>b.v-a.v);
-new Chart(document.getElementById('dailyRanked'),{type:'bar',data:{labels:ranked.map(d=>d.n),datasets:[{data:ranked.map(d=>d.v),backgroundColor:ranked.map(d=>d.v>=10?ACCENT:d.v>=6?TEAL:BLUE),borderRadius:4,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`  ${ctx.parsed.x.toFixed(2)} veh/day`}}},scales:{x:{grid:{color:'#1e2430'},title:{display:true,text:'Veh / Day',color:'#8892a4'}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
+const ranked=partners.map((n,i)=>({n,v:mayDA[i]})).sort((a,b)=>b.v-a.v);
+new Chart(document.getElementById('dailyRanked'),{type:'bar',data:{labels:ranked.map(d=>d.n),datasets:[{data:ranked.map(d=>d.v),backgroundColor:ranked.map(d=>d.v>=10?ACCENT:d.v>=6?TEAL:BLUE),borderRadius:4,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`  ${ctx.parsed.x.toFixed(2)} veh/day`}},datalabels:{formatter:v=>v.toFixed(2),color:'#1a1d26',font:{size:10,weight:'700'},anchor:'end',align:'right'}},scales:{x:{grid:{color:'#e2e5ed'},title:{display:true,text:'Veh / Day',color:'#5a6278'}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
 
-// ── APR vs 12-MO TRAILING ─────────────────────────────────────────────────
-const vtSorted=partners.map((n,i)=>({n,apr:aprDA[i],trail:trailing12[i]})).sort((a,b)=>b.apr-a.apr);
-new Chart(document.getElementById('dailyVsTrailing'),{type:'bar',data:{labels:vtSorted.map(d=>d.n),datasets:[{label:'Apr 2026',data:vtSorted.map(d=>d.apr),backgroundColor:TEAL,borderRadius:3,borderSkipped:false},{label:'12-Mo Trailing',data:vtSorted.map(d=>d.trail),backgroundColor:'rgba(232,197,71,0.35)',borderRadius:3,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'rect',padding:12}},tooltip:{callbacks:{label:ctx=>`  ${ctx.dataset.label}: ${ctx.parsed.x.toFixed(2)} veh/day`}}},scales:{x:{grid:{color:'#1e2430'},title:{display:true,text:'Veh / Day',color:'#8892a4'}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
+// ── MAY vs 12-MO TRAILING ─────────────────────────────────────────────────
+const vtSorted=partners.map((n,i)=>({n,may:mayDA[i],trail:trailing12[i]})).sort((a,b)=>b.may-a.may);
+new Chart(document.getElementById('dailyVsTrailing'),{type:'bar',data:{labels:vtSorted.map(d=>d.n),datasets:[{label:'May 2026',data:vtSorted.map(d=>d.may),backgroundColor:'#1a9e86',borderRadius:3,borderSkipped:false},{label:'12-Mo Trailing',data:vtSorted.map(d=>d.trail),backgroundColor:'rgba(184,150,10,0.35)',borderRadius:3,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'rect',padding:12}},tooltip:{callbacks:{label:ctx=>`  ${ctx.dataset.label}: ${ctx.parsed.x.toFixed(2)} veh/day`}},datalabels:{formatter:v=>v.toFixed(2),color:'#1a1d26',font:{size:10,weight:'700'},anchor:'end',align:'right'}},scales:{x:{grid:{color:'#e2e5ed'},title:{display:true,text:'Veh / Day',color:'#5a6278'}},y:{grid:{display:false},ticks:{font:{size:11}}}}}});
 
 // ── GROUP MONTHLY TREND ───────────────────────────────────────────────────
-const trendVehicles=[2269,2201,2179,2332,2402,2150,2237,2366,2275,2612,2125,2190,2796,2613,2830,2955,2785,2911,2990,2774,3003,3215,2536,2924,2940,2871,3154,3263];
-new Chart(document.getElementById('trendChart'),{type:'line',data:{labels:trendLabels,datasets:[{data:trendVehicles,borderColor:TEAL,backgroundColor:'rgba(78,201,176,0.08)',borderWidth:2,pointRadius:ctx=>ctx.dataIndex>=24?5:2,pointBackgroundColor:ctx=>ctx.dataIndex>=24?ORANGE:TEAL,fill:true,tension:0.35}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`  ${ctx.parsed.y.toLocaleString()} vehicles`}}},scales:{x:{grid:{color:'#1e2430'},ticks:{maxRotation:45,minRotation:45}},y:{grid:{color:'#1e2430'},min:1800}}}});
+const trendVehicles=[2269,2201,2179,2332,2402,2150,2237,2366,2275,2612,2125,2190,2796,2613,2830,2955,2785,2911,2990,2774,3003,3215,2536,2924,2940,2871,3154,3263,3054];
+new Chart(document.getElementById('trendChart'),{type:'line',data:{labels:trendLabels,datasets:[{data:trendVehicles,borderColor:'#1a9e86',backgroundColor:'rgba(26,158,134,0.08)',borderWidth:2,pointRadius:ctx=>ctx.dataIndex>=24?5:2,pointBackgroundColor:ctx=>ctx.dataIndex>=24?'#d95f2b':'#1a9e86',fill:true,tension:0.35}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`  ${ctx.parsed.y.toLocaleString()} vehicles`}},datalabels:{display:ctx=>ctx.dataIndex>=24,formatter:(v,ctx)=>v!=null?v.toLocaleString():'',color:'#1a1d26',font:{size:10,weight:'700'},anchor:'end',align:'top'}},scales:{x:{grid:{color:'#e2e5ed'},ticks:{maxRotation:45,minRotation:45}},y:{grid:{color:'#e2e5ed'},min:1800}}}});
 
 // ── QUARTERLY 2025 ────────────────────────────────────────────────────────
-new Chart(document.getElementById('quarterChart'),{type:'bar',data:{labels:['Q1 2025','Q2 2025','Q3 2025','Q4 2025'],datasets:[{data:[8239,8651,8767,8675],backgroundColor:[BLUE,TEAL,ACCENT,ORANGE],borderRadius:6,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`  ${ctx.parsed.y.toLocaleString()} vehicles`}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#1e2430'},min:7500}}}});
+new Chart(document.getElementById('quarterChart'),{type:'bar',data:{labels:['Q1 2025','Q2 2025','Q3 2025','Q4 2025'],datasets:[{data:[8239,8651,8767,8675],backgroundColor:[BLUE,TEAL,ACCENT,ORANGE],borderRadius:6,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`  ${ctx.parsed.y.toLocaleString()} vehicles`}},datalabels:{formatter:v=>v.toLocaleString(),color:'#1a1d26',font:{size:12,weight:'700'},anchor:'end',align:'top'}},scales:{x:{grid:{display:false}},y:{grid:{color:'#e2e5ed'},min:7500}}}});
 
-// ── PARTNER BAR APR vs MAR ────────────────────────────────────────────────
-new Chart(document.getElementById('partnerBar'),{type:'bar',data:{labels:partners,datasets:[{label:'Apr 2026',data:apr26,backgroundColor:TEAL,borderRadius:4,borderSkipped:false},{label:'Mar 2026',data:mar26,backgroundColor:'rgba(78,201,176,0.25)',borderRadius:4,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'rect',padding:16}},tooltip:{callbacks:{label:ctx=>`  ${ctx.dataset.label}: ${ctx.parsed.y} vehicles`}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#1e2430'}}}}});
+// ── PARTNER BAR MAY vs APR ────────────────────────────────────────────────
+new Chart(document.getElementById('partnerBar'),{type:'bar',data:{labels:partners,datasets:[{label:'May 2026',data:may26,backgroundColor:'#1a9e86',borderRadius:4,borderSkipped:false},{label:'Apr 2026',data:apr26,backgroundColor:'rgba(26,158,134,0.18)',borderRadius:4,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'rect',padding:16}},tooltip:{callbacks:{label:ctx=>`  ${ctx.dataset.label}: ${ctx.parsed.y} vehicles`}},datalabels:{formatter:v=>v,color:'#1a1d26',font:{size:9,weight:'700'},anchor:'end',align:'top'}},scales:{x:{grid:{display:false}},y:{grid:{color:'#e2e5ed'}}}}});
 
 // ── QUARTERLY BY PARTNER ──────────────────────────────────────────────────
-new Chart(document.getElementById('quarterlyPartner'),{type:'bar',data:{labels:['Bow','Millers','Chucks Y','Goyettes','Cornells','Bishops','Browns','Tolpas','Wilberts Lksd','Chucks D'],datasets:[{label:'Q1',data:[856,489,600,517,420,557,638,433,501,375],backgroundColor:BLUE,borderRadius:3,borderSkipped:false},{label:'Q2',data:[862,660,604,488,549,556,569,440,471,375],backgroundColor:TEAL,borderRadius:3,borderSkipped:false},{label:'Q3',data:[969,672,611,507,466,522,649,485,516,376],backgroundColor:ACCENT,borderRadius:3,borderSkipped:false},{label:'Q4',data:[890,695,605,526,463,512,577,577,430,352],backgroundColor:ORANGE,borderRadius:3,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'rect',padding:12,font:{size:11}}}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#1e2430'}}}}});
+new Chart(document.getElementById('quarterlyPartner'),{type:'bar',data:{labels:['Bow','Millers','Chucks Y','Goyettes','Cornells','Bishops','Browns','Tolpas','Wilberts Lksd','Northside'],datasets:[{label:'Q1',data:[856,489,600,517,420,557,638,433,501,278],backgroundColor:BLUE,borderRadius:3,borderSkipped:false},{label:'Q2',data:[862,660,604,488,549,556,569,440,471,258],backgroundColor:'#1a9e86',borderRadius:3,borderSkipped:false},{label:'Q3',data:[969,672,611,507,466,522,649,485,516,322],backgroundColor:ACCENT,borderRadius:3,borderSkipped:false},{label:'Q4',data:[890,695,605,526,463,512,577,577,430,581],backgroundColor:ORANGE,borderRadius:3,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,pointStyle:'rect',padding:12,font:{size:11}}},datalabels:{formatter:v=>v,color:'#1a1d26',font:{size:8,weight:'700'},anchor:'end',align:'top'}},scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{grid:{color:'#e2e5ed'}}}}});
 
 // ── MOM CHANGE CHART ──────────────────────────────────────────────────────
-const momDeltas=apr26.map((v,i)=>v-mar26[i]);
-new Chart(document.getElementById('momChart'),{type:'bar',data:{labels:partners,datasets:[{data:momDeltas,backgroundColor:momDeltas.map(v=>v>0?TEAL:v<0?ORANGE:'#8892a4'),borderRadius:4,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`  ${ctx.parsed.y>0?'+':''}${ctx.parsed.y} vehicles`}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#1e2430'}}}}});
+const momDeltas=may26.map((v,i)=>v-apr26[i]);
+new Chart(document.getElementById('momChart'),{type:'bar',data:{labels:partners,datasets:[{data:momDeltas,backgroundColor:momDeltas.map(v=>v>0?TEAL:v<0?ORANGE:'#8892a4'),borderRadius:4,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`  ${ctx.parsed.y>0?'+':''}${ctx.parsed.y} vehicles`}},datalabels:{formatter:(v)=>(v>0?'+':'')+v,color:'#1a1d26',font:{size:10,weight:'700'},anchor:'end',align:(ctx)=>{const v=ctx.dataset.data[ctx.dataIndex];return v!=null&&v<0?'bottom':'top';}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#e2e5ed'}}}}});
 
 // ── EFFICIENCY TABLE ──────────────────────────────────────────────────────
-const effData=partners.map((name,i)=>({name,bays:baysApr[i],eff:apr26[i]/(WD.apr*baysApr[i])})).sort((a,b)=>b.eff-a.eff);
+const effData=partners.map((name,i)=>({name,bays:baysMay[i],eff:may26[i]/(WD.may*baysMay[i])})).sort((a,b)=>b.eff-a.eff);
 const maxEff=Math.max(...effData.map(d=>d.eff));
 const effTable=document.getElementById('effTable');
 effTable.innerHTML=`<thead><tr><th>Partner</th><th class="right">Bays</th><th>Efficiency</th><th class="right">Rating</th></tr></thead>`;
@@ -427,49 +429,46 @@ effTable.appendChild(etbody);
 
 // ── FULL SCORECARD ────────────────────────────────────────────────────────
 const allPartnerData=[
-  {name:'Bow',           q1:856,q2:862,q3:969,q4:890, jan:288,feb:270,mar:339,apr:341},
-  {name:'Millers',       q1:489,q2:660,q3:672,q4:695, jan:238,feb:241,mar:246,apr:255},
-  {name:'Chucks Y',      q1:600,q2:604,q3:611,q4:605, jan:204,feb:219,mar:223,apr:201},
-  {name:'Goyettes',      q1:517,q2:488,q3:507,q4:526, jan:178,feb:178,mar:178,apr:178},
-  {name:'Cornells',      q1:420,q2:549,q3:466,q4:463, jan:175,feb:168,mar:181,apr:196},
-  {name:'Bishops',       q1:557,q2:556,q3:522,q4:512, jan:195,feb:165,mar:184,apr:209},
-  {name:'Browns',        q1:638,q2:569,q3:649,q4:577, jan:157,feb:175,mar:197,apr:185},
-  {name:'Tolpas',        q1:433,q2:440,q3:485,q4:577, jan:201,feb:165,mar:180,apr:179},
-  {name:'Northside',     q1:278,q2:258,q3:322,q4:581, jan:177,feb:194,mar:216,apr:220},
-  {name:'Wilberts Lksd', q1:501,q2:471,q3:516,q4:430, jan:157,feb:154,mar:172,apr:203},
-  {name:'Lentini PM',    q1:381,q2:397,q3:374,q4:308, jan:122,feb:115,mar:127,apr:117},
-  {name:'EL&M',          q1:357,q2:352,q3:345,q4:334, jan:118,feb:120,mar:131,apr:135},
-  {name:'Chucks D',      q1:375,q2:375,q3:376,q4:352, jan:110,feb:118,mar:154,apr:115},
-  {name:'Alliance',      q1:294,q2:418,q3:379,q4:311, jan:124,feb:103,mar:131,apr:146},
-  {name:'Lentini R',     q1:328,q2:317,q3:302,q4:288, jan:101,feb:96, mar:111,apr:111},
-  {name:'Saw Mill',      q1:280,q2:300,q3:300,q4:300, jan:100,feb:100,mar:100,apr:100},
-  {name:'Tolpas',        q1:433,q2:440,q3:485,q4:577, jan:201,feb:165,mar:180,apr:179},
-  {name:'Wilberts HV',   q1:242,q2:220,q3:177,q4:225, jan:78, feb:81, mar:101,apr:101},
-  {name:'Dings',         q1:224,q2:220,q3:194,q4:151, jan:59, feb:50, mar:77, apr:80 },
-  {name:'Wilberts OH',   q1:166,q2:188,q3:217,q4:189, jan:53, feb:57, mar:34, apr:77 },
-  {name:'Wilberts Inc.', q1:168,q2:272,q3:263,q4:241, jan:65, feb:62, mar:32, apr:74 },
-  {name:'C&H',           q1:135,q2:135,q3:125,q4:120, jan:40, feb:40, mar:40, apr:40 },
+  {name:'Bow',           q1:856,q2:862,q3:969,q4:890, jan:288,feb:270,mar:339,apr:341,may:301},
+  {name:'Millers',       q1:489,q2:660,q3:672,q4:695, jan:238,feb:241,mar:246,apr:255,may:261},
+  {name:'Chucks Y',      q1:600,q2:604,q3:611,q4:605, jan:204,feb:219,mar:223,apr:201,may:179},
+  {name:'Goyettes',      q1:517,q2:488,q3:507,q4:526, jan:178,feb:178,mar:178,apr:178,may:178},
+  {name:'Cornells',      q1:420,q2:549,q3:466,q4:463, jan:175,feb:168,mar:181,apr:196,may:157},
+  {name:'Bishops',       q1:557,q2:556,q3:522,q4:512, jan:195,feb:165,mar:184,apr:209,may:190},
+  {name:'Browns',        q1:638,q2:569,q3:649,q4:577, jan:157,feb:175,mar:197,apr:185,may:156},
+  {name:'Tolpas',        q1:433,q2:440,q3:485,q4:577, jan:201,feb:165,mar:180,apr:179,may:186},
+  {name:'Northside',     q1:278,q2:258,q3:322,q4:581, jan:177,feb:194,mar:216,apr:220,may:233},
+  {name:'Wilberts Lksd', q1:501,q2:471,q3:516,q4:430, jan:157,feb:154,mar:172,apr:203,may:173},
+  {name:'Lentini PM',    q1:381,q2:397,q3:374,q4:308, jan:122,feb:115,mar:127,apr:117,may:103},
+  {name:'EL&M',          q1:357,q2:352,q3:345,q4:334, jan:118,feb:120,mar:131,apr:135,may:125},
+  {name:'Chucks D',      q1:375,q2:375,q3:376,q4:352, jan:110,feb:118,mar:154,apr:115,may:110},
+  {name:'Alliance',      q1:294,q2:418,q3:379,q4:311, jan:124,feb:103,mar:131,apr:146,may:140},
+  {name:'Lentini R',     q1:328,q2:317,q3:302,q4:288, jan:101,feb:96, mar:111,apr:111,may:96 },
+  {name:'Saw Mill',      q1:280,q2:300,q3:300,q4:300, jan:100,feb:100,mar:100,apr:100,may:100},
+  {name:'Wilberts HV',   q1:242,q2:220,q3:177,q4:225, jan:78, feb:81, mar:101,apr:101,may:85 },
+  {name:'Dings',         q1:224,q2:220,q3:194,q4:151, jan:59, feb:50, mar:77, apr:80, may:68 },
+  {name:'Wilberts OH',   q1:166,q2:188,q3:217,q4:189, jan:53, feb:57, mar:34, apr:77, may:78 },
+  {name:'Wilberts Inc.', q1:168,q2:272,q3:263,q4:241, jan:65, feb:62, mar:32, apr:74, may:95 },
+  {name:'C&H',           q1:135,q2:135,q3:125,q4:120, jan:40, feb:40, mar:40, apr:40, may:40 },
 ];
-// Deduplicate Tolpas
-const scoreData=allPartnerData.filter((d,i,arr)=>arr.findIndex(x=>x.name===d.name)===i);
 
 const ft=document.getElementById('fullTable');
-ft.innerHTML=`<thead><tr><th>Partner</th><th class="right">Q1 25</th><th class="right">Q2 25</th><th class="right">Q3 25</th><th class="right">Q4 25</th><th class="right">2025 Total</th><th class="right">Jan 26</th><th class="right">Feb 26</th><th class="right">Mar 26</th><th class="right">Apr 26</th><th class="right">Apr DA</th><th class="right">MoM</th></tr></thead>`;
+ft.innerHTML=`<thead><tr><th>Partner</th><th class="right">Q1 25</th><th class="right">Q2 25</th><th class="right">Q3 25</th><th class="right">Q4 25</th><th class="right">2025 Total</th><th class="right">Jan 26</th><th class="right">Feb 26</th><th class="right">Mar 26</th><th class="right">Apr 26</th><th class="right">May 26</th><th class="right">May DA</th><th class="right">MoM</th></tr></thead>`;
 const ftbody=document.createElement('tbody');
-scoreData.forEach(d=>{
+allPartnerData.forEach(d=>{
   const total=d.q1+d.q2+d.q3+d.q4;
-  const mom=d.apr-d.mar;
+  const mom=d.may-d.apr;
   const momStr=mom>0?`<span class="badge-up">▲ +${mom}</span>`:mom<0?`<span class="badge-down">▼ ${mom}</span>`:`<span class="badge-flat">— 0</span>`;
-  const da=(d.apr/WD.apr).toFixed(2);
+  const da=(d.may/WD.may).toFixed(2);
   const tr=document.createElement('tr');
-  tr.innerHTML=`<td style="font-weight:500">${d.name}</td><td class="right">${d.q1.toLocaleString()}</td><td class="right">${d.q2.toLocaleString()}</td><td class="right">${d.q3.toLocaleString()}</td><td class="right">${d.q4.toLocaleString()}</td><td class="right" style="font-weight:600;color:var(--accent)">${total.toLocaleString()}</td><td class="right">${d.jan}</td><td class="right">${d.feb}</td><td class="right">${d.mar}</td><td class="right" style="font-weight:600">${d.apr}</td><td class="right" style="color:var(--accent2)">${da}</td><td class="right">${momStr}</td>`;
+  tr.innerHTML=`<td style="font-weight:500">${d.name}</td><td class="right">${d.q1.toLocaleString()}</td><td class="right">${d.q2.toLocaleString()}</td><td class="right">${d.q3.toLocaleString()}</td><td class="right">${d.q4.toLocaleString()}</td><td class="right" style="font-weight:600;color:var(--accent)">${total.toLocaleString()}</td><td class="right">${d.jan}</td><td class="right">${d.feb}</td><td class="right">${d.mar}</td><td class="right">${d.apr}</td><td class="right" style="font-weight:600">${d.may}</td><td class="right" style="color:var(--accent2)">${da}</td><td class="right">${momStr}</td>`;
   ftbody.appendChild(tr);
 });
-const tot=scoreData.reduce((a,d)=>({q1:a.q1+d.q1,q2:a.q2+d.q2,q3:a.q3+d.q3,q4:a.q4+d.q4,jan:a.jan+d.jan,feb:a.feb+d.feb,mar:a.mar+d.mar,apr:a.apr+d.apr}),{q1:0,q2:0,q3:0,q4:0,jan:0,feb:0,mar:0,apr:0});
+const tot=allPartnerData.reduce((a,d)=>({q1:a.q1+d.q1,q2:a.q2+d.q2,q3:a.q3+d.q3,q4:a.q4+d.q4,jan:a.jan+d.jan,feb:a.feb+d.feb,mar:a.mar+d.mar,apr:a.apr+d.apr,may:a.may+d.may}),{q1:0,q2:0,q3:0,q4:0,jan:0,feb:0,mar:0,apr:0,may:0});
 const totTr=document.createElement('tr');
 totTr.style.borderTop='2px solid var(--border)';
-const totMom=tot.apr-tot.mar;
-totTr.innerHTML=`<td style="font-weight:700;color:var(--accent)">GROUP TOTAL</td><td class="right" style="font-weight:700">${tot.q1.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.q2.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.q3.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.q4.toLocaleString()}</td><td class="right" style="font-weight:700;color:var(--accent)">${(tot.q1+tot.q2+tot.q3+tot.q4).toLocaleString()}</td><td class="right" style="font-weight:700">${tot.jan.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.feb.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.mar.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.apr.toLocaleString()}</td><td class="right" style="color:var(--accent2);font-weight:700">${(tot.apr/WD.apr).toFixed(2)}</td><td class="right"><span class="badge-up">▲ +${totMom}</span></td>`;
+const totMom=tot.may-tot.apr;
+totTr.innerHTML=`<td style="font-weight:700;color:var(--accent)">GROUP TOTAL</td><td class="right" style="font-weight:700">${tot.q1.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.q2.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.q3.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.q4.toLocaleString()}</td><td class="right" style="font-weight:700;color:var(--accent)">${(tot.q1+tot.q2+tot.q3+tot.q4).toLocaleString()}</td><td class="right" style="font-weight:700">${tot.jan.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.feb.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.mar.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.apr.toLocaleString()}</td><td class="right" style="font-weight:700">${tot.may.toLocaleString()}</td><td class="right" style="color:var(--accent2);font-weight:700">${(tot.may/WD.may).toFixed(2)}</td><td class="right"><span class="badge-down">▼ ${totMom}</span></td>`;
 ftbody.appendChild(totTr);
 ft.appendChild(ftbody);
 </script>
